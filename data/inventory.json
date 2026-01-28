@@ -1,0 +1,23 @@
+[
+  {
+    "id": "charizard-base-4-102",
+    "name": "Charizard (Base Set)",
+    "set": "Base Set",
+    "number": "4/102",
+    "condition": "NM",
+    "price": 399.99,
+    "image": "/cards/charizard.png",
+    "tags": ["holo", "vintage"]
+  },
+  {
+    "id": "pikachu-wotc-promo-1",
+    "name": "Pikachu (WotC Promo)",
+    "set": "WotC Promo",
+    "number": "1",
+    "condition": "LP",
+    "price": 19.99,
+    "image": "/cards/pikachu.png",
+    "tags": ["promo"]
+  }
+]
+

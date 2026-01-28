@@ -8,6 +8,7 @@
     "price": 399.99,
     "image": "/cards/charizard.png",
     "tags": ["holo", "vintage"],
+    "status": "available"
   },
   {
     "id": "pikachu-wotc-promo-1",
@@ -17,7 +18,7 @@
     "condition": "LP",
     "price": 19.99,
     "image": "/cards/pikachu.png",
-    "tags": ["promo"]
+    "tags": ["promo"],
+    "status": "available"
   }
 ]
-

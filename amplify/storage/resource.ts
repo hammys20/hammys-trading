@@ -2,9 +2,14 @@ import { defineStorage } from "@aws-amplify/backend";
 
 export const storage = defineStorage({
   name: "inventoryImages",
-  access: (allow) => [
-    allow.guest.to(["read"]),
-    allow.group("Admin").to(["read", "write", "delete"]),
-  ],
+  access: (allow) => ({
+    "cards/*": [
+      allow.guest.to(["read"]),
+      allow.groups(["Admin"]).to(["read", "write", "delete"]),
+    ],
+  }),
 });
+
+
+
 

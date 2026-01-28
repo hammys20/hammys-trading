@@ -7,7 +7,7 @@
     "condition": "NM",
     "price": 399.99,
     "image": "/cards/charizard.png",
-    "tags": ["holo", "vintage"]
+    "tags": ["holo", "vintage"],
   },
   {
     "id": "pikachu-wotc-promo-1",

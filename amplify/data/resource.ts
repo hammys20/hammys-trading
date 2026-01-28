@@ -15,8 +15,9 @@ export const data = defineData({
       })
       .authorization((allow) => [
         allow.guest().to(["read"]),
-        allow.group("Admin"),
+        allow.groups(["Admin"]),
       ]),
   }),
 });
+
 

@@ -1,0 +1,1744 @@
+{
+  "version": "48.0.0",
+  "artifacts": {
+    "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078.template.json",
+        "terminationProtection": false,
+        "tags": {
+          "amplify:deployment-type": "sandbox",
+          "created-by": "amplify"
+        },
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/935ad5960a66dc39acd5002baf4686cf45a34cddae791f408cef53e03e1ab5d3.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078.assets"
+      ],
+      "metadata": {
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078": [
+          {
+            "type": "aws:cdk:stack-tags",
+            "data": [
+              {
+                "Key": "amplify:deployment-type",
+                "Value": "sandbox"
+              },
+              {
+                "Key": "created-by",
+                "Value": "amplify"
+              }
+            ]
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/deploymentType": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "deploymentType"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/region": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "region"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyAuth/UserPool/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyAuthUserPool4BA7F805"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyAuth/UserPoolAppClient/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyAuthUserPoolAppClient2626C6F8"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyAuth/IdentityPool": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyAuthIdentityPool3FDE84CC"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyAuth/authenticatedUserRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyAuthauthenticatedUserRoleD8DA3689"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyAuth/unauthenticatedUserRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyAuthunauthenticatedUserRole2B524D9E"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyAuth/IdentityPoolRoleAttachment": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyAuthIdentityPoolRoleAttachment045F17C8"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyAuth/AdminGroupRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyAuthAdminGroupRole766878DC"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyAuth/AdminGroup": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyAuthAdminGroupCC42FF04"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthUserPool25BB1675Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthUserPool25BB1675Ref"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthUserPoolAppClientDB3D69BFRef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthUserPoolAppClientDB3D69BFRef"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthAdminGroupRole363CA2DFRef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthAdminGroupRole363CA2DFRef"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth.NestedStack/auth.NestedStackResource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "auth179371D7"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/userPoolId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "userPoolId"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/webClientId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "webClientId"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/identityPoolId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "identityPoolId"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/authRegion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "authRegion"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/allowUnauthenticatedIdentities": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "allowUnauthenticatedIdentities"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/signupAttributes": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "signupAttributes"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/usernameAttributes": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "usernameAttributes"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/verificationMechanisms": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "verificationMechanisms"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/passwordPolicyMinLength": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "passwordPolicyMinLength"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/passwordPolicyRequirements": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "passwordPolicyRequirements"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/mfaConfiguration": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mfaConfiguration"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/mfaTypes": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mfaTypes"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/passwordlessOptions": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "passwordlessOptions"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/socialProviders": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "socialProviders"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/oauthCognitoDomain": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "oauthCognitoDomain"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/oauthScope": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "oauthScope"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/oauthRedirectSignIn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "oauthRedirectSignIn"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/oauthRedirectSignOut": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "oauthRedirectSignOut"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/oauthResponseType": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "oauthResponseType"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/oauthClientId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "oauthClientId"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/groups": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "groups"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/GraphQLAPI/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataGraphQLAPI42A6FA33"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/GraphQLAPI/TransformerSchema": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataGraphQLAPITransformerSchemaFF50A789"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/GraphQLAPI/NONE_DS": [
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "NONE_DS"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/GraphQLAPI/NONE_DS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataGraphQLAPINONEDS684BF699"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "NONE_DS"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager/AmplifyManagedTableIsCompleteRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AmplifyManagedTableIsCompleteRoleF825222C"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager/AmplifyManagedTableOnEventRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AmplifyManagedTableOnEventRoleB4E71DEA"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager/AmplifyManagedTableOnEventRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AmplifyManagedTableOnEventRoleDefaultPolicyF6DABCB6"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager/TableManagerCustomProvider/framework-onEvent/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TableManagerCustomProviderframeworkonEvent1DFC2ECC"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager/TableManagerCustomProvider/framework-isComplete/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "TableManagerCustomProviderframeworkisComplete2E51021B"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager/AmplifyTableWaiterStateMachine/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AmplifyTableWaiterStateMachineRole470BE899"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager/AmplifyTableWaiterStateMachine/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AmplifyTableWaiterStateMachineRoleDefaultPolicy89F3836A"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager/AmplifyTableWaiterStateMachine/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AmplifyTableWaiterStateMachine060600BC"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager/reference-to-amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager/amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataAmplifyTableManagerTableManagerCustomProviderframeworkonEventA303E75CArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataAmplifyTableManagerTableManagerCustomProviderframeworkonEventA303E75CArn"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager.NestedStack/AmplifyTableManager.NestedStackResource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource86290833"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/DynamoDBModelTableReadIOPS": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DynamoDBModelTableReadIOPS"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/DynamoDBModelTableWriteIOPS": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DynamoDBModelTableWriteIOPS"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/DynamoDBBillingMode": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DynamoDBBillingMode"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/DynamoDBEnablePointInTimeRecovery": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DynamoDBEnablePointInTimeRecovery"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/DynamoDBEnableServerSideEncryption": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DynamoDBEnableServerSideEncryption"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/HasEnvironmentParameter": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "HasEnvironmentParameter"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/ShouldUsePayPerRequestBilling": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ShouldUsePayPerRequestBilling"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/ShouldUsePointInTimeRecovery": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ShouldUsePointInTimeRecovery"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/InventoryItemTable": [
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "InventoryItem"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/InventoryItemTable/Default/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InventoryItemTable"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "InventoryItem"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/CustomTableInventoryItemTable": [
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "InventoryItem"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/GetAttInventoryItemTableStreamArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAttInventoryItemTableStreamArn"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/GetAttInventoryItemTableName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetAttInventoryItemTableName"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/InventoryItemIAMRole": [
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "InventoryItemIAMRole"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/InventoryItemIAMRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InventoryItemIAMRole9B9E08E5"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "InventoryItemIAMRole"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/InventoryItemDataSource": [
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "InventoryItemTable"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/InventoryItemDataSource/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InventoryItemDataSource"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "InventoryItemTable"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerygetInventoryItemauth0Function/QuerygetInventoryItemauth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QuerygetInventoryItemauth0FunctionQuerygetInventoryItemauth0FunctionAppSyncFunctionD8006E2F"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "QuerygetInventoryItemauth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerygetInventoryItempostAuth0Function/QuerygetInventoryItempostAuth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QuerygetInventoryItempostAuth0FunctionQuerygetInventoryItempostAuth0FunctionAppSyncFunctionFA9F5EB9"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "QuerygetInventoryItempostAuth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QueryGetInventoryItemDataResolverFn/QueryGetInventoryItemDataResolverFn.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QueryGetInventoryItemDataResolverFnQueryGetInventoryItemDataResolverFnAppSyncFunction6158FC1E"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "QueryGetInventoryItemDataResolverFn"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/queryGetInventoryItemResolver": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GetInventoryItemResolver"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "Query.getInventoryItem"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerylistInventoryItemsauth0Function/QuerylistInventoryItemsauth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QuerylistInventoryItemsauth0FunctionQuerylistInventoryItemsauth0FunctionAppSyncFunctionDD0E4AF5"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "QuerylistInventoryItemsauth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerylistInventoryItemspostAuth0Function/QuerylistInventoryItemspostAuth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QuerylistInventoryItemspostAuth0FunctionQuerylistInventoryItemspostAuth0FunctionAppSyncFunction38C843A4"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "QuerylistInventoryItemspostAuth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QueryListInventoryItemsDataResolverFn/QueryListInventoryItemsDataResolverFn.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QueryListInventoryItemsDataResolverFnQueryListInventoryItemsDataResolverFnAppSyncFunction01695813"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "QueryListInventoryItemsDataResolverFn"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/queryListInventoryItemsResolver": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ListInventoryItemResolver"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "Query.listInventoryItems"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationcreateInventoryIteminit0Function/MutationcreateInventoryIteminit0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationcreateInventoryIteminit0FunctionMutationcreateInventoryIteminit0FunctionAppSyncFunctionA5D5D99E"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationcreateInventoryIteminit0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationcreateInventoryItemauth0Function/MutationcreateInventoryItemauth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationcreateInventoryItemauth0FunctionMutationcreateInventoryItemauth0FunctionAppSyncFunction4F653E78"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationcreateInventoryItemauth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationcreateInventoryItempostAuth0Function/MutationcreateInventoryItempostAuth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationcreateInventoryItempostAuth0FunctionMutationcreateInventoryItempostAuth0FunctionAppSyncFunction14BE1988"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationcreateInventoryItempostAuth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationCreateInventoryItemDataResolverFn/MutationCreateInventoryItemDataResolverFn.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationCreateInventoryItemDataResolverFnMutationCreateInventoryItemDataResolverFnAppSyncFunction8AB4DB8F"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationCreateInventoryItemDataResolverFn"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/mutationCreateInventoryItemResolver": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CreateInventoryItemResolver"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "Mutation.createInventoryItem"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationupdateInventoryIteminit0Function/MutationupdateInventoryIteminit0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationupdateInventoryIteminit0FunctionMutationupdateInventoryIteminit0FunctionAppSyncFunction68CC20B7"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationupdateInventoryIteminit0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationupdateInventoryItemauth0Function/MutationupdateInventoryItemauth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationupdateInventoryItemauth0FunctionMutationupdateInventoryItemauth0FunctionAppSyncFunction0BC064CD"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationupdateInventoryItemauth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationupdateInventoryItempostAuth0Function/MutationupdateInventoryItempostAuth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationupdateInventoryItempostAuth0FunctionMutationupdateInventoryItempostAuth0FunctionAppSyncFunctionAF4E33DF"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationupdateInventoryItempostAuth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationUpdateInventoryItemDataResolverFn/MutationUpdateInventoryItemDataResolverFn.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationUpdateInventoryItemDataResolverFnMutationUpdateInventoryItemDataResolverFnAppSyncFunction84EBAE7F"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationUpdateInventoryItemDataResolverFn"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/mutationUpdateInventoryItemResolver": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "UpdateInventoryItemResolver"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "Mutation.updateInventoryItem"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationdeleteInventoryItemauth0Function/MutationdeleteInventoryItemauth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationdeleteInventoryItemauth0FunctionMutationdeleteInventoryItemauth0FunctionAppSyncFunctionDFC37057"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationdeleteInventoryItemauth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationdeleteInventoryItempostAuth0Function/MutationdeleteInventoryItempostAuth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationdeleteInventoryItempostAuth0FunctionMutationdeleteInventoryItempostAuth0FunctionAppSyncFunctionC67DF1DF"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationdeleteInventoryItempostAuth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationDeleteInventoryItemDataResolverFn/MutationDeleteInventoryItemDataResolverFn.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationDeleteInventoryItemDataResolverFnMutationDeleteInventoryItemDataResolverFnAppSyncFunctionE5CD84EA"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationDeleteInventoryItemDataResolverFn"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/mutationDeleteInventoryItemResolver": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DeleteInventoryItemResolver"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "Mutation.deleteInventoryItem"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptiononCreateInventoryItemauth0Function/SubscriptiononCreateInventoryItemauth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubscriptiononCreateInventoryItemauth0FunctionSubscriptiononCreateInventoryItemauth0FunctionAppSyncFunctionBDEB237D"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "SubscriptiononCreateInventoryItemauth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptiononCreateInventoryItempostAuth0Function/SubscriptiononCreateInventoryItempostAuth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubscriptiononCreateInventoryItempostAuth0FunctionSubscriptiononCreateInventoryItempostAuth0FunctionAppSyncFunctionC3231803"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "SubscriptiononCreateInventoryItempostAuth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptionOnCreateInventoryItemDataResolverFn/SubscriptionOnCreateInventoryItemDataResolverFn.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubscriptionOnCreateInventoryItemDataResolverFnSubscriptionOnCreateInventoryItemDataResolverFnAppSyncFunction19C58853"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "SubscriptionOnCreateInventoryItemDataResolverFn"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/subscriptionOnCreateInventoryItemResolver": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubscriptiononCreateInventoryItemResolver"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "Subscription.onCreateInventoryItem"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptiononUpdateInventoryItemauth0Function/SubscriptiononUpdateInventoryItemauth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubscriptiononUpdateInventoryItemauth0FunctionSubscriptiononUpdateInventoryItemauth0FunctionAppSyncFunction3163839D"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "SubscriptiononUpdateInventoryItemauth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptiononUpdateInventoryItempostAuth0Function/SubscriptiononUpdateInventoryItempostAuth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubscriptiononUpdateInventoryItempostAuth0FunctionSubscriptiononUpdateInventoryItempostAuth0FunctionAppSyncFunctionA9345089"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "SubscriptiononUpdateInventoryItempostAuth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptionOnUpdateInventoryItemDataResolverFn/SubscriptionOnUpdateInventoryItemDataResolverFn.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubscriptionOnUpdateInventoryItemDataResolverFnSubscriptionOnUpdateInventoryItemDataResolverFnAppSyncFunctionE45C995E"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "SubscriptionOnUpdateInventoryItemDataResolverFn"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/subscriptionOnUpdateInventoryItemResolver": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubscriptiononUpdateInventoryItemResolver"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "Subscription.onUpdateInventoryItem"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptiononDeleteInventoryItemauth0Function/SubscriptiononDeleteInventoryItemauth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubscriptiononDeleteInventoryItemauth0FunctionSubscriptiononDeleteInventoryItemauth0FunctionAppSyncFunction12D3C23F"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "SubscriptiononDeleteInventoryItemauth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptiononDeleteInventoryItempostAuth0Function/SubscriptiononDeleteInventoryItempostAuth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubscriptiononDeleteInventoryItempostAuth0FunctionSubscriptiononDeleteInventoryItempostAuth0FunctionAppSyncFunction6280FAA4"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "SubscriptiononDeleteInventoryItempostAuth0Function"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptionOnDeleteInventoryItemDataResolverFn/SubscriptionOnDeleteInventoryItemDataResolverFn.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubscriptionOnDeleteInventoryItemDataResolverFnSubscriptionOnDeleteInventoryItemDataResolverFnAppSyncFunction1B94423C"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "SubscriptionOnDeleteInventoryItemDataResolverFn"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/subscriptionOnDeleteInventoryItemResolver": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SubscriptiononDeleteInventoryItemResolver"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "Subscription.onDeleteInventoryItem"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/reference-to-amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource4AD66916Outputs.amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataAmplifyTableManagerTableManagerCustomProviderframeworkonEventA303E75CArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource4AD66916Outputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataAmplifyTableMana88DE1DD6"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/reference-to-amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/reference-to-amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/reference-to-amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputs.amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/reference-to-amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputs.amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/reference-to-amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputs.amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem.NestedStack/InventoryItem.NestedStackResource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataInventoryItemNestedStackInventoryItemNestedStackResource11112BAE"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AuthRolePolicy01/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataAuthRolePolicy01567A5654"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/UnauthRolePolicy01/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataUnauthRolePolicy01355B9DCF"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyCodegenAssets/AmplifyCodegenAssetsBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataAmplifyCodegenAssetsAmplifyCodegenAssetsBucket9CCB4ACA"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyCodegenAssets/AmplifyCodegenAssetsBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataAmplifyCodegenAssetsAmplifyCodegenAssetsBucketPolicyF1C1C548"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyCodegenAssets/AmplifyCodegenAssetsBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataAmplifyCodegenAssetsAmplifyCodegenAssetsBucketAutoDeleteObjectsCustomResource437F26F5"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyCodegenAssets/AmplifyCodegenAssetsDeployment/AwsCliLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataAmplifyCodegenAssetsAmplifyCodegenAssetsDeploymentAwsCliLayerE322F905"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyCodegenAssets/AmplifyCodegenAssetsDeployment/CustomResource-1536MiB/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataAmplifyCodegenAssetsAmplifyCodegenAssetsDeploymentCustomResource1536MiB21775929"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/DynamoDBModelTableReadIOPS": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DynamoDBModelTableReadIOPS"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/DynamoDBModelTableWriteIOPS": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DynamoDBModelTableWriteIOPS"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/DynamoDBBillingMode": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DynamoDBBillingMode"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/DynamoDBEnablePointInTimeRecovery": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DynamoDBEnablePointInTimeRecovery"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/DynamoDBEnableServerSideEncryption": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "DynamoDBEnableServerSideEncryption"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+            "data": true
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C1536MiB": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-singleton",
+            "data": true
+          },
+          {
+            "type": "aws:cdk:is-custom-resource-handler-runtime-family",
+            "data": 2
+          },
+          {
+            "type": "aws:cdk:is-custom-resource-handler-singleton",
+            "data": true
+          },
+          {
+            "type": "aws:cdk:is-custom-resource-handler-runtime-family",
+            "data": 2
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C1536MiB/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C1536MiBServiceRoleA41FC8C2"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C1536MiB/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C1536MiBServiceRoleDefaultPolicyFF1C635B"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C1536MiB/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C1536MiBC5D8AB21"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/modelIntrospectionSchemaBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "modelIntrospectionSchemaBucketF566B665"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/modelIntrospectionSchemaBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "modelIntrospectionSchemaBucketPolicy4DAB0D15"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/modelIntrospectionSchemaBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "modelIntrospectionSchemaBucketAutoDeleteObjectsCustomResourceFE57309F"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/modelIntrospectionSchemaBucketDeployment/AwsCliLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "modelIntrospectionSchemaBucketDeploymentAwsCliLayer13C432F7"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/modelIntrospectionSchemaBucketDeployment/CustomResource-1536MiB/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "modelIntrospectionSchemaBucketDeploymentCustomResource1536MiB104B97EC"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/AMPLIFY_DATA_GRAPHQL_ENDPOINTParameter/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AMPLIFYDATAGRAPHQLENDPOINTParameter1C2CBB16"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/AMPLIFY_DATA_MODEL_INTROSPECTION_SCHEMA_BUCKET_NAMEParameter/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AMPLIFYDATAMODELINTROSPECTIONSCHEMABUCKETNAMEParameter47BF4F44"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/AMPLIFY_DATA_MODEL_INTROSPECTION_SCHEMA_KEYParameter/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AMPLIFYDATAMODELINTROSPECTIONSCHEMAKEYParameterB6AEAE8A"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/AMPLIFY_DATA_DEFAULT_NAMEParameter/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AMPLIFYDATADEFAULTNAMEParameterE7C23CC4"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/reference-to-amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputs.amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthUserPool25BB1675Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthUserPool25BB1675Ref"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/reference-to-amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputs.amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/reference-to-amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputs.amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/reference-to-amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputs.amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109GraphQLUrl": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109GraphQLUrl"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataAmplifyCodegenAssetsAmplifyCodegenAssetsDeploymentCustomResource1536MiBDFB085A1DestinationBucketArn": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataAmplifyCodegenAssetsAmplifyCodegenAssetsDeploymentCustomResource1536MiBDFB085A1DestinationBucketArn"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data.NestedStack/data.NestedStackResource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "data7552DF31"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/awsAppsyncApiId": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "awsAppsyncApiId"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/awsAppsyncApiEndpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "awsAppsyncApiEndpoint"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/awsAppsyncAuthenticationType": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "awsAppsyncAuthenticationType"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/awsAppsyncRegion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "awsAppsyncRegion"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/amplifyApiModelSchemaS3Uri": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyApiModelSchemaS3Uri"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/awsAppsyncAdditionalAuthenticationTypes": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "awsAppsyncAdditionalAuthenticationTypes"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/inventoryImages/Bucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "inventoryImagesBucket03F35EF9"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/inventoryImages/Bucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "inventoryImagesBucketPolicyC3C6434A"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/inventoryImages/Bucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "inventoryImagesBucketAutoDeleteObjectsCustomResourceC55889A4"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/Custom::S3AutoDeleteObjectsCustomResourceProvider": [
+          {
+            "type": "aws:cdk:is-custom-resource-handler-customResourceProvider",
+            "data": true
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/INVENTORY_IMAGES_BUCKET_NAMEParameter/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "INVENTORYIMAGESBUCKETNAMEParameterD2BB51BF"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078--storageAccess3/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078storageAccess3B22737BF"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078--storageAccess4/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078storageAccess46704D251"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/reference-to-amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputs.amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/reference-to-amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputs.amplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthAdminGroupRole363CA2DFRef": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthAdminGroupRole363CA2DFRef"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage/amplifyhammystradingjasonhamiltonsandbox6a2f6c9078storageinventoryImagesBucket66FAE894Ref": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078storageinventoryImagesBucket66FAE894Ref"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storage.NestedStack/storage.NestedStackResource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "storage0EC3F24A"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/storageRegion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "storageRegion"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/bucketName": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "bucketName"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/buckets": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "buckets"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "aws-cdk-lib/feature-flag-report": {
+      "type": "cdk:feature-flag-report",
+      "properties": {
+        "module": "aws-cdk-lib",
+        "flags": {
+          "@aws-cdk/aws-signer:signingProfileNamePassedToCfn": {
+            "recommendedValue": true,
+            "explanation": "Pass signingProfileName to CfnSigningProfile"
+          },
+          "@aws-cdk/core:newStyleStackSynthesis": {
+            "recommendedValue": true,
+            "explanation": "Switch to new stack synthesis method which enables CI/CD",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:stackRelativeExports": {
+            "recommendedValue": true,
+            "explanation": "Name exports based on the construct paths relative to the stack, rather than the global construct path",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-ecs-patterns:secGroupsDisablesImplicitOpenListener": {
+            "recommendedValue": true,
+            "explanation": "Disable implicit openListener when custom security groups are provided"
+          },
+          "@aws-cdk/aws-rds:lowercaseDbIdentifier": {
+            "recommendedValue": true,
+            "explanation": "Force lowercasing of RDS Cluster names in CDK",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-apigateway:usagePlanKeyOrderInsensitiveId": {
+            "recommendedValue": true,
+            "explanation": "Allow adding/removing multiple UsagePlanKeys independently",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-lambda:recognizeVersionProps": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to opt in to the updated logical id calculation for Lambda Version created using the  `fn.currentVersion`.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-lambda:recognizeLayerVersion": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to opt in to the updated logical id calculation for Lambda Version created using the `fn.currentVersion`."
+          },
+          "@aws-cdk/aws-cloudfront:defaultSecurityPolicyTLSv1.2_2021": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to have cloudfront distributions use the security policy TLSv1.2_2021 by default.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:checkSecretUsage": {
+            "recommendedValue": true,
+            "explanation": "Enable this flag to make it impossible to accidentally use SecretValues in unsafe locations"
+          },
+          "@aws-cdk/core:target-partitions": {
+            "recommendedValue": [
+              "aws",
+              "aws-cn"
+            ],
+            "explanation": "What regions to include in lookup tables of environment agnostic stacks"
+          },
+          "@aws-cdk-containers/ecs-service-extensions:enableDefaultLogDriver": {
+            "recommendedValue": true,
+            "explanation": "ECS extensions will automatically add an `awslogs` driver if no logging is specified"
+          },
+          "@aws-cdk/aws-ec2:uniqueImdsv2TemplateName": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to have Launch Templates generated by the `InstanceRequireImdsv2Aspect` use unique names."
+          },
+          "@aws-cdk/aws-ecs:arnFormatIncludesClusterName": {
+            "recommendedValue": true,
+            "explanation": "ARN format used by ECS. In the new ARN format, the cluster name is part of the resource ID."
+          },
+          "@aws-cdk/aws-iam:minimizePolicies": {
+            "recommendedValue": true,
+            "explanation": "Minimize IAM policies by combining Statements"
+          },
+          "@aws-cdk/core:validateSnapshotRemovalPolicy": {
+            "recommendedValue": true,
+            "explanation": "Error on snapshot removal policies on resources that do not support it."
+          },
+          "@aws-cdk/aws-codepipeline:crossAccountKeyAliasStackSafeResourceName": {
+            "recommendedValue": true,
+            "explanation": "Generate key aliases that include the stack name"
+          },
+          "@aws-cdk/aws-s3:createDefaultLoggingPolicy": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature flag to create an S3 bucket policy by default in cases where an AWS service would automatically create the Policy if one does not exist."
+          },
+          "@aws-cdk/aws-sns-subscriptions:restrictSqsDescryption": {
+            "recommendedValue": true,
+            "explanation": "Restrict KMS key policy for encrypted Queues a bit more"
+          },
+          "@aws-cdk/aws-apigateway:disableCloudWatchRole": {
+            "recommendedValue": true,
+            "explanation": "Make default CloudWatch Role behavior safe for multiple API Gateways in one environment"
+          },
+          "@aws-cdk/core:enablePartitionLiterals": {
+            "recommendedValue": true,
+            "explanation": "Make ARNs concrete if AWS partition is known"
+          },
+          "@aws-cdk/aws-events:eventsTargetQueueSameAccount": {
+            "recommendedValue": true,
+            "explanation": "Event Rules may only push to encrypted SQS queues in the same account"
+          },
+          "@aws-cdk/aws-ecs:disableExplicitDeploymentControllerForCircuitBreaker": {
+            "recommendedValue": true,
+            "explanation": "Avoid setting the \"ECS\" deployment controller when adding a circuit breaker"
+          },
+          "@aws-cdk/aws-iam:importedRoleStackSafeDefaultPolicyName": {
+            "recommendedValue": true,
+            "explanation": "Enable this feature to create default policy names for imported roles that depend on the stack the role is in."
+          },
+          "@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy": {
+            "recommendedValue": true,
+            "explanation": "Use S3 Bucket Policy instead of ACLs for Server Access Logging"
+          },
+          "@aws-cdk/aws-route53-patters:useCertificate": {
+            "recommendedValue": true,
+            "explanation": "Use the official `Certificate` resource instead of `DnsValidatedCertificate`"
+          },
+          "@aws-cdk/customresources:installLatestAwsSdkDefault": {
+            "recommendedValue": false,
+            "explanation": "Whether to install the latest SDK by default in AwsCustomResource"
+          },
+          "@aws-cdk/aws-rds:databaseProxyUniqueResourceName": {
+            "recommendedValue": true,
+            "explanation": "Use unique resource name for Database Proxy"
+          },
+          "@aws-cdk/aws-codedeploy:removeAlarmsFromDeploymentGroup": {
+            "recommendedValue": true,
+            "explanation": "Remove CloudWatch alarms from deployment group"
+          },
+          "@aws-cdk/aws-apigateway:authorizerChangeDeploymentLogicalId": {
+            "recommendedValue": true,
+            "explanation": "Include authorizer configuration in the calculation of the API deployment logical ID."
+          },
+          "@aws-cdk/aws-ec2:launchTemplateDefaultUserData": {
+            "recommendedValue": true,
+            "explanation": "Define user data for a launch template by default when a machine image is provided."
+          },
+          "@aws-cdk/aws-secretsmanager:useAttachedSecretResourcePolicyForSecretTargetAttachments": {
+            "recommendedValue": true,
+            "explanation": "SecretTargetAttachments uses the ResourcePolicy of the attached Secret."
+          },
+          "@aws-cdk/aws-redshift:columnId": {
+            "recommendedValue": true,
+            "explanation": "Whether to use an ID to track Redshift column changes"
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:enableEmrServicePolicyV2": {
+            "recommendedValue": true,
+            "explanation": "Enable AmazonEMRServicePolicy_v2 managed policies"
+          },
+          "@aws-cdk/aws-ec2:restrictDefaultSecurityGroup": {
+            "recommendedValue": true,
+            "explanation": "Restrict access to the VPC default security group"
+          },
+          "@aws-cdk/aws-apigateway:requestValidatorUniqueId": {
+            "recommendedValue": true,
+            "explanation": "Generate a unique id for each RequestValidator added to a method"
+          },
+          "@aws-cdk/aws-kms:aliasNameRef": {
+            "recommendedValue": true,
+            "explanation": "KMS Alias name and keyArn will have implicit reference to KMS Key"
+          },
+          "@aws-cdk/aws-kms:applyImportedAliasPermissionsToPrincipal": {
+            "recommendedValue": true,
+            "explanation": "Enable grant methods on Aliases imported by name to use kms:ResourceAliases condition"
+          },
+          "@aws-cdk/aws-autoscaling:generateLaunchTemplateInsteadOfLaunchConfig": {
+            "recommendedValue": true,
+            "explanation": "Generate a launch template when creating an AutoScalingGroup"
+          },
+          "@aws-cdk/core:includePrefixInUniqueNameGeneration": {
+            "recommendedValue": true,
+            "explanation": "Include the stack prefix in the stack name generation process"
+          },
+          "@aws-cdk/aws-efs:denyAnonymousAccess": {
+            "recommendedValue": true,
+            "explanation": "EFS denies anonymous clients accesses"
+          },
+          "@aws-cdk/aws-opensearchservice:enableOpensearchMultiAzWithStandby": {
+            "recommendedValue": true,
+            "explanation": "Enables support for Multi-AZ with Standby deployment for opensearch domains"
+          },
+          "@aws-cdk/aws-lambda-nodejs:useLatestRuntimeVersion": {
+            "recommendedValue": true,
+            "explanation": "Enables aws-lambda-nodejs.Function to use the latest available NodeJs runtime as the default"
+          },
+          "@aws-cdk/aws-efs:mountTargetOrderInsensitiveLogicalId": {
+            "recommendedValue": true,
+            "explanation": "When enabled, mount targets will have a stable logicalId that is linked to the associated subnet."
+          },
+          "@aws-cdk/aws-rds:auroraClusterChangeScopeOfInstanceParameterGroupWithEachParameters": {
+            "recommendedValue": true,
+            "explanation": "When enabled, a scope of InstanceParameterGroup for AuroraClusterInstance with each parameters will change."
+          },
+          "@aws-cdk/aws-appsync:useArnForSourceApiAssociationIdentifier": {
+            "recommendedValue": true,
+            "explanation": "When enabled, will always use the arn for identifiers for CfnSourceApiAssociation in the GraphqlApi construct rather than id."
+          },
+          "@aws-cdk/aws-rds:preventRenderingDeprecatedCredentials": {
+            "recommendedValue": true,
+            "explanation": "When enabled, creating an RDS database cluster from a snapshot will only render credentials for snapshot credentials."
+          },
+          "@aws-cdk/aws-codepipeline-actions:useNewDefaultBranchForCodeCommitSource": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the CodeCommit source action is using the default branch name 'main'."
+          },
+          "@aws-cdk/aws-cloudwatch-actions:changeLambdaPermissionLogicalIdForLambdaAction": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the logical ID of a Lambda permission for a Lambda action includes an alarm ID."
+          },
+          "@aws-cdk/aws-codepipeline:crossAccountKeysDefaultValueToFalse": {
+            "recommendedValue": true,
+            "explanation": "Enables Pipeline to set the default value for crossAccountKeys to false."
+          },
+          "@aws-cdk/aws-codepipeline:defaultPipelineTypeToV2": {
+            "recommendedValue": true,
+            "explanation": "Enables Pipeline to set the default pipeline type to V2."
+          },
+          "@aws-cdk/aws-kms:reduceCrossAccountRegionPolicyScope": {
+            "recommendedValue": true,
+            "explanation": "When enabled, IAM Policy created from KMS key grant will reduce the resource scope to this key only."
+          },
+          "@aws-cdk/pipelines:reduceAssetRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "Remove the root account principal from PipelineAssetsFileRole trust policy",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-eks:nodegroupNameAttribute": {
+            "recommendedValue": true,
+            "explanation": "When enabled, nodegroupName attribute of the provisioned EKS NodeGroup will not have the cluster name prefix."
+          },
+          "@aws-cdk/aws-ec2:ebsDefaultGp3Volume": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the default volume type of the EBS volume will be GP3"
+          },
+          "@aws-cdk/aws-ecs:removeDefaultDeploymentAlarm": {
+            "recommendedValue": true,
+            "explanation": "When enabled, remove default deployment alarm settings"
+          },
+          "@aws-cdk/custom-resources:logApiResponseDataPropertyTrueDefault": {
+            "recommendedValue": false,
+            "explanation": "When enabled, the custom resource used for `AwsCustomResource` will configure the `logApiResponseData` property as true by default"
+          },
+          "@aws-cdk/aws-s3:keepNotificationInImportedBucket": {
+            "recommendedValue": false,
+            "explanation": "When enabled, Adding notifications to a bucket in the current stack will not remove notification from imported stack."
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:useNewS3UriParametersForBedrockInvokeModelTask": {
+            "recommendedValue": true,
+            "explanation": "When enabled, use new props for S3 URI field in task definition of state machine for bedrock invoke model.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/core:explicitStackTags": {
+            "recommendedValue": true,
+            "explanation": "When enabled, stack tags need to be assigned explicitly on a Stack."
+          },
+          "@aws-cdk/aws-ecs:reduceEc2FargateCloudWatchPermissions": {
+            "recommendedValue": true,
+            "explanation": "When enabled, we will only grant the necessary permissions when users specify cloudwatch log group through logConfiguration"
+          },
+          "@aws-cdk/aws-dynamodb:resourcePolicyPerReplica": {
+            "recommendedValue": true,
+            "explanation": "When enabled will allow you to specify a resource policy per replica, and not copy the source table policy to all replicas"
+          },
+          "@aws-cdk/aws-ec2:ec2SumTImeoutEnabled": {
+            "recommendedValue": true,
+            "explanation": "When enabled, initOptions.timeout and resourceSignalTimeout values will be summed together."
+          },
+          "@aws-cdk/aws-appsync:appSyncGraphQLAPIScopeLambdaPermission": {
+            "recommendedValue": true,
+            "explanation": "When enabled, a Lambda authorizer Permission created when using GraphqlApi will be properly scoped with a SourceArn."
+          },
+          "@aws-cdk/aws-rds:setCorrectValueForDatabaseInstanceReadReplicaInstanceResourceId": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the value of property `instanceResourceId` in construct `DatabaseInstanceReadReplica` will be set to the correct value which is `DbiResourceId` instead of currently `DbInstanceArn`"
+          },
+          "@aws-cdk/core:cfnIncludeRejectComplexResourceUpdateCreatePolicyIntrinsics": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CFN templates added with `cfn-include` will error if the template contains Resource Update or Create policies with CFN Intrinsics that include non-primitive values."
+          },
+          "@aws-cdk/aws-lambda-nodejs:sdkV3ExcludeSmithyPackages": {
+            "recommendedValue": true,
+            "explanation": "When enabled, both `@aws-sdk` and `@smithy` packages will be excluded from the Lambda Node.js 18.x runtime to prevent version mismatches in bundled applications."
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:fixRunEcsTaskPolicy": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the resource of IAM Run Ecs policy generated by SFN EcsRunTask will reference the definition, instead of constructing ARN."
+          },
+          "@aws-cdk/aws-ec2:bastionHostUseAmazonLinux2023ByDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the BastionHost construct will use the latest Amazon Linux 2023 AMI, instead of Amazon Linux 2."
+          },
+          "@aws-cdk/core:aspectStabilization": {
+            "recommendedValue": true,
+            "explanation": "When enabled, a stabilization loop will be run when invoking Aspects during synthesis.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-route53-targets:userPoolDomainNameMethodWithoutCustomResource": {
+            "recommendedValue": true,
+            "explanation": "When enabled, use a new method for DNS Name of user pool domain target without creating a custom resource."
+          },
+          "@aws-cdk/aws-elasticloadbalancingV2:albDualstackWithoutPublicIpv4SecurityGroupRulesDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the default security group ingress rules will allow IPv6 ingress from anywhere"
+          },
+          "@aws-cdk/aws-iam:oidcRejectUnauthorizedConnections": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the default behaviour of OIDC provider will reject unauthorized connections"
+          },
+          "@aws-cdk/core:enableAdditionalMetadataCollection": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK will expand the scope of usage data collected to better inform CDK development and improve communication for security concerns and emerging issues."
+          },
+          "@aws-cdk/aws-lambda:createNewPoliciesWithAddToRolePolicy": {
+            "recommendedValue": false,
+            "explanation": "[Deprecated] When enabled, Lambda will create new inline policies with AddToRolePolicy instead of adding to the Default Policy Statement"
+          },
+          "@aws-cdk/aws-s3:setUniqueReplicationRoleName": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK will automatically generate a unique role name that is used for s3 object replication."
+          },
+          "@aws-cdk/pipelines:reduceStageRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "Remove the root account principal from Stage addActions trust policy",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-events:requireEventBusPolicySid": {
+            "recommendedValue": true,
+            "explanation": "When enabled, grantPutEventsTo() will use resource policies with Statement IDs for service principals."
+          },
+          "@aws-cdk/core:aspectPrioritiesMutating": {
+            "recommendedValue": true,
+            "explanation": "When set to true, Aspects added by the construct library on your behalf will be given a priority of MUTATING."
+          },
+          "@aws-cdk/aws-dynamodb:retainTableReplica": {
+            "recommendedValue": true,
+            "explanation": "When enabled, table replica will be default to the removal policy of source table unless specified otherwise."
+          },
+          "@aws-cdk/cognito:logUserPoolClientSecretValue": {
+            "recommendedValue": false,
+            "explanation": "When disabled, the value of the user pool client secret will not be logged in the custom resource lambda function logs."
+          },
+          "@aws-cdk/pipelines:reduceCrossAccountActionRoleTrustScope": {
+            "recommendedValue": true,
+            "explanation": "When enabled, scopes down the trust policy for the cross-account action role",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-stepfunctions:useDistributedMapResultWriterV2": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the resultWriterV2 property of DistributedMap will be used insted of resultWriter"
+          },
+          "@aws-cdk/s3-notifications:addS3TrustKeyPolicyForSnsSubscriptions": {
+            "recommendedValue": true,
+            "explanation": "Add an S3 trust policy to a KMS key resource policy for SNS subscriptions."
+          },
+          "@aws-cdk/aws-ec2:requirePrivateSubnetsForEgressOnlyInternetGateway": {
+            "recommendedValue": true,
+            "explanation": "When enabled, the EgressOnlyGateway resource is only created if private subnets are defined in the dual-stack VPC."
+          },
+          "@aws-cdk/aws-ec2-alpha:useResourceIdForVpcV2Migration": {
+            "recommendedValue": false,
+            "explanation": "When enabled, use resource IDs for VPC V2 migration"
+          },
+          "@aws-cdk/aws-s3:publicAccessBlockedByDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, setting any combination of options for BlockPublicAccess will automatically set true for any options not defined."
+          },
+          "@aws-cdk/aws-lambda:useCdkManagedLogGroup": {
+            "recommendedValue": true,
+            "explanation": "When enabled, CDK creates and manages loggroup for the lambda function"
+          },
+          "@aws-cdk/aws-elasticloadbalancingv2:networkLoadBalancerWithSecurityGroupByDefault": {
+            "recommendedValue": true,
+            "explanation": "When enabled, Network Load Balancer will be created with a security group by default."
+          },
+          "@aws-cdk/aws-stepfunctions-tasks:httpInvokeDynamicJsonPathEndpoint": {
+            "recommendedValue": true,
+            "explanation": "When enabled, allows using a dynamic apiEndpoint with JSONPath format in HttpInvoke tasks.",
+            "unconfiguredBehavesLike": {
+              "v2": true
+            }
+          },
+          "@aws-cdk/aws-ecs-patterns:uniqueTargetGroupId": {
+            "recommendedValue": true,
+            "explanation": "When enabled, ECS patterns will generate unique target group IDs to prevent conflicts during load balancer replacement"
+          },
+          "@aws-cdk/aws-route53-patterns:useDistribution": {
+            "recommendedValue": true,
+            "explanation": "Use the `Distribution` resource instead of `CloudFrontWebDistribution`"
+          }
+        }
+      }
+    }
+  },
+  "minimumCliVersion": "2.1033.0"
+}

@@ -1,0 +1,2080 @@
+{
+ "Parameters": {
+  "DynamoDBModelTableReadIOPS": {
+   "Type": "Number",
+   "Default": 5,
+   "Description": "The number of read IOPS the table should support."
+  },
+  "DynamoDBModelTableWriteIOPS": {
+   "Type": "Number",
+   "Default": 5,
+   "Description": "The number of write IOPS the table should support."
+  },
+  "DynamoDBBillingMode": {
+   "Type": "String",
+   "Default": "PAY_PER_REQUEST",
+   "AllowedValues": [
+    "PAY_PER_REQUEST",
+    "PROVISIONED"
+   ],
+   "Description": "Configure @model types to create DynamoDB tables with PAY_PER_REQUEST or PROVISIONED billing modes."
+  },
+  "DynamoDBEnablePointInTimeRecovery": {
+   "Type": "String",
+   "Default": "false",
+   "AllowedValues": [
+    "true",
+    "false"
+   ],
+   "Description": "Whether to enable Point in Time Recovery on the table."
+  },
+  "DynamoDBEnableServerSideEncryption": {
+   "Type": "String",
+   "Default": "true",
+   "AllowedValues": [
+    "true",
+    "false"
+   ],
+   "Description": "Enable server side encryption powered by KMS."
+  },
+  "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource4AD66916Outputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataAmplifyTableMana88DE1DD6": {
+   "Type": "String"
+  },
+  "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId": {
+   "Type": "String"
+  },
+  "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name": {
+   "Type": "String"
+  },
+  "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref": {
+   "Type": "String"
+  },
+  "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref": {
+   "Type": "String"
+  },
+  "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef": {
+   "Type": "String"
+  }
+ },
+ "Conditions": {
+  "HasEnvironmentParameter": {
+   "Fn::Not": [
+    {
+     "Fn::Equals": [
+      "NONE",
+      "NONE"
+     ]
+    }
+   ]
+  },
+  "ShouldUsePayPerRequestBilling": {
+   "Fn::Equals": [
+    {
+     "Ref": "DynamoDBBillingMode"
+    },
+    "PAY_PER_REQUEST"
+   ]
+  },
+  "ShouldUsePointInTimeRecovery": {
+   "Fn::Equals": [
+    {
+     "Ref": "DynamoDBEnablePointInTimeRecovery"
+    },
+    "true"
+   ]
+  },
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-3"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-4"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "il-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Equals": [
+      {
+       "Ref": "AWS::Region"
+      },
+      "us-west-2"
+     ]
+    }
+   ]
+  }
+ },
+ "Resources": {
+  "InventoryItemTable": {
+   "Type": "Custom::AmplifyDynamoDBTable",
+   "Properties": {
+    "ServiceToken": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataAmplifyTableManagerNestedStackAmplifyTableManagerNestedStackResource4AD66916Outputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataAmplifyTableMana88DE1DD6"
+    },
+    "tableName": {
+     "Fn::Join": [
+      "",
+      [
+       "InventoryItem-",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+       },
+       "-NONE"
+      ]
+     ]
+    },
+    "attributeDefinitions": [
+     {
+      "attributeName": "id",
+      "attributeType": "S"
+     }
+    ],
+    "keySchema": [
+     {
+      "attributeName": "id",
+      "keyType": "HASH"
+     }
+    ],
+    "provisionedThroughput": {
+     "Fn::If": [
+      "ShouldUsePayPerRequestBilling",
+      {
+       "Ref": "AWS::NoValue"
+      },
+      {
+       "ReadCapacityUnits": {
+        "Ref": "DynamoDBModelTableReadIOPS"
+       },
+       "WriteCapacityUnits": {
+        "Ref": "DynamoDBModelTableWriteIOPS"
+       }
+      }
+     ]
+    },
+    "sseSpecification": {
+     "sseEnabled": false
+    },
+    "streamSpecification": {
+     "streamViewType": "NEW_AND_OLD_IMAGES"
+    },
+    "deletionProtectionEnabled": false,
+    "allowDestructiveGraphqlSchemaUpdates": true,
+    "replaceTableUponGsiUpdate": true,
+    "pointInTimeRecoverySpecification": {
+     "Fn::If": [
+      "ShouldUsePointInTimeRecovery",
+      {
+       "PointInTimeRecoveryEnabled": true
+      },
+      {
+       "Ref": "AWS::NoValue"
+      }
+     ]
+    },
+    "billingMode": {
+     "Fn::If": [
+      "ShouldUsePayPerRequestBilling",
+      "PAY_PER_REQUEST",
+      {
+       "Ref": "AWS::NoValue"
+      }
+     ]
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/InventoryItemTable/Default/Default"
+   }
+  },
+  "InventoryItemIAMRole9B9E08E5": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "appsync.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Policies": [
+     {
+      "PolicyDocument": {
+       "Statement": [
+        {
+         "Action": [
+          "dynamodb:BatchGetItem",
+          "dynamodb:BatchWriteItem",
+          "dynamodb:PutItem",
+          "dynamodb:DeleteItem",
+          "dynamodb:GetItem",
+          "dynamodb:Scan",
+          "dynamodb:Query",
+          "dynamodb:UpdateItem",
+          "dynamodb:ConditionCheckItem",
+          "dynamodb:DescribeTable",
+          "dynamodb:GetRecords",
+          "dynamodb:GetShardIterator"
+         ],
+         "Effect": "Allow",
+         "Resource": [
+          {
+           "Fn::Sub": [
+            "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}",
+            {
+             "tablename": {
+              "Fn::Join": [
+               "",
+               [
+                "InventoryItem-",
+                {
+                 "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+                },
+                "-NONE"
+               ]
+              ]
+             }
+            }
+           ]
+          },
+          {
+           "Fn::Sub": [
+            "arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}/*",
+            {
+             "tablename": {
+              "Fn::Join": [
+               "",
+               [
+                "InventoryItem-",
+                {
+                 "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+                },
+                "-NONE"
+               ]
+              ]
+             }
+            }
+           ]
+          }
+         ]
+        }
+       ],
+       "Version": "2012-10-17"
+      },
+      "PolicyName": "DynamoDBAccess"
+     }
+    ],
+    "RoleName": {
+     "Fn::Join": [
+      "",
+      [
+       "InventoryItemIAMRolee210a3-",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+       },
+       "-NONE"
+      ]
+     ]
+    },
+    "Tags": [
+     {
+      "Key": "amplify:deployment-type",
+      "Value": "sandbox"
+     },
+     {
+      "Key": "amplify:friendly-name",
+      "Value": "amplifyData"
+     },
+     {
+      "Key": "created-by",
+      "Value": "amplify"
+     }
+    ]
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/InventoryItemIAMRole/Resource"
+   }
+  },
+  "InventoryItemDataSource": {
+   "Type": "AWS::AppSync::DataSource",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DynamoDBConfig": {
+     "AwsRegion": {
+      "Ref": "AWS::Region"
+     },
+     "TableName": {
+      "Fn::Select": [
+       1,
+       {
+        "Fn::Split": [
+         "/",
+         {
+          "Fn::Select": [
+           5,
+           {
+            "Fn::Split": [
+             ":",
+             {
+              "Fn::GetAtt": [
+               "InventoryItemTable",
+               "TableArn"
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       }
+      ]
+     }
+    },
+    "Name": "InventoryItemTable",
+    "ServiceRoleArn": {
+     "Fn::GetAtt": [
+      "InventoryItemIAMRole9B9E08E5",
+      "Arn"
+     ]
+    },
+    "Type": "AMAZON_DYNAMODB"
+   },
+   "DependsOn": [
+    "InventoryItemIAMRole9B9E08E5"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/InventoryItemDataSource/Resource"
+   }
+  },
+  "QuerygetInventoryItemauth0FunctionQuerygetInventoryItemauth0FunctionAppSyncFunctionD8006E2F": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerygetInventoryItemauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/bf816c799bca0e10fb7b3e33848c60a45a57f1fa4bb7f190dac8f9258fbabe2a.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerygetInventoryItemauth0Function/QuerygetInventoryItemauth0Function.AppSyncFunction"
+   }
+  },
+  "QuerygetInventoryItempostAuth0FunctionQuerygetInventoryItempostAuth0FunctionAppSyncFunctionFA9F5EB9": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerygetInventoryItempostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerygetInventoryItempostAuth0Function/QuerygetInventoryItempostAuth0Function.AppSyncFunction"
+   }
+  },
+  "QueryGetInventoryItemDataResolverFnQueryGetInventoryItemDataResolverFnAppSyncFunction6158FC1E": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "InventoryItemDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QueryGetInventoryItemDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/08f4d557693d96c1a4efba0f9dc91330e4b19772fd5477c156468843e3d9cb5e.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/4c6a2d29f01c6091bd1d9afe16e5849d456c96f17c3b215938c8067399532719.vtl"
+    }
+   },
+   "DependsOn": [
+    "InventoryItemDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QueryGetInventoryItemDataResolverFn/QueryGetInventoryItemDataResolverFn.AppSyncFunction"
+   }
+  },
+  "GetInventoryItemResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "FieldName": "getInventoryItem",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "QuerygetInventoryItemauth0FunctionQuerygetInventoryItemauth0FunctionAppSyncFunctionD8006E2F",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "QuerygetInventoryItempostAuth0FunctionQuerygetInventoryItempostAuth0FunctionAppSyncFunctionFA9F5EB9",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "QueryGetInventoryItemDataResolverFnQueryGetInventoryItemDataResolverFnAppSyncFunction6158FC1E",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Query\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"getInventoryItem\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Fn::GetAtt": [
+                 "InventoryItemTable",
+                 "TableArn"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Query"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/queryGetInventoryItemResolver"
+   }
+  },
+  "QuerylistInventoryItemsauth0FunctionQuerylistInventoryItemsauth0FunctionAppSyncFunctionDD0E4AF5": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerylistInventoryItemsauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/bf816c799bca0e10fb7b3e33848c60a45a57f1fa4bb7f190dac8f9258fbabe2a.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerylistInventoryItemsauth0Function/QuerylistInventoryItemsauth0Function.AppSyncFunction"
+   }
+  },
+  "QuerylistInventoryItemspostAuth0FunctionQuerylistInventoryItemspostAuth0FunctionAppSyncFunction38C843A4": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerylistInventoryItemspostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerylistInventoryItemspostAuth0Function/QuerylistInventoryItemspostAuth0Function.AppSyncFunction"
+   }
+  },
+  "QueryListInventoryItemsDataResolverFnQueryListInventoryItemsDataResolverFnAppSyncFunction01695813": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "InventoryItemDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QueryListInventoryItemsDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/9fcbe070ecd3023c5bf5b966fa9584757db9762eef123bad0820bd87591b2174.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/cc01911d0269d4080ea57505dc445dfc315ef7ad85d3d9d4ea1357858bff451d.vtl"
+    }
+   },
+   "DependsOn": [
+    "InventoryItemDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QueryListInventoryItemsDataResolverFn/QueryListInventoryItemsDataResolverFn.AppSyncFunction"
+   }
+  },
+  "ListInventoryItemResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "FieldName": "listInventoryItems",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "QuerylistInventoryItemsauth0FunctionQuerylistInventoryItemsauth0FunctionAppSyncFunctionDD0E4AF5",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "QuerylistInventoryItemspostAuth0FunctionQuerylistInventoryItemspostAuth0FunctionAppSyncFunction38C843A4",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "QueryListInventoryItemsDataResolverFnQueryListInventoryItemsDataResolverFnAppSyncFunction01695813",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Query\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"listInventoryItems\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Fn::GetAtt": [
+                 "InventoryItemTable",
+                 "TableArn"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Query"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/queryListInventoryItemsResolver"
+   }
+  },
+  "MutationcreateInventoryIteminit0FunctionMutationcreateInventoryIteminit0FunctionAppSyncFunctionA5D5D99E": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationcreateInventoryIteminit0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a183ddccbd956316c38ef97177b8f088ef0826f62023323f5ae6053d348ccffc.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationcreateInventoryIteminit0Function/MutationcreateInventoryIteminit0Function.AppSyncFunction"
+   }
+  },
+  "MutationcreateInventoryItemauth0FunctionMutationcreateInventoryItemauth0FunctionAppSyncFunction4F653E78": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationcreateInventoryItemauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/5b5109affafb103db0316165957fd09404c4747bfc7def0401e6eb4cd4cb3974.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationcreateInventoryItemauth0Function/MutationcreateInventoryItemauth0Function.AppSyncFunction"
+   }
+  },
+  "MutationcreateInventoryItempostAuth0FunctionMutationcreateInventoryItempostAuth0FunctionAppSyncFunction14BE1988": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationcreateInventoryItempostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationcreateInventoryItempostAuth0Function/MutationcreateInventoryItempostAuth0Function.AppSyncFunction"
+   }
+  },
+  "MutationCreateInventoryItemDataResolverFnMutationCreateInventoryItemDataResolverFnAppSyncFunction8AB4DB8F": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "InventoryItemDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationCreateInventoryItemDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/531b470ad5f793a8600bc06b118da66daa9a532c84da2b7542d30bf43256c2bc.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f4a52b72209a9dfa197b5e7367a5c378c5bb86de6e29ddd9e48b49a3fe54b249.vtl"
+    }
+   },
+   "DependsOn": [
+    "InventoryItemDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationCreateInventoryItemDataResolverFn/MutationCreateInventoryItemDataResolverFn.AppSyncFunction"
+   }
+  },
+  "CreateInventoryItemResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "FieldName": "createInventoryItem",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "MutationcreateInventoryIteminit0FunctionMutationcreateInventoryIteminit0FunctionAppSyncFunctionA5D5D99E",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationcreateInventoryItemauth0FunctionMutationcreateInventoryItemauth0FunctionAppSyncFunction4F653E78",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationcreateInventoryItempostAuth0FunctionMutationcreateInventoryItempostAuth0FunctionAppSyncFunction14BE1988",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationCreateInventoryItemDataResolverFnMutationCreateInventoryItemDataResolverFnAppSyncFunction8AB4DB8F",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Mutation\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"createInventoryItem\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Fn::GetAtt": [
+                 "InventoryItemTable",
+                 "TableArn"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Mutation"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/mutationCreateInventoryItemResolver"
+   }
+  },
+  "MutationupdateInventoryIteminit0FunctionMutationupdateInventoryIteminit0FunctionAppSyncFunction68CC20B7": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationupdateInventoryIteminit0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/06db846fd14e6fc371f22b12b5545ba8e2dbfeda85d8c8d586c71c282166657b.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationupdateInventoryIteminit0Function/MutationupdateInventoryIteminit0Function.AppSyncFunction"
+   }
+  },
+  "MutationupdateInventoryItemauth0FunctionMutationupdateInventoryItemauth0FunctionAppSyncFunction0BC064CD": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "InventoryItemDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationupdateInventoryItemauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1f5fed297da9c32ae3af922bf3a38ccf23b956078887d16891ec06c20c64722c.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/abd8a3092cf6688fb4ae3919242d1265cbcb4dec1ba56ce36bcb88093f879795.vtl"
+    }
+   },
+   "DependsOn": [
+    "InventoryItemDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationupdateInventoryItemauth0Function/MutationupdateInventoryItemauth0Function.AppSyncFunction"
+   }
+  },
+  "MutationupdateInventoryItempostAuth0FunctionMutationupdateInventoryItempostAuth0FunctionAppSyncFunctionAF4E33DF": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationupdateInventoryItempostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationupdateInventoryItempostAuth0Function/MutationupdateInventoryItempostAuth0Function.AppSyncFunction"
+   }
+  },
+  "MutationUpdateInventoryItemDataResolverFnMutationUpdateInventoryItemDataResolverFnAppSyncFunction84EBAE7F": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "InventoryItemDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationUpdateInventoryItemDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/474bf0776ec2164a13191d1a0a9e057154931e4918fea5086f49850d02a5371b.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f4a52b72209a9dfa197b5e7367a5c378c5bb86de6e29ddd9e48b49a3fe54b249.vtl"
+    }
+   },
+   "DependsOn": [
+    "InventoryItemDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationUpdateInventoryItemDataResolverFn/MutationUpdateInventoryItemDataResolverFn.AppSyncFunction"
+   }
+  },
+  "UpdateInventoryItemResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "FieldName": "updateInventoryItem",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "MutationupdateInventoryIteminit0FunctionMutationupdateInventoryIteminit0FunctionAppSyncFunction68CC20B7",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationupdateInventoryItemauth0FunctionMutationupdateInventoryItemauth0FunctionAppSyncFunction0BC064CD",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationupdateInventoryItempostAuth0FunctionMutationupdateInventoryItempostAuth0FunctionAppSyncFunctionAF4E33DF",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationUpdateInventoryItemDataResolverFnMutationUpdateInventoryItemDataResolverFnAppSyncFunction84EBAE7F",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Mutation\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"updateInventoryItem\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Fn::GetAtt": [
+                 "InventoryItemTable",
+                 "TableArn"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Mutation"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/mutationUpdateInventoryItemResolver"
+   }
+  },
+  "MutationdeleteInventoryItemauth0FunctionMutationdeleteInventoryItemauth0FunctionAppSyncFunctionDFC37057": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "InventoryItemDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationdeleteInventoryItemauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1f5fed297da9c32ae3af922bf3a38ccf23b956078887d16891ec06c20c64722c.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c85b930a01df2fd0583e9c01362d4b88e975b2f798543815fa914f60b51d63b3.vtl"
+    }
+   },
+   "DependsOn": [
+    "InventoryItemDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationdeleteInventoryItemauth0Function/MutationdeleteInventoryItemauth0Function.AppSyncFunction"
+   }
+  },
+  "MutationdeleteInventoryItempostAuth0FunctionMutationdeleteInventoryItempostAuth0FunctionAppSyncFunctionC67DF1DF": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationdeleteInventoryItempostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationdeleteInventoryItempostAuth0Function/MutationdeleteInventoryItempostAuth0Function.AppSyncFunction"
+   }
+  },
+  "MutationDeleteInventoryItemDataResolverFnMutationDeleteInventoryItemDataResolverFnAppSyncFunctionE5CD84EA": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Fn::GetAtt": [
+      "InventoryItemDataSource",
+      "Name"
+     ]
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationDeleteInventoryItemDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/4f7907d1209a2c9953a0c053df402c634e359546d70c7cc5c2e8e21ea734880f.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/f4a52b72209a9dfa197b5e7367a5c378c5bb86de6e29ddd9e48b49a3fe54b249.vtl"
+    }
+   },
+   "DependsOn": [
+    "InventoryItemDataSource"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationDeleteInventoryItemDataResolverFn/MutationDeleteInventoryItemDataResolverFn.AppSyncFunction"
+   }
+  },
+  "DeleteInventoryItemResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "FieldName": "deleteInventoryItem",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "MutationdeleteInventoryItemauth0FunctionMutationdeleteInventoryItemauth0FunctionAppSyncFunctionDFC37057",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationdeleteInventoryItempostAuth0FunctionMutationdeleteInventoryItempostAuth0FunctionAppSyncFunctionC67DF1DF",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationDeleteInventoryItemDataResolverFnMutationDeleteInventoryItemDataResolverFnAppSyncFunctionE5CD84EA",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Mutation\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"deleteInventoryItem\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"AMAZON_DYNAMODB\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n$util.qr($ctx.stash.put(\"tableName\", \"",
+       {
+        "Fn::Select": [
+         1,
+         {
+          "Fn::Split": [
+           "/",
+           {
+            "Fn::Select": [
+             5,
+             {
+              "Fn::Split": [
+               ":",
+               {
+                "Fn::GetAtt": [
+                 "InventoryItemTable",
+                 "TableArn"
+                ]
+               }
+              ]
+             }
+            ]
+           }
+          ]
+         }
+        ]
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Mutation"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/mutationDeleteInventoryItemResolver"
+   }
+  },
+  "SubscriptiononCreateInventoryItemauth0FunctionSubscriptiononCreateInventoryItemauth0FunctionAppSyncFunctionBDEB237D": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptiononCreateInventoryItemauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/19c8f665a58155d8b65c3732d025ebb5c10f6af8dfe8b6d3e1fac554b7c95cb7.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptiononCreateInventoryItemauth0Function/SubscriptiononCreateInventoryItemauth0Function.AppSyncFunction"
+   }
+  },
+  "SubscriptiononCreateInventoryItempostAuth0FunctionSubscriptiononCreateInventoryItempostAuth0FunctionAppSyncFunctionC3231803": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptiononCreateInventoryItempostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptiononCreateInventoryItempostAuth0Function/SubscriptiononCreateInventoryItempostAuth0Function.AppSyncFunction"
+   }
+  },
+  "SubscriptionOnCreateInventoryItemDataResolverFnSubscriptionOnCreateInventoryItemDataResolverFnAppSyncFunction19C58853": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptionOnCreateInventoryItemDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fe3c43ada4b9d681a5e2312663ef7a73386424d73b73e51f8e2e9d4b50f7c502.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e0cff47fb007f0bbf2a4e43ca256d6aa7ec109821769fd79fa7c5e83f0e7f9fc.vtl"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptionOnCreateInventoryItemDataResolverFn/SubscriptionOnCreateInventoryItemDataResolverFn.AppSyncFunction"
+   }
+  },
+  "SubscriptiononCreateInventoryItemResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "FieldName": "onCreateInventoryItem",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "SubscriptiononCreateInventoryItemauth0FunctionSubscriptiononCreateInventoryItemauth0FunctionAppSyncFunctionBDEB237D",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "SubscriptiononCreateInventoryItempostAuth0FunctionSubscriptiononCreateInventoryItempostAuth0FunctionAppSyncFunctionC3231803",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "SubscriptionOnCreateInventoryItemDataResolverFnSubscriptionOnCreateInventoryItemDataResolverFnAppSyncFunction19C58853",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Subscription\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"onCreateInventoryItem\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"NONE\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Subscription"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/subscriptionOnCreateInventoryItemResolver"
+   }
+  },
+  "SubscriptiononUpdateInventoryItemauth0FunctionSubscriptiononUpdateInventoryItemauth0FunctionAppSyncFunction3163839D": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptiononUpdateInventoryItemauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/19c8f665a58155d8b65c3732d025ebb5c10f6af8dfe8b6d3e1fac554b7c95cb7.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptiononUpdateInventoryItemauth0Function/SubscriptiononUpdateInventoryItemauth0Function.AppSyncFunction"
+   }
+  },
+  "SubscriptiononUpdateInventoryItempostAuth0FunctionSubscriptiononUpdateInventoryItempostAuth0FunctionAppSyncFunctionA9345089": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptiononUpdateInventoryItempostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptiononUpdateInventoryItempostAuth0Function/SubscriptiononUpdateInventoryItempostAuth0Function.AppSyncFunction"
+   }
+  },
+  "SubscriptionOnUpdateInventoryItemDataResolverFnSubscriptionOnUpdateInventoryItemDataResolverFnAppSyncFunctionE45C995E": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptionOnUpdateInventoryItemDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fe3c43ada4b9d681a5e2312663ef7a73386424d73b73e51f8e2e9d4b50f7c502.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e0cff47fb007f0bbf2a4e43ca256d6aa7ec109821769fd79fa7c5e83f0e7f9fc.vtl"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptionOnUpdateInventoryItemDataResolverFn/SubscriptionOnUpdateInventoryItemDataResolverFn.AppSyncFunction"
+   }
+  },
+  "SubscriptiononUpdateInventoryItemResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "FieldName": "onUpdateInventoryItem",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "SubscriptiononUpdateInventoryItemauth0FunctionSubscriptiononUpdateInventoryItemauth0FunctionAppSyncFunction3163839D",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "SubscriptiononUpdateInventoryItempostAuth0FunctionSubscriptiononUpdateInventoryItempostAuth0FunctionAppSyncFunctionA9345089",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "SubscriptionOnUpdateInventoryItemDataResolverFnSubscriptionOnUpdateInventoryItemDataResolverFnAppSyncFunctionE45C995E",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Subscription\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"onUpdateInventoryItem\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"NONE\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Subscription"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/subscriptionOnUpdateInventoryItemResolver"
+   }
+  },
+  "SubscriptiononDeleteInventoryItemauth0FunctionSubscriptiononDeleteInventoryItemauth0FunctionAppSyncFunction12D3C23F": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptiononDeleteInventoryItemauth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/19c8f665a58155d8b65c3732d025ebb5c10f6af8dfe8b6d3e1fac554b7c95cb7.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptiononDeleteInventoryItemauth0Function/SubscriptiononDeleteInventoryItemauth0Function.AppSyncFunction"
+   }
+  },
+  "SubscriptiononDeleteInventoryItempostAuth0FunctionSubscriptiononDeleteInventoryItempostAuth0FunctionAppSyncFunction6280FAA4": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptiononDeleteInventoryItempostAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/c1721bcd774e27c514d3454b5be4f9bdd094c0161b57ddf053d618e3b0086a77.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptiononDeleteInventoryItempostAuth0Function/SubscriptiononDeleteInventoryItempostAuth0Function.AppSyncFunction"
+   }
+  },
+  "SubscriptionOnDeleteInventoryItemDataResolverFnSubscriptionOnDeleteInventoryItemDataResolverFnAppSyncFunction1B94423C": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "SubscriptionOnDeleteInventoryItemDataResolverFn",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/fe3c43ada4b9d681a5e2312663ef7a73386424d73b73e51f8e2e9d4b50f7c502.vtl"
+    },
+    "ResponseMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e0cff47fb007f0bbf2a4e43ca256d6aa7ec109821769fd79fa7c5e83f0e7f9fc.vtl"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/SubscriptionOnDeleteInventoryItemDataResolverFn/SubscriptionOnDeleteInventoryItemDataResolverFn.AppSyncFunction"
+   }
+  },
+  "SubscriptiononDeleteInventoryItemResolver": {
+   "Type": "AWS::AppSync::Resolver",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "FieldName": "onDeleteInventoryItem",
+    "Kind": "PIPELINE",
+    "PipelineConfig": {
+     "Functions": [
+      {
+       "Fn::GetAtt": [
+        "SubscriptiononDeleteInventoryItemauth0FunctionSubscriptiononDeleteInventoryItemauth0FunctionAppSyncFunction12D3C23F",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "SubscriptiononDeleteInventoryItempostAuth0FunctionSubscriptiononDeleteInventoryItempostAuth0FunctionAppSyncFunction6280FAA4",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "SubscriptionOnDeleteInventoryItemDataResolverFnSubscriptionOnDeleteInventoryItemDataResolverFnAppSyncFunction1B94423C",
+        "FunctionId"
+       ]
+      }
+     ]
+    },
+    "RequestMappingTemplate": {
+     "Fn::Join": [
+      "",
+      [
+       "$util.qr($ctx.stash.put(\"typeName\", \"Subscription\"))\n$util.qr($ctx.stash.put(\"fieldName\", \"onDeleteInventoryItem\"))\n$util.qr($ctx.stash.put(\"conditions\", []))\n$util.qr($ctx.stash.put(\"metadata\", {}))\n$util.qr($ctx.stash.metadata.put(\"dataSourceType\", \"NONE\"))\n$util.qr($ctx.stash.metadata.put(\"apiId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"connectionAttributes\", {}))\n\n$util.qr($ctx.stash.put(\"authRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"unauthRole\", \"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":sts::",
+       {
+        "Ref": "AWS::AccountId"
+       },
+       ":assumed-role/",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref"
+       },
+       "/CognitoIdentityCredentials\"))\n$util.qr($ctx.stash.put(\"identityPoolId\", \"",
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthIdentityPool73F60EFERef"
+       },
+       "\"))\n$util.qr($ctx.stash.put(\"adminRoles\", []))\n$util.toJson({})"
+      ]
+     ]
+    },
+    "ResponseMappingTemplate": "$util.toJson($ctx.prev.result)",
+    "TypeName": "Subscription"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/subscriptionOnDeleteInventoryItemResolver"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WOwW6DMAyGn6X34FVB2n0F7bhNsHtlEoNSQoJip1WFePcJOnXa6fcnf7J/Dbp8heMBb1wYOxbedbB8EAvZVtCMqurDFyacSChtUMVgnbgYVEMcczKkqswSpz/sw3PGG58Xew84RdvBN3aeTsikHE6wNNE/7OhpVTjPfA8GlnrX665GwfZ58j+952C2ElUMvRtywr3R72d/pbQqLs/ITMLwtoXiEk7ZjCRbgXVzP7PMWdS+bgUHF4ZVhWgJLvxy1Rq0huPhws4VKQdxE0HzyB/ZtYcINgEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "GetAttInventoryItemTableStreamArn": {
+   "Description": "Your DynamoDB table StreamArn.",
+   "Value": {
+    "Fn::GetAtt": [
+     "InventoryItemTable",
+     "TableStreamArn"
+    ]
+   },
+   "Export": {
+    "Name": {
+     "Fn::Join": [
+      ":",
+      [
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+       },
+       "GetAtt:InventoryItemTable:StreamArn"
+      ]
+     ]
+    }
+   }
+  },
+  "GetAttInventoryItemTableName": {
+   "Description": "Your DynamoDB table name.",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "InventoryItem-",
+      {
+       "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+      },
+      "-NONE"
+     ]
+    ]
+   },
+   "Export": {
+    "Name": {
+     "Fn::Join": [
+      ":",
+      [
+       {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+       },
+       "GetAtt:InventoryItemTable:Name"
+      ]
+     ]
+    }
+   }
+  }
+ }
+}

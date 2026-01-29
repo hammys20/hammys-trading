@@ -1,4 +1,4 @@
 import { generateClient } from "aws-amplify/data";
-import type { ClientSchema } from "@/amplify/data/resource";
 
-export const client = generateClient<ClientSchema>();
+// Public reads via API key (matches your backend auth config)
+export const client = generateClient({ authMode: "apiKey" as const });

@@ -11,7 +11,10 @@ export async function isAdminServer(): Promise<boolean> {
   try {
     const session = await runWithAmplifyServerContext({
       nextServerContext: { cookies },
-      operation: async () => fetchAuthSession({}),
+      operation: async (contextSpec) => {
+        // contextSpec contains the required `token` your build error complained about
+        return fetchAuthSession(contextSpec);
+      },
     });
 
     const groups = session.tokens?.accessToken?.payload?.["cognito:groups"];
@@ -20,5 +23,6 @@ export async function isAdminServer(): Promise<boolean> {
     return false;
   }
 }
+
 
 

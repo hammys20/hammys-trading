@@ -11,7 +11,7 @@ export async function isAdminServer(): Promise<boolean> {
   try {
     const session = await runWithAmplifyServerContext({
       nextServerContext: { cookies },
-      operation: async () => fetchAuthSession(),
+      operation: async () => fetchAuthSession({}),
     });
 
     const groups = session.tokens?.accessToken?.payload?.["cognito:groups"];
@@ -20,4 +20,5 @@ export async function isAdminServer(): Promise<boolean> {
     return false;
   }
 }
+
 

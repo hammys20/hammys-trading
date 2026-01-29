@@ -1,27 +1,23 @@
 import { cookies } from "next/headers";
+import outputs from "@/amplify_outputs.json";
 import { fetchAuthSession } from "aws-amplify/auth/server";
-import { runWithAmplifyServerContext } from "@aws-amplify/adapter-nextjs";
+import { createServerRunner } from "@aws-amplify/adapter-nextjs";
+
+const { runWithAmplifyServerContext } = createServerRunner({
+  config: outputs,
+});
 
 export async function isAdminServer(): Promise<boolean> {
   try {
-    const session = await runWithAmplifyServerContext(
-      {
-        nextServerContext: { cookies },
-      },
-      async () => {
-        return await fetchAuthSession();
-      }
-    );
+    const session = await runWithAmplifyServerContext({
+      nextServerContext: { cookies },
+      operation: async () => fetchAuthSession(),
+    });
 
-    const groups =
-      session.tokens?.accessToken?.payload?.["cognito:groups"];
-
+    const groups = session.tokens?.accessToken?.payload?.["cognito:groups"];
     return Array.isArray(groups) && groups.includes("Admin");
   } catch {
     return false;
   }
 }
-
-
-
 

@@ -22,7 +22,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e3ec195f8fecc4ff83bd83cae446fabe1a49626fb09b20a1fd0d1a62091020f6.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/28c62f9e95467c8a2a3c7b63342c78c118589ac1517fde413dbb7d11690b4f89.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -303,6 +303,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "amplifyDataGraphQLAPITransformerSchemaFF50A789"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/GraphQLAPI/DefaultApiKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyDataGraphQLAPIDefaultApiKey1C8ED374"
           }
         ],
         "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/GraphQLAPI/NONE_DS": [
@@ -957,18 +963,6 @@
             "data": "amplifyDataInventoryItemNestedStackInventoryItemNestedStackResource11112BAE"
           }
         ],
-        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AuthRolePolicy01/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "amplifyDataAuthRolePolicy01567A5654"
-          }
-        ],
-        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/UnauthRolePolicy01/Resource": [
-          {
-            "type": "aws:cdk:logicalId",
-            "data": "amplifyDataUnauthRolePolicy01355B9DCF"
-          }
-        ],
         "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyCodegenAssets/AmplifyCodegenAssetsBucket/Resource": [
           {
             "type": "aws:cdk:logicalId",
@@ -1191,6 +1185,12 @@
             "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataAmplifyCodegenAssetsAmplifyCodegenAssetsDeploymentCustomResource1536MiBDFB085A1DestinationBucketArn"
           }
         ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDefaultApiKeyABECCDA1ApiKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDefaultApiKeyABECCDA1ApiKey"
+          }
+        ],
         "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data.NestedStack/data.NestedStackResource": [
           {
             "type": "aws:cdk:logicalId",
@@ -1225,6 +1225,12 @@
           {
             "type": "aws:cdk:logicalId",
             "data": "amplifyApiModelSchemaS3Uri"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/awsAppsyncApiKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "awsAppsyncApiKey"
           }
         ],
         "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/awsAppsyncAdditionalAuthenticationTypes": [

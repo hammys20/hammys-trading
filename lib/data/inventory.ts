@@ -38,6 +38,10 @@ export async function createInventoryItem(input: {
   status?: string;
   image?: string;
   description?: string;
+  set?: string;
+  number?: string;
+  condition?: string;
+  tags?: string[];
 }) {
   const res = await adminClient.models.InventoryItem.create({
     ...input,
@@ -57,6 +61,10 @@ export async function updateInventoryItem(
     image: string;
     description: string;
     name: string;
+    set: string;
+    number: string;
+    condition: string;
+    tags: string[];
   }>
 ) {
   const res = await adminClient.models.InventoryItem.update({ id, ...updates });

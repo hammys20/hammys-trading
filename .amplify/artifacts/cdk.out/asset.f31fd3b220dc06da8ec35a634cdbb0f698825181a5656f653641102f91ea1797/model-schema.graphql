@@ -1,0 +1,16 @@
+type InventoryItem @model @auth(rules: [{allow: public, provider: apiKey, operations: [read]},
+  {allow: groups, operations: [create, read, update, delete], groups: ["Admin"]}])
+{
+  id: ID! @primaryKey
+  name: String!
+  set: String
+  number: String
+  condition: String
+  price: Float
+  image: String
+  tags: [String]
+  description: String
+  status: String
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}

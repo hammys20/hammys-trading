@@ -1,15 +1,26 @@
 {
- "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"AmplifySandbox\",\"createdWith\":\"1.20.3\",\"stackType\":\"api-AppSync\",\"metadata\":{\"dataSources\":\"dynamodb\",\"authorizationModes\":\"amazon_cognito_identity_pools,amazon_cognito_user_pools,aws_iam\",\"customOperations\":\"\"}}",
+ "Description": "{\"createdOn\":\"Mac\",\"createdBy\":\"AmplifySandbox\",\"createdWith\":\"1.20.3\",\"stackType\":\"api-AppSync\",\"metadata\":{\"dataSources\":\"dynamodb\",\"authorizationModes\":\"amazon_cognito_identity_pools,amazon_cognito_user_pools,api_key,aws_iam\",\"customOperations\":\"\"}}",
  "Resources": {
   "amplifyDataGraphQLAPI42A6FA33": {
    "Type": "AWS::AppSync::GraphQLApi",
    "Properties": {
     "AdditionalAuthenticationProviders": [
      {
+      "AuthenticationType": "AMAZON_COGNITO_USER_POOLS",
+      "UserPoolConfig": {
+       "AwsRegion": {
+        "Ref": "AWS::Region"
+       },
+       "UserPoolId": {
+        "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthUserPool25BB1675Ref"
+       }
+      }
+     },
+     {
       "AuthenticationType": "AWS_IAM"
      }
     ],
-    "AuthenticationType": "AMAZON_COGNITO_USER_POOLS",
+    "AuthenticationType": "API_KEY",
     "Name": "amplifyData",
     "Tags": [
      {
@@ -24,16 +35,7 @@
       "Key": "created-by",
       "Value": "amplify"
      }
-    ],
-    "UserPoolConfig": {
-     "AwsRegion": {
-      "Ref": "AWS::Region"
-     },
-     "DefaultAction": "ALLOW",
-     "UserPoolId": {
-      "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthUserPool25BB1675Ref"
-     }
-    }
+    ]
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
@@ -51,13 +53,30 @@
      ]
     },
     "DefinitionS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/0c9f155e7cdf50eb7fe2884f6893803cfca8bb3d99bd6c306f2afdbe56328c79.graphql"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/2387c064793bb4379465a212442a0023e81eed774d35111a540ee046361ddf99.graphql"
     }
    },
    "UpdateReplacePolicy": "Delete",
    "DeletionPolicy": "Delete",
    "Metadata": {
     "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/GraphQLAPI/TransformerSchema"
+   }
+  },
+  "amplifyDataGraphQLAPIDefaultApiKey1C8ED374": {
+   "Type": "AWS::AppSync::ApiKey",
+   "Properties": {
+    "ApiId": {
+     "Fn::GetAtt": [
+      "amplifyDataGraphQLAPI42A6FA33",
+      "ApiId"
+     ]
+    },
+    "Expires": 1772298279
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/GraphQLAPI/DefaultApiKey"
    }
   },
   "amplifyDataGraphQLAPINONEDS684BF699": {
@@ -210,7 +229,7 @@
        {
         "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
        },
-       "/ad6503dc2a699715fffb7053168b694035284681aeb4c3a4e420295ef927b3a7.json"
+       "/d10c4b7477b6c5c06dee45f612961a7335228ffa76aaf8197289b9268a1220f9.json"
       ]
      ]
     }
@@ -224,330 +243,6 @@
     "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem.NestedStack/InventoryItem.NestedStackResource",
     "aws:asset:path": "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataInventoryItem44E2457A.nested.template.json",
     "aws:asset:property": "TemplateURL"
-   }
-  },
-  "amplifyDataAuthRolePolicy01567A5654": {
-   "Type": "AWS::IAM::ManagedPolicy",
-   "Properties": {
-    "Description": "",
-    "Path": "/",
-    "PolicyDocument": {
-     "Statement": [
-      {
-       "Action": "appsync:GraphQL",
-       "Effect": "Allow",
-       "Resource": [
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "InventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Query",
-           "fieldName": "getInventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Query",
-           "fieldName": "listInventoryItems"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Mutation",
-           "fieldName": "createInventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Mutation",
-           "fieldName": "updateInventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Mutation",
-           "fieldName": "deleteInventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Subscription",
-           "fieldName": "onCreateInventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Subscription",
-           "fieldName": "onUpdateInventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Subscription",
-           "fieldName": "onDeleteInventoryItem"
-          }
-         ]
-        }
-       ]
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "Roles": [
-     {
-      "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthauthenticatedUserRoleC5295471Ref"
-     }
-    ]
-   },
-   "UpdateReplacePolicy": "Delete",
-   "DeletionPolicy": "Delete",
-   "Metadata": {
-    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AuthRolePolicy01/Resource"
-   }
-  },
-  "amplifyDataUnauthRolePolicy01355B9DCF": {
-   "Type": "AWS::IAM::ManagedPolicy",
-   "Properties": {
-    "Description": "",
-    "Path": "/",
-    "PolicyDocument": {
-     "Statement": [
-      {
-       "Action": "appsync:GraphQL",
-       "Effect": "Allow",
-       "Resource": [
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/*",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "InventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Query",
-           "fieldName": "getInventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Query",
-           "fieldName": "listInventoryItems"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Mutation",
-           "fieldName": "createInventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Mutation",
-           "fieldName": "updateInventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Mutation",
-           "fieldName": "deleteInventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Subscription",
-           "fieldName": "onCreateInventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Subscription",
-           "fieldName": "onUpdateInventoryItem"
-          }
-         ]
-        },
-        {
-         "Fn::Sub": [
-          "arn:${AWS::Partition}:appsync:${AWS::Region}:${AWS::AccountId}:apis/${apiId}/types/${typeName}/fields/${fieldName}",
-          {
-           "apiId": {
-            "Fn::GetAtt": [
-             "amplifyDataGraphQLAPI42A6FA33",
-             "ApiId"
-            ]
-           },
-           "typeName": "Subscription",
-           "fieldName": "onDeleteInventoryItem"
-          }
-         ]
-        }
-       ]
-      }
-     ],
-     "Version": "2012-10-17"
-    },
-    "Roles": [
-     {
-      "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authNestedStackauthNestedStackResourceA5D0D63COutputsamplifyhammystradingjasonhamiltonsandbox6a2f6c9078authamplifyAuthunauthenticatedUserRole868096D2Ref"
-     }
-    ]
-   },
-   "UpdateReplacePolicy": "Delete",
-   "DeletionPolicy": "Delete",
-   "Metadata": {
-    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/UnauthRolePolicy01/Resource"
    }
   },
   "amplifyDataAmplifyCodegenAssetsAmplifyCodegenAssetsBucket9CCB4ACA": {
@@ -723,7 +418,7 @@
      }
     ],
     "SourceObjectKeys": [
-     "dc80abb3e130e8e20b424c24921ab21986ecda4422ebb0ed114b54799bfb3824.zip"
+     "f31fd3b220dc06da8ec35a634cdbb0f698825181a5656f653641102f91ea1797.zip"
     ],
     "SourceMarkers": [
      {}
@@ -1228,7 +923,7 @@
      }
     ],
     "SourceObjectKeys": [
-     "3b61506a510684e3a2b14f213512cf69983d02be524f7a2575f3cdabae614998.zip"
+     "8595528632a8c7ab13ecea05405a83cd9ed8d43d32654d00cf36d98da1f3ccbd.zip"
     ],
     "SourceMarkers": [
      {}
@@ -1324,7 +1019,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11RS2/CMAz+LdxDVhVp91K0XRhiVNq1MqlbAnl0cUpVVf3vU5oBY6fvEdv67KQ8Xb3yZAE9LUV1WSp55OMOyWNVeBAXdkCynRPIoKdyhLalwQg+vjtoT98qa+UaCFlem9n53Gat/KMKcUINbGcNbsBDEUfltXmoiUnQfPwAAw1We6ukGELFs3Gwau6b8VEU2cRoxcd1Jy7og/vLIjyKn3QUIXzoLscKW2UHjcbz+LS5GwyI0BPPAkxMgT5WwMe8NlsY0H2hI2kNK6RpFHpr3jojfHDuJK/v5sSINB8L76Rp9uBAo0c373IT0xRkPH/ekbf6/gnhAjcec5QqZCihJ6Ekz3rKlZxjsTlu4aGRpnma/2/o3tmrrNDFWxhbIT/TyzVNeJrwZHEmKZeuM15q5IeIPwklUqs2AgAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/11QTW/CMAz9LdxDVhVp91K0HYYQo9KulUldCKRJF6dUVdT/PqWBsu30Piw/PTvl6eqVJwvoaSmq61LJI/c7JIdV4UBc2QHJdFYgg55KD21Lgxbcv1toz98qa+UaCFle68n53Gat/KUKccYGgpG18gMHtjMaN+CgiKF5rZ9qZLTift2JK7owubMIe6OkGJ72XUcROoTt0lfYKjM0qB2Po81sMCBCRzwLMDIFzbEC7vNab2FA+4WWpNGskPqk0Bn91mnhgjOTvJ7NkUlouD8YNR0x4bNiZCMjargvnJX6tAcLDTq00/whxjHI+Om8I2ea+d8h9cFj11KFniX0JJTkWU+5klN1Np1UODhJffqT/y90b81NVmjjv7SpkF/o5ZYmPE14sriQlEvbaScb5IeIP/Wujc0hAgAA"
    },
    "Metadata": {
     "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/CDKMetadata/Default"
@@ -1671,6 +1366,14 @@
     "Fn::GetAtt": [
      "amplifyDataAmplifyCodegenAssetsAmplifyCodegenAssetsDeploymentCustomResource1536MiB21775929",
      "DestinationBucketArn"
+    ]
+   }
+  },
+  "amplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDefaultApiKeyABECCDA1ApiKey": {
+   "Value": {
+    "Fn::GetAtt": [
+     "amplifyDataGraphQLAPIDefaultApiKey1C8ED374",
+     "ApiKey"
     ]
    }
   }

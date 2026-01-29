@@ -34,8 +34,10 @@
   "data": {
     "url": "https://c5c6kc7hu5c77paura2ukjufly.appsync-api.us-east-1.amazonaws.com/graphql",
     "aws_region": "us-east-1",
-    "default_authorization_type": "AMAZON_COGNITO_USER_POOLS",
+    "api_key": "da2-3jxvhiywmbczbenwfcszbsf5li",
+    "default_authorization_type": "API_KEY",
     "authorization_types": [
+      "AMAZON_COGNITO_USER_POOLS",
       "AWS_IAM"
     ],
     "model_introspection": {
@@ -111,9 +113,7 @@
             "status": {
               "name": "status",
               "isArray": false,
-              "type": {
-                "enum": "InventoryItemStatus"
-              },
+              "type": "String",
               "isRequired": false,
               "attributes": []
             },
@@ -153,13 +153,7 @@
                 "rules": [
                   {
                     "allow": "public",
-                    "provider": "iam",
-                    "operations": [
-                      "read"
-                    ]
-                  },
-                  {
-                    "allow": "private",
+                    "provider": "apiKey",
                     "operations": [
                       "read"
                     ]
@@ -170,9 +164,9 @@
                     "allow": "groups",
                     "operations": [
                       "create",
+                      "read",
                       "update",
-                      "delete",
-                      "read"
+                      "delete"
                     ],
                     "groups": [
                       "Admin"
@@ -189,16 +183,7 @@
           }
         }
       },
-      "enums": {
-        "InventoryItemStatus": {
-          "name": "InventoryItemStatus",
-          "values": [
-            "AVAILABLE",
-            "SOLD",
-            "HIDDEN"
-          ]
-        }
-      },
+      "enums": {},
       "nonModels": {}
     }
   },

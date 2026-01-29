@@ -1,0 +1,23 @@
+type InventoryItem @model @auth(rules: [{allow: public, provider: iam, operations: [read]},
+  {allow: private, operations: [read]},
+  {allow: groups, operations: [create, update, delete, read], groups: ["Admin"]}])
+{
+  id: ID! @primaryKey
+  name: String!
+  set: String
+  number: String
+  condition: String
+  price: Float
+  image: String
+  tags: [String]
+  description: String
+  status: InventoryItemStatus
+  createdAt: AWSDateTime
+  updatedAt: AWSDateTime
+}
+
+enum InventoryItemStatus {
+  AVAILABLE
+  SOLD
+  HIDDEN
+}

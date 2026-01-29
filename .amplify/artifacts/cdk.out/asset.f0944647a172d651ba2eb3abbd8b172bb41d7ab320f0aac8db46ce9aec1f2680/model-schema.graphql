@@ -1,0 +1,13 @@
+type InventoryItem @model @auth(rules: [{allow: public, provider: iam, operations: [read]},
+  {allow: private, operations: [read]},
+  {allow: groups, operations: [create, update, delete], groups: ["Admin"]}])
+{
+  name: String!
+  set: String
+  number: String
+  condition: String
+  price: Float!
+  image: String
+  status: String!
+  tags: [String]
+}

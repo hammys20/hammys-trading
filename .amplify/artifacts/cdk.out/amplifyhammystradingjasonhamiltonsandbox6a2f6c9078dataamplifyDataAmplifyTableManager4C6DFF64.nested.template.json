@@ -443,7 +443,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zWNQQqDMBBFz9J9nEqE7muhy1L0ADImU4nGBJykUkLuXtR29d7nLb4EWV2gPOHKhdJTYU0P6UEcSLcB1SRw5S4ZnCE13pK4vdzOp7dGfbZ5WBYW514jpHt0Khjvtvb3LLjqkJkCw3WD4ArqqCYKNTJl0RD7uCgSe20DDsYN+9kvZOG8Jhj5/JYSpITyNLIxxRJdMDNBc/ALR9ZlEM8AAAA="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/zWNQQqDMBBFz9J9nIYI3ddCl6XoAWRMphKNCThJpUjuXtR29d7nLb4CVV5AnnDhQpuxcLaD9UEcyTQR9Shw4Xa1OMFaB0fi9vI7n8FZ/dnmYVk4nDqDsN6T19EGv7W/Z8Fli8wUGa4bBJdQJT1SrJApi5o4pFmT2GsTsbe+389+IQsfDMHA57eSoCTI08DWFnPy0U4E9cEvyixGFM8AAAA="
    },
    "Metadata": {
     "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/AmplifyTableManager/CDKMetadata/Default"

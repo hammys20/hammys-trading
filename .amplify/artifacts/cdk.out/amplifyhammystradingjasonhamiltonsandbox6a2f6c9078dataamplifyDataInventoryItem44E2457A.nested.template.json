@@ -601,6 +601,28 @@
     "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/InventoryItemDataSource/Resource"
    }
   },
+  "QuerygetInventoryItempreAuth0FunctionQuerygetInventoryItempreAuth0FunctionAppSyncFunctionBBC28F49": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerygetInventoryItempreAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ffc597e18023b530e6afcbe02cee647d49550fa9e77bd06f1dee09d8b1be8de3.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerygetInventoryItempreAuth0Function/QuerygetInventoryItempreAuth0Function.AppSyncFunction"
+   }
+  },
   "QuerygetInventoryItemauth0FunctionQuerygetInventoryItemauth0FunctionAppSyncFunctionD8006E2F": {
    "Type": "AWS::AppSync::FunctionConfiguration",
    "Properties": {
@@ -613,7 +635,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "QuerygetInventoryItemauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/bf816c799bca0e10fb7b3e33848c60a45a57f1fa4bb7f190dac8f9258fbabe2a.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1e26829c218232b96698cb92b56af25164242aab6eca26a64c5ae50025330700.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -685,6 +707,12 @@
     "Kind": "PIPELINE",
     "PipelineConfig": {
      "Functions": [
+      {
+       "Fn::GetAtt": [
+        "QuerygetInventoryItempreAuth0FunctionQuerygetInventoryItempreAuth0FunctionAppSyncFunctionBBC28F49",
+        "FunctionId"
+       ]
+      },
       {
        "Fn::GetAtt": [
         "QuerygetInventoryItemauth0FunctionQuerygetInventoryItemauth0FunctionAppSyncFunctionD8006E2F",
@@ -781,6 +809,28 @@
     "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/queryGetInventoryItemResolver"
    }
   },
+  "QuerylistInventoryItemspreAuth0FunctionQuerylistInventoryItemspreAuth0FunctionAppSyncFunctionEB0CCA97": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "QuerylistInventoryItemspreAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/3e81312d4c75951808eda9fcd5f854c1925c0b819de0939f09c4fe2eebb190b8.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerylistInventoryItemspreAuth0Function/QuerylistInventoryItemspreAuth0Function.AppSyncFunction"
+   }
+  },
   "QuerylistInventoryItemsauth0FunctionQuerylistInventoryItemsauth0FunctionAppSyncFunctionDD0E4AF5": {
    "Type": "AWS::AppSync::FunctionConfiguration",
    "Properties": {
@@ -793,7 +843,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "QuerylistInventoryItemsauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/bf816c799bca0e10fb7b3e33848c60a45a57f1fa4bb7f190dac8f9258fbabe2a.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1e26829c218232b96698cb92b56af25164242aab6eca26a64c5ae50025330700.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -865,6 +915,12 @@
     "Kind": "PIPELINE",
     "PipelineConfig": {
      "Functions": [
+      {
+       "Fn::GetAtt": [
+        "QuerylistInventoryItemspreAuth0FunctionQuerylistInventoryItemspreAuth0FunctionAppSyncFunctionEB0CCA97",
+        "FunctionId"
+       ]
+      },
       {
        "Fn::GetAtt": [
         "QuerylistInventoryItemsauth0FunctionQuerylistInventoryItemsauth0FunctionAppSyncFunctionDD0E4AF5",
@@ -983,6 +1039,28 @@
     "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationcreateInventoryIteminit0Function/MutationcreateInventoryIteminit0Function.AppSyncFunction"
    }
   },
+  "MutationcreateInventoryItempreAuth0FunctionMutationcreateInventoryItempreAuth0FunctionAppSyncFunction6D4C083E": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationcreateInventoryItempreAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/39fb35c6f8e8573ffe3a63ba867cf543b05af129a104b387a44f03c3d85da0c3.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationcreateInventoryItempreAuth0Function/MutationcreateInventoryItempreAuth0Function.AppSyncFunction"
+   }
+  },
   "MutationcreateInventoryItemauth0FunctionMutationcreateInventoryItemauth0FunctionAppSyncFunction4F653E78": {
    "Type": "AWS::AppSync::FunctionConfiguration",
    "Properties": {
@@ -995,7 +1073,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "MutationcreateInventoryItemauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/5b5109affafb103db0316165957fd09404c4747bfc7def0401e6eb4cd4cb3974.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/48aa28f2e38d3a3f1c7d34b99fd46cd36c915320364d2a2be8b575810e2d126c.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -1070,6 +1148,12 @@
       {
        "Fn::GetAtt": [
         "MutationcreateInventoryIteminit0FunctionMutationcreateInventoryIteminit0FunctionAppSyncFunctionA5D5D99E",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationcreateInventoryItempreAuth0FunctionMutationcreateInventoryItempreAuth0FunctionAppSyncFunction6D4C083E",
         "FunctionId"
        ]
       },
@@ -1191,6 +1275,28 @@
     "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationupdateInventoryIteminit0Function/MutationupdateInventoryIteminit0Function.AppSyncFunction"
    }
   },
+  "MutationupdateInventoryItempreAuth0FunctionMutationupdateInventoryItempreAuth0FunctionAppSyncFunctionA91B6C35": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationupdateInventoryItempreAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/39fb35c6f8e8573ffe3a63ba867cf543b05af129a104b387a44f03c3d85da0c3.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationupdateInventoryItempreAuth0Function/MutationupdateInventoryItempreAuth0Function.AppSyncFunction"
+   }
+  },
   "MutationupdateInventoryItemauth0FunctionMutationupdateInventoryItemauth0FunctionAppSyncFunction0BC064CD": {
    "Type": "AWS::AppSync::FunctionConfiguration",
    "Properties": {
@@ -1209,7 +1315,7 @@
      "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/1f5fed297da9c32ae3af922bf3a38ccf23b956078887d16891ec06c20c64722c.vtl"
     },
     "ResponseMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/abd8a3092cf6688fb4ae3919242d1265cbcb4dec1ba56ce36bcb88093f879795.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/41f24675c78adbac282d9c51dc7acdcbb087eb592acf7c8d5bcb190418e9c626.vtl"
     }
    },
    "DependsOn": [
@@ -1286,6 +1392,12 @@
       {
        "Fn::GetAtt": [
         "MutationupdateInventoryIteminit0FunctionMutationupdateInventoryIteminit0FunctionAppSyncFunction68CC20B7",
+        "FunctionId"
+       ]
+      },
+      {
+       "Fn::GetAtt": [
+        "MutationupdateInventoryItempreAuth0FunctionMutationupdateInventoryItempreAuth0FunctionAppSyncFunctionA91B6C35",
         "FunctionId"
        ]
       },
@@ -1385,6 +1497,28 @@
     "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/mutationUpdateInventoryItemResolver"
    }
   },
+  "MutationdeleteInventoryItempreAuth0FunctionMutationdeleteInventoryItempreAuth0FunctionAppSyncFunctionB8287BE3": {
+   "Type": "AWS::AppSync::FunctionConfiguration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPIDCD10109ApiId"
+    },
+    "DataSourceName": {
+     "Ref": "referencetoamplifyhammystradingjasonhamiltonsandbox6a2f6c9078dataamplifyDataGraphQLAPINONEDS714D1977Name"
+    },
+    "FunctionVersion": "2018-05-29",
+    "Name": "MutationdeleteInventoryItempreAuth0Function",
+    "RequestMappingTemplateS3Location": {
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/a2c0f8a4d76f659d130c8a445801845ae9d33e5cc2c5ecd610edc272d4bd46e3.vtl"
+    },
+    "ResponseMappingTemplate": "$util.toJson({})"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationdeleteInventoryItempreAuth0Function/MutationdeleteInventoryItempreAuth0Function.AppSyncFunction"
+   }
+  },
   "MutationdeleteInventoryItemauth0FunctionMutationdeleteInventoryItemauth0FunctionAppSyncFunctionDFC37057": {
    "Type": "AWS::AppSync::FunctionConfiguration",
    "Properties": {
@@ -1477,6 +1611,12 @@
     "Kind": "PIPELINE",
     "PipelineConfig": {
      "Functions": [
+      {
+       "Fn::GetAtt": [
+        "MutationdeleteInventoryItempreAuth0FunctionMutationdeleteInventoryItempreAuth0FunctionAppSyncFunctionB8287BE3",
+        "FunctionId"
+       ]
+      },
       {
        "Fn::GetAtt": [
         "MutationdeleteInventoryItemauth0FunctionMutationdeleteInventoryItemauth0FunctionAppSyncFunctionDFC37057",
@@ -1585,7 +1725,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "SubscriptiononCreateInventoryItemauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/19c8f665a58155d8b65c3732d025ebb5c10f6af8dfe8b6d3e1fac554b7c95cb7.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/6dcbc392e2a4abeab9ca55c6aa3b210edc45281036f86bcfc0793f6918371591.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -1732,7 +1872,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "SubscriptiononUpdateInventoryItemauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/19c8f665a58155d8b65c3732d025ebb5c10f6af8dfe8b6d3e1fac554b7c95cb7.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/6dcbc392e2a4abeab9ca55c6aa3b210edc45281036f86bcfc0793f6918371591.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -1879,7 +2019,7 @@
     "FunctionVersion": "2018-05-29",
     "Name": "SubscriptiononDeleteInventoryItemauth0Function",
     "RequestMappingTemplateS3Location": {
-     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/19c8f665a58155d8b65c3732d025ebb5c10f6af8dfe8b6d3e1fac554b7c95cb7.vtl"
+     "Fn::Sub": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/6dcbc392e2a4abeab9ca55c6aa3b210edc45281036f86bcfc0793f6918371591.vtl"
     },
     "ResponseMappingTemplate": "$util.toJson({})"
    },
@@ -2017,7 +2157,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WOwW6DMAyGn6X34FVB2n0F7bhNsHtlEoNSQoJip1WFePcJOnXa6fcnf7J/Dbp8heMBb1wYOxbedbB8EAvZVtCMqurDFyacSChtUMVgnbgYVEMcczKkqswSpz/sw3PGG58Xew84RdvBN3aeTsikHE6wNNE/7OhpVTjPfA8GlnrX665GwfZ58j+952C2ElUMvRtywr3R72d/pbQqLs/ITMLwtoXiEk7ZjCRbgXVzP7PMWdS+bgUHF4ZVhWgJLvxy1Rq0huPhws4VKQdxE0HzyB/ZtYcINgEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WOwW6DMAyGn6X34CGQdl9BO24T7F6ZxKC04KDYaVUh3n2CTp12+v3Jn+y/gKJ8hfyAN8msu2Sj72D5IFFyraK9mKrnL4w4kVLcoArsvPrApiEJKVoyVRIN0x/2/JzxJqfF3Rmn4Dr4xm6kIwoZjxMsTRgfdhhpNTjPcmcLS73rdVejYvs8+Z/eE9utRBW490OKuDf6/TxeKa5GyhOKkAq8bWGkhGOyF9KtwLq5n0nnpGZft4qD52E1HBzBWV6uRQ5FDvnhLN5nMbH6iaB55A9UT6QMNgEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/CDKMetadata/Default"

@@ -4,27 +4,35 @@ export const data = defineData({
   schema: a.schema({
     InventoryItem: a
       .model({
+        id: a.id(),
         name: a.string().required(),
         set: a.string(),
         number: a.string(),
         condition: a.string(),
-        price: a.float().required(),
+        price: a.float(),
         image: a.string(),
-        status: a.string().required(), // available | reserved | sold
         tags: a.string().array(),
+        description: a.string(),
+        status: a.enum(["AVAILABLE", "SOLD", "HIDDEN"]),
+        createdAt: a.datetime(),
+        updatedAt: a.datetime(),
       })
       .authorization((allow) => [
-        // Public users can READ inventory
+        // 🔵 Public can read ONLY
         allow.guest().to(["read"]),
-
-        // Signed-in users can READ
         allow.authenticated().to(["read"]),
 
-        // Admin group can manage inventory
-        allow.group("Admin").to(["create", "update", "delete"]),
+        // 🔴 Admins can do everything
+        allow.groups(["Admin"]).to([
+          "create",
+          "update",
+          "delete",
+          "read",
+        ]),
       ]),
   }),
 });
+
 
 
 

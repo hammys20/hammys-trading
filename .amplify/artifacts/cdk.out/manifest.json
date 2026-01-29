@@ -22,7 +22,7 @@
         "validateOnSynth": false,
         "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
         "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
-        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/935ad5960a66dc39acd5002baf4686cf45a34cddae791f408cef53e03e1ab5d3.json",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/e3ec195f8fecc4ff83bd83cae446fabe1a49626fb09b20a1fd0d1a62091020f6.json",
         "requiresBootstrapStackVersion": 6,
         "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
         "additionalDependencies": [
@@ -513,6 +513,16 @@
             "data": "InventoryItemTable"
           }
         ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerygetInventoryItempreAuth0Function/QuerygetInventoryItempreAuth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QuerygetInventoryItempreAuth0FunctionQuerygetInventoryItempreAuth0FunctionAppSyncFunctionBBC28F49"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "QuerygetInventoryItempreAuth0Function"
+          }
+        ],
         "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerygetInventoryItemauth0Function/QuerygetInventoryItemauth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
@@ -551,6 +561,16 @@
           {
             "type": "graphqltransformer:resourceName",
             "data": "Query.getInventoryItem"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerylistInventoryItemspreAuth0Function/QuerylistInventoryItemspreAuth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "QuerylistInventoryItemspreAuth0FunctionQuerylistInventoryItemspreAuth0FunctionAppSyncFunctionEB0CCA97"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "QuerylistInventoryItemspreAuth0Function"
           }
         ],
         "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/QuerylistInventoryItemsauth0Function/QuerylistInventoryItemsauth0Function.AppSyncFunction": [
@@ -603,6 +623,16 @@
             "data": "MutationcreateInventoryIteminit0Function"
           }
         ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationcreateInventoryItempreAuth0Function/MutationcreateInventoryItempreAuth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationcreateInventoryItempreAuth0FunctionMutationcreateInventoryItempreAuth0FunctionAppSyncFunction6D4C083E"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationcreateInventoryItempreAuth0Function"
+          }
+        ],
         "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationcreateInventoryItemauth0Function/MutationcreateInventoryItemauth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
@@ -653,6 +683,16 @@
             "data": "MutationupdateInventoryIteminit0Function"
           }
         ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationupdateInventoryItempreAuth0Function/MutationupdateInventoryItempreAuth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationupdateInventoryItempreAuth0FunctionMutationupdateInventoryItempreAuth0FunctionAppSyncFunctionA91B6C35"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationupdateInventoryItempreAuth0Function"
+          }
+        ],
         "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationupdateInventoryItemauth0Function/MutationupdateInventoryItemauth0Function.AppSyncFunction": [
           {
             "type": "aws:cdk:logicalId",
@@ -691,6 +731,16 @@
           {
             "type": "graphqltransformer:resourceName",
             "data": "Mutation.updateInventoryItem"
+          }
+        ],
+        "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationdeleteInventoryItempreAuth0Function/MutationdeleteInventoryItempreAuth0Function.AppSyncFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MutationdeleteInventoryItempreAuth0FunctionMutationdeleteInventoryItempreAuth0FunctionAppSyncFunctionB8287BE3"
+          },
+          {
+            "type": "graphqltransformer:resourceName",
+            "data": "MutationdeleteInventoryItempreAuth0Function"
           }
         ],
         "/amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/MutationdeleteInventoryItemauth0Function/MutationdeleteInventoryItemauth0Function.AppSyncFunction": [

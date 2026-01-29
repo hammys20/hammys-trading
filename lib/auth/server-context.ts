@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { fetchAuthSession } from "aws-amplify/auth/server";
-import { runWithAmplifyServerContext } from "aws-amplify/adapter-nextjs";
+import { runWithAmplifyServerContext } from "@aws-amplify/adapter-nextjs";
 
 export async function isAdminServer(): Promise<boolean> {
   try {

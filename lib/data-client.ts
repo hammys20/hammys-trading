@@ -1,4 +1,4 @@
 import { generateClient } from "aws-amplify/data";
-import type { Schema } from "@/amplify/data/resource";
+import type { ClientSchema } from "@/amplify/data/resource";
 
-export const client = generateClient<Schema>();
+export const client = generateClient<ClientSchema>();

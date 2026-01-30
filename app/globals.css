@@ -161,3 +161,16 @@ a {
   color: var(--accent);
   border: 1px solid rgba(201,162,77,0.55);
 }
+:root {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+}
+
+.site-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}

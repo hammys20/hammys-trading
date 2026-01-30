@@ -4,30 +4,42 @@ import { useState } from "react";
 
 export default function BuyNowButton({
   itemId,
+  price,
+  status,
   disabled,
 }: {
   itemId: string;
+  price?: number;
+  status?: string;
   disabled?: boolean;
 }) {
   const [loading, setLoading] = useState(false);
 
-  async function go() {
-    if (loading) return;
-    setLoading(true);
+  const isSold = (status ?? "").toLowerCase() === "sold";
+  const isDisabled = Boolean(disabled) || loading || isSold || !price || price <= 0;
+
+  async function onClick() {
     try {
+      setLoading(true);
+
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ itemId }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error ?? "Checkout failed");
+      if (!res.ok) {
+        const text = await res.text();
+        throw new Error(text || "Checkout failed");
+      }
 
-      if (data?.url) window.location.href = data.url;
-      else throw new Error("No checkout URL returned");
-    } catch (e: any) {
-      alert(e?.message ?? "Checkout failed");
+      const data = (await res.json()) as { url?: string };
+      if (!data.url) throw new Error("No checkout URL returned");
+
+      window.location.href = data.url;
+    } catch (e) {
+      console.error(e);
+      alert("Internal Server Error — check server logs for /api/stripe/checkout.");
     } finally {
       setLoading(false);
     }
@@ -35,18 +47,17 @@ export default function BuyNowButton({
 
   return (
     <button
-      onClick={go}
-      disabled={disabled || loading}
+      onClick={onClick}
+      disabled={isDisabled}
       style={{
         padding: "10px 12px",
-        borderRadius: 12,
+        borderRadius: 10,
         border: "1px solid rgba(255,255,255,0.14)",
-        background: "rgba(255,255,255,0.06)",
-        cursor: disabled ? "not-allowed" : "pointer",
-        fontWeight: 700,
+        opacity: isDisabled ? 0.5 : 1,
+        cursor: isDisabled ? "not-allowed" : "pointer",
       }}
     >
-      {loading ? "Redirecting…" : "Buy now"}
+      {loading ? "Redirecting…" : isSold ? "Sold" : "Buy Now"}
     </button>
   );
 }

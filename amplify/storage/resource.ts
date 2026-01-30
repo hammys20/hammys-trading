@@ -1,21 +1,15 @@
+// amplify/storage/resource.ts
 import { defineStorage } from "@aws-amplify/backend";
 
 export const storage = defineStorage({
   name: "inventoryImages",
-
-  // Path-based authorization (Gen 2 style)
   access: (allow) => ({
+    // Public can read card images
     "cards/*": [
-      // Public/guest can READ card images
       allow.guest.to(["read"]),
 
-      // Admin group can manage card images
+      // Only Admins can upload/update/delete
       allow.groups(["Admin"]).to(["read", "write", "delete"]),
     ],
   }),
 });
-
-
-
-
-

@@ -1,18 +1,22 @@
+// components/BuyNowButton.tsx
 "use client";
 
 import { useState } from "react";
 
 export default function BuyNowButton({
   itemId,
-  disabled,
+  price,
+  status,
 }: {
   itemId: string;
-  disabled?: boolean;
+  price?: number;
+  status?: string;
 }) {
   const [loading, setLoading] = useState(false);
-  const isDisabled = disabled || loading;
+  const disabled = loading || !price || price <= 0 || (status ?? "available") !== "available";
 
-  async function onClick() {
+  async function go() {
+    if (disabled) return;
     setLoading(true);
     try {
       const res = await fetch("/api/stripe/checkout", {
@@ -21,17 +25,16 @@ export default function BuyNowButton({
         body: JSON.stringify({ itemId }),
       });
 
+      const body = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        const txt = await res.text();
-        throw new Error(txt || "Checkout failed");
+        throw new Error(body?.error ?? `Checkout failed (${res.status})`);
       }
+      if (!body?.url) throw new Error("Missing checkout URL from server.");
 
-      const data = (await res.json()) as { url?: string };
-      if (!data.url) throw new Error("No checkout URL returned");
-
-      window.location.href = data.url;
+      window.location.href = body.url;
     } catch (e: any) {
-      alert(e?.message ?? "Checkout failed");
+      alert(e?.message ?? "Checkout failed.");
     } finally {
       setLoading(false);
     }
@@ -39,19 +42,27 @@ export default function BuyNowButton({
 
   return (
     <button
-      onClick={onClick}
-      disabled={isDisabled}
+      onClick={go}
+      disabled={disabled}
       style={{
         width: "100%",
-        padding: "10px 12px",
+        padding: "12px 14px",
         borderRadius: 12,
-        border: "1px solid rgba(255,255,255,0.14)",
-        background: isDisabled ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.10)",
-        cursor: isDisabled ? "not-allowed" : "pointer",
-        fontWeight: 800,
+        border: "1px solid rgba(255,255,255,0.12)",
+        background: disabled ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.12)",
+        color: "inherit",
+        cursor: disabled ? "not-allowed" : "pointer",
+        fontWeight: 750,
       }}
+      title={
+        !price || price <= 0
+          ? "Missing price"
+          : (status ?? "available") !== "available"
+            ? "Not available"
+            : "Buy now"
+      }
     >
-      {loading ? "Opening checkout…" : disabled ? "Not available" : "Buy Now"}
+      {loading ? "Redirecting…" : "Buy now"}
     </button>
   );
 }

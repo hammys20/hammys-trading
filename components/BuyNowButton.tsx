@@ -1,40 +1,45 @@
-// components/BuyNowButton.tsx
 "use client";
 
 import { useState } from "react";
 
-export default function BuyNowButton({
-  itemId,
-  price,
-  status,
-}: {
+export default function BuyNowButton(props: {
   itemId: string;
   price?: number;
   status?: string;
+  disabled?: boolean;
 }) {
+  const { itemId, price, status, disabled } = props;
   const [loading, setLoading] = useState(false);
-  const disabled = loading || !price || price <= 0 || (status ?? "available") !== "available";
 
-  async function go() {
-    if (disabled) return;
+  const isAvailable = (status ?? "available") === "available";
+  const hasPrice = typeof price === "number" && price > 0;
+
+  const isDisabled = Boolean(disabled) || !isAvailable || !hasPrice || loading;
+
+  async function onClick() {
+    if (isDisabled) return;
     setLoading(true);
+
     try {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
-        headers: { "content-type": "application/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ itemId }),
       });
 
-      const body = await res.json().catch(() => ({}));
+      const json = await res.json().catch(() => ({} as any));
 
       if (!res.ok) {
-        throw new Error(body?.error ?? `Checkout failed (${res.status})`);
+        const msg = json?.error || `Checkout failed (${res.status})`;
+        throw new Error(msg);
       }
-      if (!body?.url) throw new Error("Missing checkout URL from server.");
 
-      window.location.href = body.url;
+      if (!json?.url) throw new Error("No checkout URL returned.");
+
+      window.location.href = json.url;
     } catch (e: any) {
       alert(e?.message ?? "Checkout failed.");
+      console.error(e);
     } finally {
       setLoading(false);
     }
@@ -42,27 +47,26 @@ export default function BuyNowButton({
 
   return (
     <button
-      onClick={go}
-      disabled={disabled}
+      onClick={onClick}
+      disabled={isDisabled}
       style={{
-        width: "100%",
-        padding: "12px 14px",
-        borderRadius: 12,
-        border: "1px solid rgba(255,255,255,0.12)",
-        background: disabled ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.12)",
-        color: "inherit",
-        cursor: disabled ? "not-allowed" : "pointer",
-        fontWeight: 750,
+        padding: "10px 12px",
+        borderRadius: 10,
+        border: "1px solid rgba(255,255,255,0.14)",
+        background: isDisabled ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.10)",
+        color: "rgba(255,255,255,0.92)",
+        cursor: isDisabled ? "not-allowed" : "pointer",
+        fontWeight: 700,
       }}
       title={
-        !price || price <= 0
+        !hasPrice
           ? "Missing price"
-          : (status ?? "available") !== "available"
-            ? "Not available"
+          : !isAvailable
+            ? `Item is ${status}`
             : "Buy now"
       }
     >
-      {loading ? "Redirecting…" : "Buy now"}
+      {loading ? "Redirecting…" : "Buy Now"}
     </button>
   );
 }

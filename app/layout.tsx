@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               minHeight: "calc(100vh - 72px)",
             }}
           >
-            {children}
+            <div className="container">{children}</div>
           </main>
         </AmplifyProvider>
       </body>

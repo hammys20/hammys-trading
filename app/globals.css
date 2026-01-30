@@ -174,3 +174,29 @@ body {
   margin: 0 auto;
   padding: 20px;
 }
+/* App-wide layout helpers */
+:root {
+  color-scheme: dark;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #070A10;
+  color: rgba(255,255,255,0.92);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 16px;
+  }
+}

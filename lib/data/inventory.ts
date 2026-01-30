@@ -1,6 +1,7 @@
 // lib/data/inventory.ts
 import { client } from "@/lib/data";
 
+/** Shared item shape used by UI */
 export type Item = {
   id: string;
   name: string;
@@ -17,118 +18,40 @@ export type Item = {
 export type CreateInput = Omit<Item, "id"> & { id?: string };
 export type UpdateInput = Partial<CreateInput> & { id: string };
 
-// ✅ Public storefront (API key) — ALWAYS return Item[]
+// --- INTERNAL helper (avoids Amplify Gen2 TS model issues)
+function model() {
+  return (client as any).models.InventoryItem;
+}
+
+/** Public storefront list (API key) */
 export async function listInventoryPublic(): Promise<Item[]> {
-  const res: any = await client.models.InventoryItem.list({ authMode: "apiKey" });
-  return (res?.data ?? []) as Item[];
+  const res = await model().list({ authMode: "apiKey" });
+  return Array.isArray(res?.data) ? (res.data as Item[]) : [];
 }
 
-// ✅ Admin inventory (Cognito User Pool / Admin group enforced by schema) — ALWAYS return Item[]
+/** Admin list (Cognito user pool) */
 export async function listInventoryAdmin(): Promise<Item[]> {
-  const res: any = await client.models.InventoryItem.list({ authMode: "userPool" });
-  return (res?.data ?? []) as Item[];
+  const res = await model().list({ authMode: "userPool" });
+  return Array.isArray(res?.data) ? (res.data as Item[]) : [];
 }
 
-// ⚠️ Gen2 typing quirks: cast payload as any to avoid index-signature bugs
+/** Public single item fetch */
+export async function getInventoryItemPublic(id: string): Promise<Item | null> {
+  const res = await model().get({ id }, { authMode: "apiKey" });
+  return (res?.data ?? null) as Item | null;
+}
+
+/** Admin create */
 export async function createInventoryItem(input: CreateInput) {
-  return client.models.InventoryItem.create(input as any, { authMode: "userPool" });
+  return model().create(input as any, { authMode: "userPool" });
 }
 
+/** Admin update */
 export async function updateInventoryItem(input: UpdateInput) {
-  return client.models.InventoryItem.update(input as any, { authMode: "userPool" });
+  return model().update(input as any, { authMode: "userPool" });
 }
 
+/** Admin delete */
 export async function deleteInventoryItem(id: string) {
-  return client.models.InventoryItem.delete({ id } as any, { authMode: "userPool" });
+  return model().delete({ id } as any, { authMode: "userPool" });
 }
-
-
-// lib/data/inventory.ts
-// import { client } from "@/lib/data";
-
-// export type CreateInput = {
-//   id?: string;
-//   name: string;
-//   set?: string;
-//   number?: string;
-//   condition?: string;
-//   price?: number;
-//   image?: string;
-//   tags?: string[];
-//   description?: string;
-//   status?: string;
-// };
-
-// export type UpdateInput = Partial<CreateInput> & { id: string };
-
-// // ✅ Public storefront (API key)
-// export async function listInventoryPublic() {
-//   const res = await client.models.InventoryItem.list({ authMode: "apiKey" });
-//   return (res?.data ?? []) as any[];
-// }
-
-// // ✅ Admin inventory (Cognito User Pool / Admin group enforced by schema)
-// export async function listInventoryAdmin() {
-//   const res = await client.models.InventoryItem.list({ authMode: "userPool" });
-//   return (res?.data ?? []) as any[];
-// }
-
-// // ⚠️ Amplify Gen2 TS quirk: cast payload to avoid index-signature typing bug
-// export async function createInventoryItem(input: CreateInput) {
-//   return client.models.InventoryItem.create(input as any, {
-//     authMode: "userPool",
-//   });
-// }
-
-// export async function updateInventoryItem(input: UpdateInput) {
-//   return client.models.InventoryItem.update(input as any, {
-//     authMode: "userPool",
-//   });
-// }
-
-// export async function deleteInventoryItem(id: string) {
-//   return client.models.InventoryItem.delete({ id } as any, {
-//     authMode: "userPool",
-//   });
-// }
-
-// // // lib/data/inventory.ts
-// // import { client } from "@/lib/data";
-
-// // // Public storefront (API key)
-// // export async function listInventoryPublic() {
-// //   return client.models.InventoryItem.list({ authMode: "apiKey" });
-// // }
-
-// // // Admin inventory (Cognito user pool; Admin group enforced by schema)
-// // export async function listInventoryAdmin() {
-// //   return client.models.InventoryItem.list({ authMode: "userPool" });
-// // }
-
-// // type CreateInput = {
-// //   id?: string;
-// //   name: string;
-// //   set?: string;
-// //   number?: string;
-// //   condition?: string;
-// //   price?: number;
-// //   image?: string;
-// //   tags?: string[];
-// //   description?: string;
-// //   status?: string;
-// // };
-
-// // type UpdateInput = CreateInput & { id: string };
-
-// // export async function createInventoryItem(input: CreateInput) {
-// //   return client.models.InventoryItem.create(input, { authMode: "userPool" });
-// // }
-
-// // export async function updateInventoryItem(input: UpdateInput) {
-// //   return client.models.InventoryItem.update(input, { authMode: "userPool" });
-// // }
-
-// // export async function deleteInventoryItem(id: string) {
-// //   return client.models.InventoryItem.delete({ id }, { authMode: "userPool" });
-// // }
-

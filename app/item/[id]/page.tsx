@@ -2,176 +2,68 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import BuyNowButton from "@/components/BuyNowButton";
-import { client } from "@/lib/data";
-
-type Item = {
-  id: string;
-  name: string;
-  price?: number;
-  status?: string;
-  image?: string;
-  description?: string;
-};
-
-function money(n?: number) {
-  if (typeof n !== "number") return "—";
-  return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
-}
+import {
+  getInventoryItemPublic,
+  type Item,
+} from "@/lib/data/inventory";
 
 export default function ItemPage() {
   const params = useParams<{ id: string }>();
-  const id = params?.id ? String(params.id) : "";
+  const id = params?.id ?? "";
 
   const [item, setItem] = useState<Item | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!id) return;
+
     let cancelled = false;
 
-    async function load() {
-      if (!id) return;
+    getInventoryItemPublic(id)
+      .then((data) => {
+        if (!cancelled) setItem(data);
+      })
+      .catch((err) => {
+        console.error("Item load failed", err);
+        if (!cancelled) setItem(null);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
 
-      setLoading(true);
-      const res = await client.models.InventoryItem.get({ id });
-
-      if (!cancelled) {
-        setItem((res.data as unknown as Item) ?? null);
-        setLoading(false);
-      }
-    }
-
-    load();
     return () => {
       cancelled = true;
     };
   }, [id]);
 
-  const isAvailable = useMemo(() => {
-    return (item?.status ?? "").trim().toLowerCase() === "available";
-  }, [item?.status]);
-
-  const canBuy = useMemo(() => {
-    return isAvailable && typeof item?.price === "number" && item.price > 0;
-  }, [isAvailable, item?.price]);
-
-  if (loading) {
-    return (
-      <div style={{ maxWidth: 1000, margin: "40px auto", opacity: 0.7 }}>
-        Loading item…
-      </div>
-    );
-  }
-
-  if (!item) {
-    return (
-      <div style={{ maxWidth: 1000, margin: "40px auto" }}>
-        <Link href="/inventory" className="btn">
-          ← Back to Inventory
-        </Link>
-        <div style={{ marginTop: 18, opacity: 0.7 }}>Item not found.</div>
-      </div>
-    );
-  }
+  if (loading) return <div style={{ padding: 24 }}>Loading…</div>;
+  if (!item) return <div style={{ padding: 24 }}>Item not found</div>;
 
   return (
-    <div style={{ maxWidth: 1000, margin: "40px auto" }}>
-      <Link href="/inventory" className="btn">
-        ← Back to Inventory
-      </Link>
+    <div style={{ maxWidth: 1000, margin: "0 auto", padding: 24 }}>
+      <Link href="/inventory">← Back</Link>
 
-      <div
-        style={{
-          marginTop: 20,
-          display: "grid",
-          gridTemplateColumns: "420px 1fr",
-          gap: 24,
-          alignItems: "start",
-        }}
-      >
-        <div
-          style={{
-            border: "1px solid var(--border)",
-            borderRadius: 16,
-            overflow: "hidden",
-            background: "rgba(255,255,255,0.02)",
-          }}
-        >
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+        {item.image && (
           <Image
-            src={item.image || "/cards/placeholder.png"}
+            src={item.image}
             alt={item.name}
-            width={900}
-            height={1200}
+            width={800}
+            height={800}
             style={{ width: "100%", height: "auto" }}
-            priority
           />
-        </div>
+        )}
 
         <div>
-          <h1 style={{ fontSize: 30, fontWeight: 900 }}>{item.name}</h1>
-
-          <div style={{ marginTop: 10, display: "grid", gap: 8 }}>
-            <div style={{ opacity: 0.85 }}>
-              <strong>Price:</strong> {money(item.price)}
-            </div>
-            <div style={{ opacity: 0.85 }}>
-              <strong>Status:</strong> {item.status ?? "—"}
-            </div>
-          </div>
-
-          {/* BUY NOW / OUT OF STOCK */}
-          <div style={{ marginTop: 18, display: "grid", gap: 10 }}>
-            {canBuy ? (
-              <div style={{ maxWidth: 360 }}>
-                <BuyNowButton itemId={item.id} />
-              </div>
-            ) : (
-              <div
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 10,
-                }}
-              >
-                <div
-                  style={{
-                    padding: "10px 12px",
-                    borderRadius: 12,
-                    border: "1px solid rgba(255,255,255,0.14)",
-                    background: "rgba(255,255,255,0.04)",
-                    opacity: 0.8,
-                    fontWeight: 700,
-                  }}
-                >
-                  {isAvailable ? "Unavailable" : "Out of stock"}
-                </div>
-                {isAvailable && typeof item.price !== "number" ? (
-                  <span style={{ fontSize: 12, opacity: 0.65 }}>
-                    Missing price — add a price in Admin
-                  </span>
-                ) : (
-                  <span style={{ fontSize: 12, opacity: 0.65 }}>
-                    {isAvailable ? "Check back soon" : "Check back soon"}
-                  </span>
-                )}
-              </div>
-            )}
-
-            <span style={{ fontSize: 12, opacity: 0.65 }}>
-              {canBuy ? "Ships fast • Secure packaging" : "Check back soon"}
-            </span>
-          </div>
-
-          {item.description && (
-            <div style={{ marginTop: 18, opacity: 0.85, lineHeight: 1.6 }}>
-              {item.description}
-            </div>
-          )}
+          <h1>{item.name}</h1>
+          <div>${item.price ?? "—"}</div>
+          <p>{item.description}</p>
+          <BuyNowButton itemId={item.id} />
         </div>
       </div>
     </div>
   );
 }
-

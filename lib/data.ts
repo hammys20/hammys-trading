@@ -1,11 +1,23 @@
+// lib/data.ts
 import { generateClient } from "aws-amplify/data";
-import type { Schema } from "@/amplify/data/resource";
-import { ensureAmplifyConfigured } from "@/lib/amplify-client";
+import { configureAmplify } from "@/lib/amplify-server";
 
-ensureAmplifyConfigured();
+// Ensure Amplify is configured for SSR/build/runtime usage
+configureAmplify();
 
-export const client = generateClient<Schema>({
-  authMode: "apiKey",
-});
+// Use API key by default (public storefront). Admin calls override authMode per operation.
+export const client = generateClient({ authMode: "apiKey" as const });
 
+// lib/data.ts
+// import { generateClient } from "aws-amplify/data";
+// import type { Schema } from "@/amplify/data/resource";
+
+// /**
+//  * Client-safe Amplify Data client
+//  * - Default auth mode for public storefront reads: API key
+//  * - Admin calls should override authMode to "userPool" per call
+//  */
+// export const client = generateClient<Schema>({
+//   authMode: "apiKey",
+// });
 

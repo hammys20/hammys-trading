@@ -8,7 +8,8 @@ import {
   deleteInventoryItem,
   type Item,
 } from "@/lib/data/inventory";
-import ImageUpload from "@/components/ImageUpload";
+
+import ImageUpload from "@.components/ImageUpload";
 
 function money(n?: number) {
   if (typeof n !== "number") return "—";

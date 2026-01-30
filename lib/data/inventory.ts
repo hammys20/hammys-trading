@@ -1,81 +1,87 @@
-import { generateClient } from "aws-amplify/data";
-import type { Schema } from "@/amplify/data/resource";
+// lib/data/inventory.ts
+import { client } from "@/lib/data";
 
-// Public client (read-only storefront)
-const publicClient = generateClient<Schema>({ authMode: "apiKey" });
-
-// Admin client (writes + admin reads)
-const adminClient = generateClient<Schema>({ authMode: "userPool" });
-
-function throwIfErrors(op: string, errors?: any[]) {
-  if (errors && errors.length) {
-    const msg = errors.map((e) => e?.message ?? String(e)).join(" | ");
-    throw new Error(`${op} failed: ${msg}`);
-  }
-}
-
-/** Public storefront inventory list (read-only) */
-export async function listInventoryPublic() {
-  const res = await publicClient.models.InventoryItem.list({ limit: 500 });
-  throwIfErrors("listInventoryPublic", (res as any).errors);
-  return res.data;
-}
-
-/** Backwards compatible alias so existing imports don't break */
-export const listInventory = listInventoryPublic;
-
-/** Admin list (uses userPool tokens) */
-export async function listInventoryAdmin() {
-  const res = await adminClient.models.InventoryItem.list({ limit: 500 });
-  throwIfErrors("listInventoryAdmin", (res as any).errors);
-  return res.data;
-}
-
-/** Admin create */
-export async function createInventoryItem(input: {
+export type CreateInput = {
+  id?: string;
   name: string;
-  price?: number;
-  status?: string;
-  image?: string;
-  description?: string;
   set?: string;
   number?: string;
   condition?: string;
+  price?: number;
+  image?: string;
   tags?: string[];
-}) {
-  const res = await adminClient.models.InventoryItem.create({
-    ...input,
-    status: input.status ?? "Available",
+  description?: string;
+  status?: string;
+};
+
+export type UpdateInput = Partial<CreateInput> & { id: string };
+
+// ✅ Public storefront (API key)
+export async function listInventoryPublic() {
+  return client.models.InventoryItem.list({ authMode: "apiKey" });
+}
+
+// ✅ Admin inventory (Cognito User Pool / Admin group enforced by schema)
+export async function listInventoryAdmin() {
+  return client.models.InventoryItem.list({ authMode: "userPool" });
+}
+
+// ⚠️ Amplify Gen2 TS quirk: cast payload to avoid index-signature typing bug
+export async function createInventoryItem(input: CreateInput) {
+  return client.models.InventoryItem.create(input as any, {
+    authMode: "userPool",
   });
-  throwIfErrors("createInventoryItem", (res as any).errors);
-  if (!res.data) throw new Error("createInventoryItem failed: no data returned");
-  return res.data;
 }
 
-/** Admin update */
-export async function updateInventoryItem(
-  id: string,
-  updates: Partial<{
-    status: string;
-    price: number;
-    image: string;
-    description: string;
-    name: string;
-    set: string;
-    number: string;
-    condition: string;
-    tags: string[];
-  }>
-) {
-  const res = await adminClient.models.InventoryItem.update({ id, ...updates });
-  throwIfErrors("updateInventoryItem", (res as any).errors);
-  if (!res.data) throw new Error("updateInventoryItem failed: no data returned");
-  return res.data;
+export async function updateInventoryItem(input: UpdateInput) {
+  return client.models.InventoryItem.update(input as any, {
+    authMode: "userPool",
+  });
 }
 
-/** Admin delete */
 export async function deleteInventoryItem(id: string) {
-  const res = await adminClient.models.InventoryItem.delete({ id });
-  throwIfErrors("deleteInventoryItem", (res as any).errors);
-  return res.data;
+  return client.models.InventoryItem.delete({ id } as any, {
+    authMode: "userPool",
+  });
 }
+
+// // lib/data/inventory.ts
+// import { client } from "@/lib/data";
+
+// // Public storefront (API key)
+// export async function listInventoryPublic() {
+//   return client.models.InventoryItem.list({ authMode: "apiKey" });
+// }
+
+// // Admin inventory (Cognito user pool; Admin group enforced by schema)
+// export async function listInventoryAdmin() {
+//   return client.models.InventoryItem.list({ authMode: "userPool" });
+// }
+
+// type CreateInput = {
+//   id?: string;
+//   name: string;
+//   set?: string;
+//   number?: string;
+//   condition?: string;
+//   price?: number;
+//   image?: string;
+//   tags?: string[];
+//   description?: string;
+//   status?: string;
+// };
+
+// type UpdateInput = CreateInput & { id: string };
+
+// export async function createInventoryItem(input: CreateInput) {
+//   return client.models.InventoryItem.create(input, { authMode: "userPool" });
+// }
+
+// export async function updateInventoryItem(input: UpdateInput) {
+//   return client.models.InventoryItem.update(input, { authMode: "userPool" });
+// }
+
+// export async function deleteInventoryItem(id: string) {
+//   return client.models.InventoryItem.delete({ id }, { authMode: "userPool" });
+// }
+

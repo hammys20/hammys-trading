@@ -1,9 +1,11 @@
 import { generateClient } from "aws-amplify/data";
 import type { Schema } from "@/amplify/data/resource";
-import { configureAmplify } from "@/lib/amplify-server";
+import { ensureAmplifyConfigured } from "@/lib/amplify-client";
 
-configureAmplify();
+ensureAmplifyConfigured();
 
 export const client = generateClient<Schema>({
-  authMode: "iam",
+  authMode: "apiKey",
 });
+
+

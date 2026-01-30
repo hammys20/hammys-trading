@@ -1,6 +1,11 @@
 import "./globals.css";
-import HeaderClient from "@/components/HeaderClient";
-import { AmplifyProvider } from "./amplify-provider";
+import AmplifyProvider from "./amplify-provider";
+import Header from "@/components/Header";
+
+export const metadata = {
+  title: "Hammy’s Trading",
+  description: "Premium Pokémon singles & slabs",
+};
 
 export default function RootLayout({
   children,
@@ -11,10 +16,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AmplifyProvider>
-          <HeaderClient />
-          <main className="container">{children}</main>
+          <Header />
+          {children}
         </AmplifyProvider>
       </body>
     </html>
   );
 }
+

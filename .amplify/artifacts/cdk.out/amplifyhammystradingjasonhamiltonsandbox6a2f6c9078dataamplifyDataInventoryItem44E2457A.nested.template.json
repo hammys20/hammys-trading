@@ -2157,7 +2157,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WOwW6DMAyGn6X34CGQdl9BO24T7F6ZxKC04KDYaVUh3n2CTp12+v3Jn+y/gKJ8hfyAN8msu2Sj72D5IFFyraK9mKrnL4w4kVLcoArsvPrApiEJKVoyVRIN0x/2/JzxJqfF3Rmn4Dr4xm6kIwoZjxMsTRgfdhhpNTjPcmcLS73rdVejYvs8+Z/eE9utRBW490OKuDf6/TxeKa5GyhOKkAq8bWGkhGOyF9KtwLq5n0nnpGZft4qD52E1HBzBWV6uRQ5FDvnhLN5nMbH6iaB55A9UT6QMNgEAAA=="
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1WOwW6DMAyGn6X34FVB2n0F7bhNsHtlEoNSQoJip1WFePcJOnXa6fcnf7J/Dbp8heMBb1wYOxbedbB8EAvZVtCMqurDFyacSChtUMVgnbgYVEMcczKkqswSpz/sw3PGG58Xew84RdvBN3aeTsikHE6wNNE/7OhpVTjPfA8GlnrX665GwfZ58j+952C2ElUMvRtywr3R72d/pbQqLs/ITMLwtoXiEk7ZjCRbgXVzP7PMWdS+bgUHF4ZVhWgJLvxy1Rq0huPhws4VKQdxE0HzyB/ZtYcINgEAAA=="
    },
    "Metadata": {
     "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/data/amplifyData/InventoryItem/CDKMetadata/Default"

@@ -368,7 +368,7 @@
   "CDKMetadata": {
    "Type": "AWS::CDK::Metadata",
    "Properties": {
-    "Analytics": "v2:deflate64:H4sIAAAAAAAA/12LywrCMBBFv8V9OoYI7qULcSNScS0xGXXaNJFmapGQf5ci1eLqnvtSoFZrkAs9xMLYpnB0gbTHyGiPrE0j9BDPyYSbJw6QThG7QwhOlFf/5QlKR+h5Xv2SnUXPxK/pPPdVcLhh1ube/v23XegfWZBuIY2rsRs15yx8sAh1XD6VBCVBLupIVHS9Z2oRqo++AWx6VHDfAAAA"
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/12LywrCMBBFv6X7dCwR3EsX4kak4lpiMuq0aVKaqUVC/l2KVIure+5LglxvoMjUGHJtmtzSFeIBA6M5sdKNUGO4RO3vjthDPAfsj95bUd7cl2coLaHjZfVL9gYdE7/m89JX3uKWWelH+/ff9X7okiDVQpxWUzdpSkk4bxDqsHpKCVJCkdWBKO8Hx9QiVB99A+GAd3TfAAAA"
    },
    "Metadata": {
     "aws:cdk:path": "amplify-hammystrading-jasonhamilton-sandbox-6a2f6c9078/auth/CDKMetadata/Default"

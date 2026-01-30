@@ -2,18 +2,24 @@
 
 import { Amplify } from "aws-amplify";
 import outputs from "@/amplify_outputs.json";
+import { useEffect } from "react";
 
 let configured = false;
 
-export function AmplifyProvider({
+export default function AmplifyProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  if (!configured) {
-    Amplify.configure(outputs, { ssr: true });
+  useEffect(() => {
+    if (configured) return;
+
+    Amplify.configure(outputs, {
+      ssr: true,
+    });
+
     configured = true;
-  }
+  }, []);
 
   return <>{children}</>;
 }

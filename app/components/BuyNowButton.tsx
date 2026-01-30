@@ -2,43 +2,51 @@
 
 import { useState } from "react";
 
-export default function BuyNowButton({ itemId }: { itemId: string }) {
+export default function BuyNowButton({
+  itemId,
+  disabled,
+}: {
+  itemId: string;
+  disabled?: boolean;
+}) {
   const [loading, setLoading] = useState(false);
 
-  async function onBuy() {
+  async function go() {
+    if (loading) return;
+    setLoading(true);
     try {
-      setLoading(true);
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "content-type": "application/json" },
         body: JSON.stringify({ itemId }),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Checkout failed");
+      if (!res.ok) throw new Error(data?.error ?? "Checkout failed");
 
-      window.location.href = data.url;
-    } catch (err: any) {
-      alert(err.message || "Something went wrong");
+      if (data?.url) window.location.href = data.url;
+      else throw new Error("No checkout URL returned");
+    } catch (e: any) {
+      alert(e?.message ?? "Checkout failed");
+    } finally {
       setLoading(false);
     }
   }
 
   return (
     <button
-      onClick={onBuy}
-      disabled={loading}
+      onClick={go}
+      disabled={disabled || loading}
       style={{
-        padding: "12px 16px",
+        padding: "10px 12px",
         borderRadius: 12,
         border: "1px solid rgba(255,255,255,0.14)",
         background: "rgba(255,255,255,0.06)",
-        color: "white",
-        cursor: loading ? "not-allowed" : "pointer",
-        fontWeight: 600,
+        cursor: disabled ? "not-allowed" : "pointer",
+        fontWeight: 700,
       }}
     >
-      {loading ? "Redirecting…" : "Buy Now"}
+      {loading ? "Redirecting…" : "Buy now"}
     </button>
   );
 }

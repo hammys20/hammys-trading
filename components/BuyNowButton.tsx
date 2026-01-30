@@ -2,45 +2,56 @@
 
 import { useState } from "react";
 
-export default function BuyNowButton({ itemId }: { itemId: string }) {
+export default function BuyNowButton({
+  itemId,
+  disabled,
+}: {
+  itemId: string;
+  disabled?: boolean;
+}) {
   const [loading, setLoading] = useState(false);
+  const isDisabled = disabled || loading;
 
-  async function onBuy() {
+  async function onClick() {
+    setLoading(true);
     try {
-      setLoading(true);
-
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "content-type": "application/json" },
         body: JSON.stringify({ itemId }),
       });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Checkout failed");
+      if (!res.ok) {
+        const txt = await res.text();
+        throw new Error(txt || "Checkout failed");
+      }
+
+      const data = (await res.json()) as { url?: string };
+      if (!data.url) throw new Error("No checkout URL returned");
 
       window.location.href = data.url;
-    } catch (err: any) {
-      alert(err?.message || "Something went wrong");
+    } catch (e: any) {
+      alert(e?.message ?? "Checkout failed");
+    } finally {
       setLoading(false);
     }
   }
 
   return (
     <button
-      onClick={onBuy}
-      disabled={loading}
+      onClick={onClick}
+      disabled={isDisabled}
       style={{
         width: "100%",
-        padding: "12px 16px",
+        padding: "10px 12px",
         borderRadius: 12,
         border: "1px solid rgba(255,255,255,0.14)",
-        background: "rgba(255,255,255,0.08)",
-        color: "white",
+        background: isDisabled ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.10)",
+        cursor: isDisabled ? "not-allowed" : "pointer",
         fontWeight: 800,
-        cursor: loading ? "not-allowed" : "pointer",
       }}
     >
-      {loading ? "Redirecting…" : "Buy Now"}
+      {loading ? "Opening checkout…" : disabled ? "Not available" : "Buy Now"}
     </button>
   );
 }

@@ -8,8 +8,9 @@ import {
   deleteInventoryItem,
   type Item,
 } from "@/lib/data/inventory";
+import { uploadData, getUrl, remove } from "aws-amplify/storage";
 
-function money(n?: number) {
+function money(n?: number | null) {
   if (typeof n !== "number") return "—";
   return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
@@ -36,14 +37,8 @@ export default function AdminInventoryPage() {
 
   async function refresh() {
     setError("");
-    try {
-      const arr = await listInventoryAdmin();
-      setItems(Array.isArray(arr) ? arr : []);
-    } catch (e: any) {
-      console.error(e);
-      setError(e?.message ?? "Failed to load admin inventory.");
-      setItems([]);
-    }
+    const arr = await listInventoryAdmin();
+    setItems(Array.isArray(arr) ? arr : []);
   }
 
   useEffect(() => {
@@ -52,6 +47,9 @@ export default function AdminInventoryPage() {
     (async () => {
       try {
         await refresh();
+      } catch (e: any) {
+        console.error(e);
+        if (!cancelled) setError(e?.message ?? "Failed to load admin inventory.");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -70,8 +68,7 @@ export default function AdminInventoryPage() {
 
   async function onCreate() {
     setError("");
-    const name = (draft.name ?? "").trim();
-    if (!name) {
+    if (!draft.name?.trim()) {
       setError("Name is required.");
       return;
     }
@@ -79,16 +76,16 @@ export default function AdminInventoryPage() {
     setSaving(true);
     try {
       await createInventoryItem({
-        name,
+        name: draft.name.trim(),
         price: typeof draft.price === "number" ? draft.price : undefined,
-        status: (draft.status ?? "available") as string,
-        image: (draft.image ?? "").trim() || undefined,
-        description: (draft.description ?? "").trim() || undefined,
+        status: (draft.status ?? "available") as any,
+        image: draft.image?.trim() || undefined,
+        description: draft.description?.trim() || undefined,
         tags: Array.isArray(draft.tags) ? draft.tags : [],
-        set: (draft.set ?? "").trim() || undefined,
-        number: (draft.number ?? "").trim() || undefined,
-        condition: (draft.condition ?? "").trim() || undefined,
-      });
+        set: draft.set?.trim() || undefined,
+        number: draft.number?.trim() || undefined,
+        condition: draft.condition?.trim() || undefined,
+      } as any);
 
       setDraft(EMPTY);
       await refresh();
@@ -104,7 +101,7 @@ export default function AdminInventoryPage() {
     setError("");
     setSaving(true);
     try {
-      await updateInventoryItem({ id, status });
+      await updateInventoryItem({ id, status } as any);
       setItems((cur) => cur.map((x) => (x.id === id ? { ...x, status } : x)));
     } catch (e: any) {
       console.error(e);
@@ -115,7 +112,7 @@ export default function AdminInventoryPage() {
   }
 
   async function onDelete(id: string) {
-    if (!window.confirm("Delete this item?")) return;
+    if (!confirm("Delete this item?")) return;
     setError("");
     setSaving(true);
     try {
@@ -129,6 +126,53 @@ export default function AdminInventoryPage() {
     }
   }
 
+  async function onUploadImage(itemId: string, file: File) {
+    setError("");
+    setSaving(true);
+
+    try {
+      const safeName = file.name.replace(/[^\w.\-]+/g, "_");
+      const path = `cards/${itemId}/${Date.now()}-${safeName}`;
+
+      await uploadData({
+        path,
+        data: file,
+        options: {
+          contentType: file.type || "image/jpeg",
+        },
+      }).result;
+
+      const urlRes = await getUrl({ path });
+      const url = urlRes?.url?.toString();
+
+      if (!url) throw new Error("Could not get image URL");
+
+      await updateInventoryItem({ id: itemId, image: url } as any);
+
+      setItems((cur) => cur.map((i) => (i.id === itemId ? { ...i, image: url } : i)));
+    } catch (e: any) {
+      console.error(e);
+      setError(e?.message ?? "Upload failed.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function onRemoveImage(itemId: string) {
+    // Optional: only clears the model field; you can also remove from Storage if you store the key instead of URL
+    setError("");
+    setSaving(true);
+    try {
+      await updateInventoryItem({ id: itemId, image: undefined } as any);
+      setItems((cur) => cur.map((i) => (i.id === itemId ? { ...i, image: undefined } : i)));
+    } catch (e: any) {
+      console.error(e);
+      setError(e?.message ?? "Remove image failed.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
   if (loading) return <div style={{ padding: 24 }}>Loading admin inventory…</div>;
 
   return (
@@ -136,14 +180,7 @@ export default function AdminInventoryPage() {
       <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Admin Inventory</h1>
 
       {error ? (
-        <div
-          style={{
-            padding: 12,
-            border: "1px solid rgba(255,80,80,0.4)",
-            borderRadius: 10,
-            marginBottom: 14,
-          }}
-        >
+        <div style={{ padding: 12, border: "1px solid rgba(255,80,80,0.4)", borderRadius: 10, marginBottom: 14 }}>
           {error}
         </div>
       ) : null}
@@ -155,14 +192,10 @@ export default function AdminInventoryPage() {
           onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
           style={{ padding: 10 }}
         />
-
         <input
           placeholder="Price"
           value={typeof draft.price === "number" ? String(draft.price) : ""}
-          onChange={(e) => {
-            const v = e.target.value.trim();
-            setDraft((d) => ({ ...d, price: v ? Number(v) : undefined }));
-          }}
+          onChange={(e) => setDraft((d) => ({ ...d, price: e.target.value ? Number(e.target.value) : undefined }))}
           style={{ padding: 10 }}
         />
 
@@ -177,7 +210,7 @@ export default function AdminInventoryPage() {
         </select>
 
         <input
-          placeholder="Image URL"
+          placeholder="Image URL (optional)"
           value={draft.image ?? ""}
           onChange={(e) => setDraft((d) => ({ ...d, image: e.target.value }))}
           style={{ padding: 10 }}
@@ -244,6 +277,35 @@ export default function AdminInventoryPage() {
                   {money(i.price)} · {i.status ?? "—"}
                 </div>
                 <div style={{ opacity: 0.6, fontSize: 12 }}>{i.id}</div>
+
+                <div style={{ marginTop: 10, display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+                  <label style={{ fontSize: 12, opacity: 0.8 }}>
+                    Upload image:
+                    <input
+                      type="file"
+                      accept="image/*"
+                      disabled={saving}
+                      style={{ display: "block", marginTop: 6 }}
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) onUploadImage(i.id, file);
+                        e.currentTarget.value = "";
+                      }}
+                    />
+                  </label>
+
+                  {i.image ? (
+                    <button disabled={saving} onClick={() => onRemoveImage(i.id)} style={{ opacity: 0.9 }}>
+                      clear image
+                    </button>
+                  ) : null}
+                </div>
+
+                {i.image ? (
+                  <div style={{ marginTop: 8, fontSize: 12, opacity: 0.75, wordBreak: "break-all" }}>
+                    image: {i.image}
+                  </div>
+                ) : null}
               </div>
 
               <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }}>

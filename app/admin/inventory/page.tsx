@@ -10,7 +10,7 @@ import {
 } from "@/lib/data/inventory";
 import { uploadData, getUrl, remove } from "aws-amplify/storage";
 
-function money(n?: number | null) {
+function money(n?: number) {
   if (typeof n !== "number") return "—";
   return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
@@ -26,6 +26,11 @@ const EMPTY: Partial<Item> = {
   number: "",
   condition: "",
 };
+
+function fileExt(name: string) {
+  const m = name.toLowerCase().match(/\.(png|jpg|jpeg|webp|gif)$/);
+  return m?.[1] ?? "jpg";
+}
 
 export default function AdminInventoryPage() {
   const [items, setItems] = useState<Item[]>([]);
@@ -129,26 +134,20 @@ export default function AdminInventoryPage() {
   async function onUploadImage(itemId: string, file: File) {
     setError("");
     setSaving(true);
-
     try {
-      const safeName = file.name.replace(/[^\w.\-]+/g, "_");
-      const path = `cards/${itemId}/${Date.now()}-${safeName}`;
+      const ext = fileExt(file.name);
+      const key = `cards/${itemId}.${ext}`;
 
       await uploadData({
-        path,
+        path: key,
         data: file,
-        options: {
-          contentType: file.type || "image/jpeg",
-        },
+        options: { contentType: file.type || "image/jpeg" },
       }).result;
 
-      const urlRes = await getUrl({ path });
-      const url = urlRes?.url?.toString();
-
-      if (!url) throw new Error("Could not get image URL");
+      const signed = await getUrl({ path: key });
+      const url = signed.url.toString();
 
       await updateInventoryItem({ id: itemId, image: url } as any);
-
       setItems((cur) => cur.map((i) => (i.id === itemId ? { ...i, image: url } : i)));
     } catch (e: any) {
       console.error(e);
@@ -158,11 +157,21 @@ export default function AdminInventoryPage() {
     }
   }
 
-  async function onRemoveImage(itemId: string) {
-    // Optional: only clears the model field; you can also remove from Storage if you store the key instead of URL
+  async function onRemoveImage(itemId: string, imageUrl?: string) {
     setError("");
     setSaving(true);
     try {
+      // If it's our S3 signed URL, we still know our key convention cards/{id}.ext
+      // We'll try to delete multiple common extensions.
+      const tryKeys = [`cards/${itemId}.jpg`, `cards/${itemId}.jpeg`, `cards/${itemId}.png`, `cards/${itemId}.webp`];
+      for (const k of tryKeys) {
+        try {
+          await remove({ path: k });
+        } catch {
+          // ignore
+        }
+      }
+
       await updateInventoryItem({ id: itemId, image: undefined } as any);
       setItems((cur) => cur.map((i) => (i.id === itemId ? { ...i, image: undefined } : i)));
     } catch (e: any) {
@@ -210,7 +219,7 @@ export default function AdminInventoryPage() {
         </select>
 
         <input
-          placeholder="Image URL (optional)"
+          placeholder="(Optional) Image URL"
           value={draft.image ?? ""}
           onChange={(e) => setDraft((d) => ({ ...d, image: e.target.value }))}
           style={{ padding: 10 }}
@@ -222,10 +231,7 @@ export default function AdminInventoryPage() {
           onChange={(e) =>
             setDraft((d) => ({
               ...d,
-              tags: e.target.value
-                .split(",")
-                .map((t) => t.trim())
-                .filter(Boolean),
+              tags: e.target.value.split(",").map((t) => t.trim()).filter(Boolean),
             }))
           }
           style={{ padding: 10, gridColumn: "1 / -1" }}
@@ -278,40 +284,41 @@ export default function AdminInventoryPage() {
                 </div>
                 <div style={{ opacity: 0.6, fontSize: 12 }}>{i.id}</div>
 
-                <div style={{ marginTop: 10, display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-                  <label style={{ fontSize: 12, opacity: 0.8 }}>
-                    Upload image:
-                    <input
-                      type="file"
-                      accept="image/*"
-                      disabled={saving}
-                      style={{ display: "block", marginTop: 6 }}
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) onUploadImage(i.id, file);
-                        e.currentTarget.value = "";
-                      }}
-                    />
-                  </label>
-
+                <div style={{ display: "flex", gap: 10, alignItems: "center", marginTop: 10, flexWrap: "wrap" }}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    disabled={saving}
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) onUploadImage(i.id, f);
+                      e.currentTarget.value = "";
+                    }}
+                  />
                   {i.image ? (
-                    <button disabled={saving} onClick={() => onRemoveImage(i.id)} style={{ opacity: 0.9 }}>
-                      clear image
+                    <button disabled={saving} onClick={() => onRemoveImage(i.id, i.image)}>
+                      remove image
                     </button>
                   ) : null}
                 </div>
 
                 {i.image ? (
-                  <div style={{ marginTop: 8, fontSize: 12, opacity: 0.75, wordBreak: "break-all" }}>
+                  <div style={{ marginTop: 6, opacity: 0.7, fontSize: 12, wordBreak: "break-all" }}>
                     image: {i.image}
                   </div>
                 ) : null}
               </div>
 
               <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", justifyContent: "flex-end" }}>
-                <button disabled={saving} onClick={() => onQuickStatus(i.id, "available")}>available</button>
-                <button disabled={saving} onClick={() => onQuickStatus(i.id, "pending")}>pending</button>
-                <button disabled={saving} onClick={() => onQuickStatus(i.id, "sold")}>sold</button>
+                <button disabled={saving} onClick={() => onQuickStatus(i.id, "available")}>
+                  available
+                </button>
+                <button disabled={saving} onClick={() => onQuickStatus(i.id, "pending")}>
+                  pending
+                </button>
+                <button disabled={saving} onClick={() => onQuickStatus(i.id, "sold")}>
+                  sold
+                </button>
                 <button disabled={saving} onClick={() => onDelete(i.id)} style={{ opacity: 0.9 }}>
                   delete
                 </button>

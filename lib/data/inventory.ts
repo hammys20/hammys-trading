@@ -4,16 +4,16 @@ import { client } from "@/lib/data";
 export type Item = {
   id: string;
   name: string;
-  set?: string | null;
-  number?: string | null;
-  condition?: string | null;
-  price?: number | null;
-  image?: string | null;
-  tags?: string[] | null;
-  description?: string | null;
-  status?: string | null;
-  createdAt?: string | null;
-  updatedAt?: string | null;
+  set?: string;
+  number?: string;
+  condition?: string;
+  price?: number;
+  image?: string;
+  tags?: string[];
+  description?: string;
+  status?: string;
+  createdAt?: string;
+  updatedAt?: string;
 };
 
 export type CreateInput = {
@@ -31,39 +31,49 @@ export type CreateInput = {
 
 export type UpdateInput = Partial<CreateInput> & { id: string };
 
+function unwrapList(res: any): Item[] {
+  // Amplify Data returns: { data, errors, nextToken, ... }
+  const data = res?.data;
+  return Array.isArray(data) ? (data as Item[]) : [];
+}
+
+function unwrapGet(res: any): Item | null {
+  // Amplify Data returns: { data, errors }
+  const data = res?.data;
+  return data ? (data as Item) : null;
+}
+
 // ✅ Public storefront (API key)
 export async function listInventoryPublic(): Promise<Item[]> {
-  const res = (await (client as any).models.InventoryItem.list({
-    authMode: "apiKey",
-  })) as any;
+  const res = await (client as any).models.InventoryItem.list({ authMode: "apiKey" });
+  return unwrapList(res);
+}
 
-  return Array.isArray(res?.data) ? (res.data as Item[]) : [];
+export async function getInventoryItemPublic(id: string): Promise<Item | null> {
+  const res = await (client as any).models.InventoryItem.get({ id }, { authMode: "apiKey" });
+  return unwrapGet(res);
 }
 
 // ✅ Admin inventory (Cognito User Pool / Admin group enforced by schema)
 export async function listInventoryAdmin(): Promise<Item[]> {
-  const res = (await (client as any).models.InventoryItem.list({
-    authMode: "userPool",
-  })) as any;
+  const res = await (client as any).models.InventoryItem.list({ authMode: "userPool" });
+  return unwrapList(res);
+}
 
-  return Array.isArray(res?.data) ? (res.data as Item[]) : [];
+export async function getInventoryItemAdmin(id: string): Promise<Item | null> {
+  const res = await (client as any).models.InventoryItem.get({ id }, { authMode: "userPool" });
+  return unwrapGet(res);
 }
 
 // ⚠️ Amplify Gen2 TS quirk: cast payload to avoid index-signature typing bug
 export async function createInventoryItem(input: CreateInput) {
-  return (client as any).models.InventoryItem.create(input as any, {
-    authMode: "userPool",
-  });
+  return (client as any).models.InventoryItem.create(input as any, { authMode: "userPool" });
 }
 
 export async function updateInventoryItem(input: UpdateInput) {
-  return (client as any).models.InventoryItem.update(input as any, {
-    authMode: "userPool",
-  });
+  return (client as any).models.InventoryItem.update(input as any, { authMode: "userPool" });
 }
 
 export async function deleteInventoryItem(id: string) {
-  return (client as any).models.InventoryItem.delete({ id } as any, {
-    authMode: "userPool",
-  });
+  return (client as any).models.InventoryItem.delete({ id } as any, { authMode: "userPool" });
 }

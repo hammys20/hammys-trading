@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+
 export default function AdminHome() {
   return (
     <div style={{ maxWidth: 800, margin: "60px auto" }}>

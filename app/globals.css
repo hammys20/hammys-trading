@@ -190,13 +190,12 @@ body {
 }
 
 .container {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 0 16px;
 }
 
-@media (max-width: 640px) {
-  .container {
-    padding: 16px;
-  }
+@media (min-width: 640px) {
+  .container { padding: 0 24px; }
 }

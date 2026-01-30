@@ -1,44 +1,66 @@
+// app/api/stripe/checkout/route.ts
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { generateClient } from "aws-amplify/data";
+import { configureAmplify } from "@/lib/amplify-server";
 
-// Force Node runtime (Stripe requires Node APIs)
-export const runtime = "nodejs";
+// Configure Amplify for server usage BEFORE generateClient()
+configureAmplify();
 
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-if (!stripeSecretKey) {
-  throw new Error("Missing STRIPE_SECRET_KEY env var");
-}
+// Create Stripe client (do NOT set a fake apiVersion)
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
-// ✅ Do NOT set a fake apiVersion
-const stripe = new Stripe(stripeSecretKey);
-
-const client = generateClient({ authMode: "apiKey" }) as any;
+const client = generateClient({ authMode: "apiKey" as const }) as any;
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json().catch(() => ({}));
-    const itemId = body?.itemId as string | undefined;
+    const { itemId } = (await req.json()) as { itemId?: string };
 
     if (!itemId) {
       return NextResponse.json({ error: "Missing itemId" }, { status: 400 });
     }
 
-    const { data: item, errors } = await client.models.InventoryItem.get({ id: itemId });
+    const site = process.env.NEXT_PUBLIC_SITE_URL;
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return NextResponse.json(
+        { error: "Missing STRIPE_SECRET_KEY env var" },
+        { status: 500 }
+      );
+    }
+    if (!site) {
+      return NextResponse.json(
+        { error: "Missing NEXT_PUBLIC_SITE_URL env var" },
+        { status: 500 }
+      );
+    }
 
-    if (errors?.length || !item) {
+    // Fetch item server-side (prevents client spoofing price)
+    const res = await client.models.InventoryItem.get({ id: itemId });
+    const item = res?.data;
+
+    if (!item) {
       return NextResponse.json({ error: "Item not found" }, { status: 404 });
     }
 
-    const price = Number(item.price ?? 0);
-    if (!Number.isFinite(price) || price <= 0) {
-      return NextResponse.json({ error: "Item price is missing/invalid" }, { status: 400 });
+    // Optional: enforce only available items can be purchased
+    const status = (item.status ?? "available").toString().toLowerCase();
+    if (status !== "available") {
+      return NextResponse.json(
+        { error: `Item is not available (status: ${status})` },
+        { status: 400 }
+      );
     }
 
-    // Use deployed site URL if present, otherwise derive from request
-    const origin =
-      process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-      new URL(req.url).origin;
+    const price = typeof item.price === "number" ? item.price : Number(item.price);
+    if (!Number.isFinite(price) || price <= 0) {
+      return NextResponse.json(
+        { error: "Item has no valid price" },
+        { status: 400 }
+      );
+    }
+
+    // Stripe expects cents
+    const unit_amount = Math.round(price * 100);
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
@@ -47,21 +69,18 @@ export async function POST(req: Request) {
         {
           price_data: {
             currency: "usd",
-            unit_amount: Math.round(price * 100),
+            unit_amount,
             product_data: {
-              name: String(item.name ?? "Item"),
-              description: item.description ? String(item.description) : undefined,
-              images:
-                typeof item.image === "string" && item.image.startsWith("http")
-                  ? [item.image]
-                  : [],
+              name: item.name ?? "Item",
+              description: item.description ?? undefined,
+              images: item.image ? [item.image] : undefined,
             },
           },
           quantity: 1,
         },
       ],
-      success_url: `${origin}/checkout/success`,
-      cancel_url: `${origin}/inventory`,
+      success_url: `${site}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${site}/item/${encodeURIComponent(itemId)}`,
     });
 
     return NextResponse.json({ url: session.url });

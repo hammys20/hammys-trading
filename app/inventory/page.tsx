@@ -123,7 +123,7 @@ export default function InventoryPage() {
                   <Link href={`/item/${i.id}`} style={{ padding: "10px 12px", borderRadius: 10, border: "1px solid rgba(255,255,255,0.14)" }}>
                     View
                   </Link>
-                  <BuyNowButton itemId={i.id} price={i.price} status={i.status} disabled={(i.status ?? "available") !== "available"} />
+                  <BuyNowButton itemId={i.id} price={i.price} status={i.status} />
                 </div>
               </div>
             </div>

@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import BuyNowButton from "@/components/BuyNowButton";
-import { getInventoryItemPublic, type Item } from "@/lib/data/inventory";
+import { listInventoryPublic, type Item } from "@/lib/data/inventory";
 
 function money(n?: number) {
   if (typeof n !== "number") return "—";
@@ -18,20 +17,25 @@ export default function ItemPage() {
 
   const [item, setItem] = useState<Item | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [err, setErr] = useState("");
 
   useEffect(() => {
     let cancelled = false;
 
     (async () => {
       try {
-        setError("");
-        if (!id) return;
-        const data = await getInventoryItemPublic(id);
-        if (!cancelled) setItem(data);
+        setErr("");
+        setLoading(true);
+
+        // Simple approach: list and find (fine for small inventories).
+        const data = await listInventoryPublic();
+        const arr = Array.isArray(data) ? (data as Item[]) : [];
+        const found = arr.find((x) => x.id === id) ?? null;
+
+        if (!cancelled) setItem(found);
       } catch (e: any) {
         console.error(e);
-        if (!cancelled) setError(e?.message ?? "Failed to load item.");
+        if (!cancelled) setErr(e?.message ?? "Failed to load item.");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -43,35 +47,66 @@ export default function ItemPage() {
   }, [id]);
 
   if (loading) return <div style={{ padding: 24 }}>Loading item…</div>;
-  if (error) return <div style={{ padding: 24 }}>{error}</div>;
+  if (err) return <div style={{ padding: 24 }}>Error: {err}</div>;
   if (!item) return <div style={{ padding: 24 }}>Item not found.</div>;
 
-  return (
-    <div style={{ maxWidth: 1000, margin: "0 auto", padding: 24 }}>
-      <Link href="/inventory" style={{ opacity: 0.85 }}>
-        ← Back to inventory
-      </Link>
+  const img = item.image ? String(item.image) : "";
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginTop: 14 }}>
-        <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 1", borderRadius: 14, overflow: "hidden", background: "rgba(255,255,255,0.04)" }}>
-          {item.image ? (
-            <Image src={item.image} alt={item.name} fill style={{ objectFit: "cover" }} />
+  return (
+    <div style={{ maxWidth: 1100, margin: "0 auto", padding: 24 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 18 }}>
+        {/* IMAGE */}
+        <div
+          style={{
+            border: "1px solid rgba(255,255,255,0.10)",
+            borderRadius: 16,
+            overflow: "hidden",
+            background: "rgba(255,255,255,0.03)",
+          }}
+        >
+          {img ? (
+            // Click to open full-size in new tab
+            <a href={img} target="_blank" rel="noreferrer" style={{ display: "block" }}>
+              <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 1" }}>
+                <Image
+                  src={img}
+                  alt={item.name}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 650px"
+                  style={{ objectFit: "contain" }} // show full card (not cropped)
+                />
+              </div>
+            </a>
           ) : (
-            <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", opacity: 0.6 }}>
-              No image
-            </div>
+            <div style={{ padding: 24, opacity: 0.7 }}>No image</div>
           )}
         </div>
 
-        <div style={{ display: "grid", gap: 10 }}>
-          <h1 style={{ fontSize: 28, fontWeight: 900, margin: 0 }}>{item.name}</h1>
-          <div style={{ fontSize: 18, opacity: 0.9 }}>{money(item.price)}</div>
-          {item.description ? <div style={{ opacity: 0.85, lineHeight: 1.5 }}>{item.description}</div> : null}
-
-          <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-            <BuyNowButton itemId={item.id} disabled={(item.status ?? "available") !== "available"} />
-            <div style={{ opacity: 0.7, fontSize: 12 }}>Status: {item.status ?? "—"}</div>
+        {/* DETAILS + BUY */}
+        <div
+          style={{
+            border: "1px solid rgba(255,255,255,0.10)",
+            borderRadius: 16,
+            padding: 16,
+            background: "rgba(255,255,255,0.02)",
+            display: "grid",
+            gap: 10,
+            alignContent: "start",
+          }}
+        >
+          <div style={{ fontSize: 24, fontWeight: 900, lineHeight: 1.15 }}>{item.name}</div>
+          <div style={{ fontSize: 18, opacity: 0.9 }}>
+            {money(item.price)} · {item.status ?? "available"}
           </div>
+
+          {item.description ? <div style={{ opacity: 0.85 }}>{item.description}</div> : null}
+
+          {/* IMPORTANT: button is NOT inside a Link and is in normal layout */}
+          <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
+            <BuyNowButton itemId={item.id} price={item.price} status={item.status} />
+          </div>
+
+          <div style={{ opacity: 0.6, fontSize: 12, marginTop: 10 }}>{item.id}</div>
         </div>
       </div>
     </div>

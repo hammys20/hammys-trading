@@ -1,38 +1,35 @@
-// app/api/stripe/checkout/route.ts
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { generateClient } from "aws-amplify/data";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  // ✅ Don’t pin to a made-up version; Stripe will use your account’s default API version
-  apiVersion: "2024-06-20",
-} as any);
+// ✅ Don't force a fake apiVersion — Stripe will use a valid default
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
 
-// Amplify Data client (public read)
 const client = generateClient({ authMode: "apiKey" }) as any;
 
 export async function POST(req: Request) {
   try {
     const { itemId } = await req.json();
 
-    const { data: item, errors } = await client.models.InventoryItem.get({ id: itemId });
+    if (!process.env.STRIPE_SECRET_KEY) {
+      return NextResponse.json({ error: "Missing STRIPE_SECRET_KEY" }, { status: 500 });
+    }
 
-    if (errors?.length || !item) {
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+      "http://localhost:3000";
+
+    // Pull item from Amplify Data
+    const res = await client.models.InventoryItem.get({ id: itemId });
+
+    const item = res?.data;
+    if (!item) {
       return NextResponse.json({ error: "Item not found" }, { status: 404 });
     }
 
     const price = Number(item.price ?? 0);
-    if (!price || price <= 0) {
+    if (!Number.isFinite(price) || price <= 0) {
       return NextResponse.json({ error: "Item has no valid price" }, { status: 400 });
-    }
-
-    if ((item.status ?? "available") !== "available") {
-      return NextResponse.json({ error: "Item is not available" }, { status: 400 });
-    }
-
-    const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "").replace(/\/$/, "");
-    if (!siteUrl) {
-      return NextResponse.json({ error: "NEXT_PUBLIC_SITE_URL is missing" }, { status: 500 });
     }
 
     const session = await stripe.checkout.sessions.create({
@@ -43,21 +40,25 @@ export async function POST(req: Request) {
             currency: "usd",
             unit_amount: Math.round(price * 100),
             product_data: {
-              name: item.name,
-              description: item.description ?? "",
-              images: item.image ? [item.image] : [],
+              name: String(item.name ?? "Item"),
+              description: item.description ? String(item.description) : undefined,
+              images: item.image ? [String(item.image)] : [],
             },
           },
           quantity: 1,
         },
       ],
-      success_url: `${siteUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      // ✅ match your routes
+      success_url: `${siteUrl}/checkout/success`,
       cancel_url: `${siteUrl}/inventory`,
     });
 
     return NextResponse.json({ url: session.url });
   } catch (err: any) {
     console.error("Stripe checkout error:", err);
-    return NextResponse.json({ error: err?.message ?? "Checkout failed" }, { status: 500 });
+    return NextResponse.json(
+      { error: err?.message ?? "Checkout failed" },
+      { status: 500 }
+    );
   }
 }

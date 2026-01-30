@@ -18,12 +18,14 @@ export type UpdateInput = Partial<CreateInput> & { id: string };
 
 // ✅ Public storefront (API key)
 export async function listInventoryPublic() {
-  return client.models.InventoryItem.list({ authMode: "apiKey" });
+  const res = await client.models.InventoryItem.list({ authMode: "apiKey" });
+  return (res?.data ?? []) as any[];
 }
 
 // ✅ Admin inventory (Cognito User Pool / Admin group enforced by schema)
 export async function listInventoryAdmin() {
-  return client.models.InventoryItem.list({ authMode: "userPool" });
+  const res = await client.models.InventoryItem.list({ authMode: "userPool" });
+  return (res?.data ?? []) as any[];
 }
 
 // ⚠️ Amplify Gen2 TS quirk: cast payload to avoid index-signature typing bug

@@ -79,7 +79,7 @@ export default function HomePage() {
       {/* TRUST */}
       <section
         data-scroll-line
-        className="scrollLine"
+        className="scrollLine trustGrid"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
@@ -120,6 +120,7 @@ export default function HomePage() {
         </h2>
 
         <div
+          className="categoryGrid"
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(3, 1fr)",
@@ -146,18 +147,19 @@ export default function HomePage() {
             <div
               key={c.title}
               data-scroll-line
-              className="card scrollLine imageCard"
-              style={{ overflow: "hidden", "--delay": `${idx * 70}ms` } as React.CSSProperties}
+              className="scrollLine categoryCard"
+              style={{ "--delay": `${idx * 70}ms` } as React.CSSProperties}
             >
               <Image
                 src={c.img}
                 alt={c.title}
-                width={400}
-                height={260}
-                style={{ width: "100%", height: "auto", objectFit: "cover" }}
+                width={560}
+                height={360}
+                className="categoryImage"
               />
-              <div className="imageCardBody" style={{ padding: 14 }}>
-                <div style={{ fontWeight: 900 }}>{c.title}</div>
+              <div className="categoryFade" />
+              <div className="categoryText">
+                <div style={{ fontWeight: 900, fontSize: 18 }}>{c.title}</div>
                 <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 4 }}>
                   {c.desc}
                 </div>

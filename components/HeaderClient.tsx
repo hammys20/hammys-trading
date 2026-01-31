@@ -222,21 +222,42 @@ export default function HeaderClient() {
             />
             <span style={{ fontWeight: 800, letterSpacing: 0.2 }}>Hammy’s Trading</span>
           </div>
-          <button
-            onClick={closeMenu}
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.12)",
-              background: "rgba(255,255,255,0.04)",
-              color: "inherit",
-              cursor: "pointer",
-            }}
-            aria-label="Close menu"
-          >
-            ✕
-          </button>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            {isAuthed ? (
+              <button
+                onClick={() => {
+                  closeMenu();
+                  signOut();
+                }}
+                style={{
+                  padding: "8px 10px",
+                  borderRadius: 10,
+                  border: "1px solid rgba(255,255,255,0.14)",
+                  background: "rgba(255,255,255,0.04)",
+                  color: "inherit",
+                  cursor: "pointer",
+                  fontWeight: 700,
+                }}
+              >
+                Sign out
+              </button>
+            ) : null}
+            <button
+              onClick={closeMenu}
+              style={{
+                width: 40,
+                height: 40,
+                borderRadius: 12,
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "rgba(255,255,255,0.04)",
+                color: "inherit",
+                cursor: "pointer",
+              }}
+              aria-label="Close menu"
+            >
+              ✕
+            </button>
+          </div>
         </div>
 
         <div style={{ padding: 12, overflow: "auto", display: "grid", gap: 10 }}>

@@ -3,8 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { getUrl } from "aws-amplify/storage";
-import { ensureAmplifyConfigured } from "@/lib/amplify-client";
+import outputs from "@/amplify_outputs.json";
 import { useCart } from "@/components/CartProvider";
 import { listInventoryPublic, type Item } from "@/lib/data/inventory";
 
@@ -21,8 +20,10 @@ export default function CartPage() {
   const [error, setError] = useState("");
   const [checkingOut, setCheckingOut] = useState(false);
 
+  const bucket = outputs?.storage?.bucket_name ?? "";
+  const region = outputs?.storage?.aws_region ?? "us-east-1";
+
   useEffect(() => {
-    ensureAmplifyConfigured();
     let cancelled = false;
 
     (async () => {
@@ -54,38 +55,15 @@ export default function CartPage() {
   }, [items, inventory]);
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function loadImageUrls() {
-      const missing = cartItems.filter((c) => c.item.image && !imageUrls[c.item.id]);
-      if (missing.length === 0) return;
-
-      const entries = await Promise.all(
-        missing.map(async ({ item }) => {
-          try {
-            const res = await getUrl({ path: item.image as string });
-            return [item.id, res.url.toString()] as const;
-          } catch {
-            return [item.id, ""] as const;
-          }
-        })
-      );
-
-      if (cancelled) return;
-      setImageUrls((prev) => {
-        const next = { ...prev };
-        for (const [id, url] of entries) {
-          if (url) next[id] = url;
-        }
-        return next;
-      });
+    if (!bucket) return;
+    const next: Record<string, string> = {};
+    for (const c of cartItems) {
+      if (c.item.image) {
+        next[c.item.id] = `https://${bucket}.s3.${region}.amazonaws.com/${c.item.image}`;
+      }
     }
-
-    loadImageUrls();
-    return () => {
-      cancelled = true;
-    };
-  }, [cartItems, imageUrls]);
+    setImageUrls(next);
+  }, [cartItems, bucket, region]);
 
   const total = cartItems.reduce((sum, c) => sum + (c.item.price ?? 0) * c.qty, 0);
 

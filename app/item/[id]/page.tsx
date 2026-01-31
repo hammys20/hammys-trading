@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { getUrl } from "aws-amplify/storage";
-import { ensureAmplifyConfigured } from "@/lib/amplify-client";
+import outputs from "@/amplify_outputs.json";
 import { useParams } from "next/navigation";
 import BuyNowButton from "@/components/BuyNowButton";
 import AddToCartButton from "@/components/AddToCartButton";
@@ -21,10 +20,10 @@ export default function ItemPage() {
   const [item, setItem] = useState<Item | null>(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const bucket = outputs?.storage?.bucket_name ?? "";
+  const region = outputs?.storage?.aws_region ?? "us-east-1";
 
   useEffect(() => {
-    ensureAmplifyConfigured();
     let cancelled = false;
 
     (async () => {
@@ -51,34 +50,13 @@ export default function ItemPage() {
     };
   }, [id]);
 
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadImage() {
-      if (!item?.image) {
-        setImageUrl("");
-        return;
-      }
-      try {
-        const res = await getUrl({ path: item.image });
-        if (!cancelled) setImageUrl(res.url.toString());
-      } catch (e) {
-        console.error("Failed to load image url", e);
-        if (!cancelled) setImageUrl("");
-      }
-    }
-
-    loadImage();
-    return () => {
-      cancelled = true;
-    };
-  }, [item?.image]);
-
   if (loading) return <div style={{ padding: 24 }}>Loading item…</div>;
   if (err) return <div style={{ padding: 24 }}>Error: {err}</div>;
   if (!item) return <div style={{ padding: 24 }}>Item not found.</div>;
 
-  const img = imageUrl;
+  const img = item?.image
+    ? `https://${bucket}.s3.${region}.amazonaws.com/${item.image}`
+    : "";
 
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto", padding: 24 }}>

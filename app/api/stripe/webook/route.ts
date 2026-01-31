@@ -89,7 +89,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing stripe-signature" }, { status: 400 });
     }
 
-    const secret = process.env.STRIPE_WEBHOOK_SECRET;
+    const secret =
+      process.env.STRIPE_WEBHOOK_SECRET ??
+      process.env.STRIPE_WEBHOOK_KEY;
     if (!secret) {
       return NextResponse.json(
         { error: "Missing STRIPE_WEBHOOK_SECRET" },

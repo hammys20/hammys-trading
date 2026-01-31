@@ -187,6 +187,19 @@ export default function HeaderClient() {
           >
             Home
           </Link>
+          <Link
+            href="/inventory"
+            style={{
+              textDecoration: "none",
+              padding: "8px 12px",
+              borderRadius: 10,
+              border: "1px solid rgba(255,255,255,0.14)",
+              background: "rgba(255,255,255,0.04)",
+              fontWeight: 700,
+            }}
+          >
+            Explore Inventory
+          </Link>
         </div>
 
         <div style={{ marginLeft: "auto" }} />

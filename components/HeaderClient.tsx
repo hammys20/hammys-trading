@@ -2,8 +2,8 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import { Hub } from "aws-amplify/utils";
 import { fetchAuthSession, signOut } from "aws-amplify/auth";
 import { usePathname } from "next/navigation";
@@ -134,16 +134,16 @@ export default function HeaderClient() {
             cursor: "pointer",
           }}
         >
-          <span
-            style={{
-              width: 18,
-              height: 2,
-              background: "rgba(255,255,255,0.9)",
-              borderRadius: 999,
-              position: "relative",
-              display: "inline-block",
-            }}
-          >
+            <span
+              style={{
+                width: 18,
+                height: 2,
+                background: "rgba(255,255,255,0.9)",
+                borderRadius: 999,
+                position: "relative",
+                display: "inline-block",
+              }}
+            >
             <span
               style={{
                 position: "absolute",
@@ -170,17 +170,6 @@ export default function HeaderClient() {
             />
           </span>
           </button>
-
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <Image
-              src="/hammys-logo.png"
-              alt="Hammy's Trading"
-              width={34}
-              height={34}
-              priority
-            />
-            <span style={{ fontWeight: 800, letterSpacing: 0.2 }}>Hammy’s Trading</span>
-          </Link>
         </div>
       </div>
 
@@ -224,7 +213,15 @@ export default function HeaderClient() {
             borderBottom: "1px solid rgba(255,255,255,0.08)",
           }}
         >
-          <span style={{ fontWeight: 800, letterSpacing: 0.2 }}>Menu</span>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <Image
+              src="/hammys-logo.png"
+              alt="Hammy's Trading"
+              width={28}
+              height={28}
+            />
+            <span style={{ fontWeight: 800, letterSpacing: 0.2 }}>Hammy’s Trading</span>
+          </div>
           <button
             onClick={closeMenu}
             style={{
@@ -351,7 +348,7 @@ export default function HeaderClient() {
                 </Link>
               ) : null}
 
-              {!isAuthed ? (
+              {!isAuthed && pathname?.startsWith("/admin") ? (
                 <Link
                   href="/signin"
                   onClick={closeMenu}
@@ -365,7 +362,9 @@ export default function HeaderClient() {
                 >
                   Sign in
                 </Link>
-              ) : (
+              ) : null}
+
+              {isAuthed ? (
                 <button
                   onClick={() => {
                     closeMenu();
@@ -383,7 +382,7 @@ export default function HeaderClient() {
                 >
                   Sign out
                 </button>
-              )}
+              ) : null}
             </div>
           </div>
         </div>

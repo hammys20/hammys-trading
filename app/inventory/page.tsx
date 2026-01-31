@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { getUrl } from "aws-amplify/storage";
+import { ensureAmplifyConfigured } from "@/lib/amplify-client";
 import BuyNowButton from "@/components/BuyNowButton";
 import AddToCartButton from "@/components/AddToCartButton";
 import { listInventoryPublic, type Item } from "@/lib/data/inventory";
@@ -42,6 +43,7 @@ export default function InventoryPage() {
   const [imageUrls, setImageUrls] = useState<Record<string, string>>({});
 
   useEffect(() => {
+    ensureAmplifyConfigured();
     let cancelled = false;
 
     (async () => {

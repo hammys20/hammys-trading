@@ -10,16 +10,25 @@ export default function HomePage() {
       {/* HERO */}
       <section
         data-scroll-line
-        className="scrollLine"
+        className="scrollLine heroSection"
         style={{
           padding: "80px 0 60px",
           display: "grid",
-          gridTemplateColumns: "1.1fr 0.9fr",
+          gridTemplateColumns: "1fr",
           gap: 40,
           alignItems: "center",
         }}
       >
-        <div>
+        <Image
+          src="/hero-cards.png"
+          alt="Premium Pokémon Cards"
+          width={1200}
+          height={700}
+          priority
+          className="heroImage"
+        />
+        <div className="heroInner">
+          <div>
           <h1
             data-scroll-line
             className="scrollLine"
@@ -63,26 +72,7 @@ export default function HomePage() {
               Browse All Cards
             </Link>
           </div>
-        </div>
-
-        <div
-          data-scroll-line
-          className="card scrollLine"
-          style={{ padding: 18, display: "grid", placeItems: "center" }}
-        >
-          <Image
-            src="/hero-cards.png"
-            alt="Premium Pokémon Cards"
-            width={520}
-            height={360}
-            priority
-            style={{
-              width: "100%",
-              height: "auto",
-              borderRadius: 14,
-              objectFit: "cover",
-            }}
-          />
+          </div>
         </div>
       </section>
 

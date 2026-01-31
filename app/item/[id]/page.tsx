@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getUrl } from "aws-amplify/storage";
+import { ensureAmplifyConfigured } from "@/lib/amplify-client";
 import { useParams } from "next/navigation";
 import BuyNowButton from "@/components/BuyNowButton";
 import AddToCartButton from "@/components/AddToCartButton";
@@ -23,6 +24,7 @@ export default function ItemPage() {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
+    ensureAmplifyConfigured();
     let cancelled = false;
 
     (async () => {

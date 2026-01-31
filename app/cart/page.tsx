@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { getUrl } from "aws-amplify/storage";
+import { ensureAmplifyConfigured } from "@/lib/amplify-client";
 import { useCart } from "@/components/CartProvider";
 import { listInventoryPublic, type Item } from "@/lib/data/inventory";
 
@@ -21,6 +22,7 @@ export default function CartPage() {
   const [checkingOut, setCheckingOut] = useState(false);
 
   useEffect(() => {
+    ensureAmplifyConfigured();
     let cancelled = false;
 
     (async () => {

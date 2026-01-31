@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { getUrl } from "aws-amplify/storage";
+import { ensureAmplifyConfigured } from "@/lib/amplify-client";
 import {
   listInventoryAdmin,
   createInventoryItem,
@@ -66,6 +67,7 @@ export default function AdminInventoryPage() {
   }
 
   useEffect(() => {
+    ensureAmplifyConfigured();
     refresh().finally(() => setLoading(false));
   }, []);
 

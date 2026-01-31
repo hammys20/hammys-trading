@@ -27,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
             {/* ✅ Global page container so you don’t hit the edges */}
             <main
+              className="siteMain"
               style={{
                 maxWidth: 1200,
                 margin: "0 auto",

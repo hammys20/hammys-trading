@@ -24,6 +24,13 @@ export async function POST(req: Request) {
       process.env.AWS_STRIPE_SECRET_KEY ??
       process.env.STRIPE_SECRET;
     if (!stripeSecretKey) {
+      console.error("Stripe env debug", {
+        stripeSecretKeyPresent: false,
+        nextPublicSiteUrlPresent: !!process.env.NEXT_PUBLIC_SITE_URL,
+        stripeEnvKeys: Object.keys(process.env).filter((k) =>
+          k.toLowerCase().includes("stripe")
+        ),
+      });
       return NextResponse.json(
         { error: "Missing STRIPE_SECRET_KEY env var" },
         { status: 500 }

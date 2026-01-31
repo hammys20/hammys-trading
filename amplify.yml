@@ -20,8 +20,6 @@ frontend:
         - env | grep -e STRIPE_SECRET_KEY >> .env.production
         - env | grep -e NEXT_PUBLIC_ >> .env.production
         - env | grep -e STRIPE_WEBHOOK_SECRET >> .env.production
-        - env | grep -e STRIPE_WEBHOOK_KEY >> .env.production
-        - if [ -n "$STRIPE_WEBHOOK_KEY" ] && [ -z "$STRIPE_WEBHOOK_SECRET" ]; then echo "STRIPE_WEBHOOK_SECRET=$STRIPE_WEBHOOK_KEY" >> .env.production; fi
         - npm run build
   artifacts:
     baseDirectory: .next

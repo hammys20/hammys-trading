@@ -78,6 +78,7 @@ const EMPTY: Partial<Item> = {
   name: "",
   set: "",
   condition: "",
+  certificationNumber: "",
   gradingCompany: "",
   grade: "",
   language: "",
@@ -203,6 +204,7 @@ export default function AdminInventoryPage() {
         i.name,
         i.set,
         i.condition,
+        i.certificationNumber,
         i.gradingCompany,
         i.grade,
         i.language,
@@ -230,6 +232,7 @@ export default function AdminInventoryPage() {
           name: draft.name.trim(),
           set: draft.set || undefined,
           condition: draft.condition || undefined,
+          certificationNumber: draft.certificationNumber || undefined,
           gradingCompany: draft.gradingCompany || undefined,
           grade: draft.grade || undefined,
           language: draft.language || undefined,
@@ -244,6 +247,7 @@ export default function AdminInventoryPage() {
           name: draft.name.trim(),
           set: draft.set || undefined,
           condition: draft.condition || undefined,
+          certificationNumber: draft.certificationNumber || undefined,
           gradingCompany: draft.gradingCompany || undefined,
           grade: draft.grade || undefined,
           language: draft.language || undefined,
@@ -273,6 +277,7 @@ export default function AdminInventoryPage() {
       "name",
       "set",
       "condition",
+      "certificationNumber",
       "gradingCompany",
       "grade",
       "language",
@@ -287,6 +292,7 @@ export default function AdminInventoryPage() {
         i.name ?? "",
         i.set ?? "",
         i.condition ?? "",
+        i.certificationNumber ?? "",
         i.gradingCompany ?? "",
         i.grade ?? "",
         i.language ?? "",
@@ -348,6 +354,7 @@ export default function AdminInventoryPage() {
           name,
           set: get("set") || undefined,
           condition: get("condition") || undefined,
+          certificationNumber: get("certificationNumber") || undefined,
           gradingCompany: get("gradingCompany") || undefined,
           grade: get("grade") || undefined,
           language: get("language") || undefined,
@@ -379,6 +386,7 @@ export default function AdminInventoryPage() {
       name: item.name ?? "",
       set: item.set ?? "",
       condition: item.condition ?? "",
+      certificationNumber: item.certificationNumber ?? "",
       gradingCompany: item.gradingCompany ?? "",
       grade: item.grade ?? "",
       language: item.language ?? "",
@@ -520,6 +528,13 @@ export default function AdminInventoryPage() {
             value={draft.condition ?? ""}
             onChange={(e) => setDraft((d) => ({ ...d, condition: e.target.value }))}
           />
+          <input
+            placeholder="Certification #"
+            value={draft.certificationNumber ?? ""}
+            onChange={(e) =>
+              setDraft((d) => ({ ...d, certificationNumber: e.target.value }))
+            }
+          />
           <select
             value={draft.gradingCompany ?? ""}
             onChange={(e) => setDraft((d) => ({ ...d, gradingCompany: e.target.value || undefined }))}
@@ -540,20 +555,21 @@ export default function AdminInventoryPage() {
               </option>
             ))}
           </select>
-          <input
-            placeholder="Tags (comma separated)"
-            value={tagsText}
-            onChange={(e) => {
-              const next = e.target.value;
-              setTagsText(next);
-              const tags = next
-                .split(",")
-                .map((t) => t.trim())
-                .filter(Boolean);
-              setDraft((d) => ({ ...d, tags }));
-            }}
-          />
         </div>
+
+        <input
+          placeholder="Tags (comma separated)"
+          value={tagsText}
+          onChange={(e) => {
+            const next = e.target.value;
+            setTagsText(next);
+            const tags = next
+              .split(",")
+              .map((t) => t.trim())
+              .filter(Boolean);
+            setDraft((d) => ({ ...d, tags }));
+          }}
+        />
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 12, alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -639,6 +655,11 @@ export default function AdminInventoryPage() {
                   .filter(Boolean)
                   .join(" · ") || "—"}
               </div>
+              {i.certificationNumber ? (
+                <div style={{ opacity: 0.7, fontSize: 12 }}>
+                  Cert #: {i.certificationNumber}
+                </div>
+              ) : null}
               <div>{money(i.price)}</div>
             </div>
           </div>

@@ -115,6 +115,7 @@ export default function HeaderClient() {
           alignItems: "center",
           gap: 14,
           justifyContent: "space-between",
+          flexWrap: "wrap",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -172,6 +173,85 @@ export default function HeaderClient() {
             />
           </span>
           </button>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 10,
+            flexWrap: "wrap",
+            justifyContent: "flex-end",
+          }}
+        >
+          <span style={{ fontSize: 12, opacity: 0.72, fontWeight: 600 }}>
+            Click here if you want to Validate a Certification
+          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <a
+              href="https://www.psacard.com/cert?_gl=1*ynpdn*_gcl_au*MTAzODAwNjk2Ny4xNzY0NjA5Njk2*_ga*NTgwMTExMjg2LjE3NjQ2MDk3MDE.*_ga_GGS8NWPYE2*czE3Njc3MzI0OTkkbzE1JGcxJHQxNzY3NzMyNTMyJGoyNyRsMCRoMA..*_ga_1QVXQ1V575*czE3Njc3MzI1MzMkbzUkZzAkdDE3Njc3MzI1MzMkajYwJGwxJGg1NzU2NTc3NDc.&QTM_SID=a3a5c1746adc3bbd29ab7495ada7ec19&QTM_UID=9bacc3752ab6c5354254d8987e77a5d0"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "6px 8px",
+                borderRadius: 10,
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "rgba(255,255,255,0.04)",
+              }}
+              aria-label="PSA certification lookup"
+            >
+              <img
+                src="https://www.psacard.com/Content/images/psa-logo-reg.png"
+                alt="PSA"
+                style={{ height: 20, width: "auto" }}
+              />
+            </a>
+            <a
+              href="https://www.cgccards.com/certlookup/"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "6px 8px",
+                borderRadius: 10,
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "rgba(255,255,255,0.04)",
+              }}
+              aria-label="CGC certification lookup"
+            >
+              <img
+                src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2f/Certified_Guaranty_Company.svg/250px-Certified_Guaranty_Company.svg.png"
+                alt="CGC"
+                style={{ height: 20, width: "auto" }}
+              />
+            </a>
+            <a
+              href="https://www.beckett.com/grading/card-lookup"
+              target="_blank"
+              rel="noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "6px 8px",
+                borderRadius: 10,
+                border: "1px solid rgba(255,255,255,0.12)",
+                background: "rgba(255,255,255,0.04)",
+              }}
+              aria-label="Beckett grading card lookup"
+            >
+              <img
+                src="/bgs-logo.png"
+                alt="Beckett Grading"
+                style={{ height: 20, width: "auto" }}
+              />
+            </a>
+          </div>
         </div>
       </div>
 
@@ -290,6 +370,34 @@ export default function HeaderClient() {
             }}
           >
             Inventory
+          </Link>
+          <Link
+            href="/consignment"
+            onClick={closeMenu}
+            style={{
+              textDecoration: "none",
+              padding: "10px 10px",
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.04)",
+              fontWeight: 700,
+            }}
+          >
+            Consignment
+          </Link>
+          <Link
+            href="/cert-validation"
+            onClick={closeMenu}
+            style={{
+              textDecoration: "none",
+              padding: "10px 10px",
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.04)",
+              fontWeight: 700,
+            }}
+          >
+            Cert Validation
           </Link>
           <Link
             href="/cart"

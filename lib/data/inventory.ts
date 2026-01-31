@@ -6,6 +6,7 @@ export type Item = {
   name: string;
   set?: string;
   condition?: string;
+  certificationNumber?: string;
   gradingCompany?: string;
   grade?: string;
   language?: string;
@@ -22,6 +23,7 @@ export type CreateInput = {
   name: string;
   set?: string;
   condition?: string;
+  certificationNumber?: string;
   gradingCompany?: string;
   grade?: string;
   language?: string;

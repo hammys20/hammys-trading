@@ -46,6 +46,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 fontSize: 12,
               }}
             >
+              <div
+                style={{
+                  display: "flex",
+                  gap: 10,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                  marginBottom: 10,
+                }}
+              >
+                <img
+                  src="/payment-secure.svg"
+                  alt="Payment secure"
+                  style={{ height: 36, width: "auto" }}
+                />
+                <img
+                  src="/stripe-logo.svg"
+                  alt="Stripe"
+                  style={{ height: 36, width: "auto" }}
+                />
+              </div>
               © 2026 Hammy&apos;s Trading. All rights reserved.
             </footer>
           </CartProvider>

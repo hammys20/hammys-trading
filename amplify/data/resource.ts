@@ -17,6 +17,7 @@ const schema = a.schema({
       name: a.string().required(),
       set: a.string(),
       condition: a.string(),
+      certificationNumber: a.string(),
       gradingCompany: a.string(),
       grade: a.string(),
       language: a.string(),
@@ -53,7 +54,6 @@ export const data = defineData({
     },
   },
 });
-
 
 
 

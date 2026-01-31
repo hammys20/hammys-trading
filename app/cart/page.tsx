@@ -241,6 +241,27 @@ export default function CartPage() {
               </button>
             </div>
           </div>
+
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: 10,
+              alignItems: "center",
+              paddingTop: 6,
+            }}
+          >
+            <img
+              src="/payment-secure.svg"
+              alt="Payment secure"
+              style={{ height: 32, width: "auto" }}
+            />
+            <img
+              src="/stripe-logo.svg"
+              alt="Stripe"
+              style={{ height: 32, width: "auto" }}
+            />
+          </div>
         </div>
       )}
     </div>

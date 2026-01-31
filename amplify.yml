@@ -21,6 +21,7 @@ frontend:
         - env | grep -e NEXT_PUBLIC_ >> .env.production
         - env | grep -e STRIPE_WEBHOOK_SECRET >> .env.production
         - npm run build
+        - echo - echo "STRIPE_WEBHOOK_KEY=$STRIPE_SECRET_KEY" >> .env.production
   artifacts:
     baseDirectory: .next
     files:

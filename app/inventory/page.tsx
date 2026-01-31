@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { getUrl } from "aws-amplify/storage";
 import { ensureAmplifyConfigured } from "@/lib/amplify-client";
@@ -22,6 +21,9 @@ export default function InventoryPage() {
   const [gradeFilter, setGradeFilter] = useState("");
   const [languageFilter, setLanguageFilter] = useState("");
   const [error, setError] = useState("");
+  const [imageModal, setImageModal] = useState<{ url: string; alt: string } | null>(
+    null
+  );
 
   const gradingOptions = ["", "PSA", "CGC", "BGS"];
   const gradeOptions = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
@@ -62,6 +64,16 @@ export default function InventoryPage() {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setImageModal(null);
+    }
+    if (imageModal) {
+      window.addEventListener("keydown", onKey);
+      return () => window.removeEventListener("keydown", onKey);
+    }
+  }, [imageModal]);
 
   useEffect(() => {
     let cancelled = false;
@@ -201,8 +213,30 @@ export default function InventoryPage() {
                 display: "grid",
               }}
             >
-              <Link href={`/item/${i.id}`} style={{ display: "block" }}>
-                <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 1", background: "rgba(255,255,255,0.04)" }}>
+              <button
+                type="button"
+                onClick={() => {
+                  const url = imageUrls[i.id];
+                  if (url) setImageModal({ url, alt: i.name ?? "Item image" });
+                }}
+                style={{
+                  display: "block",
+                  padding: 0,
+                  border: 0,
+                  background: "transparent",
+                  textAlign: "left",
+                  cursor: imageUrls[i.id] ? "zoom-in" : "default",
+                }}
+                aria-label={`View ${i.name ?? "item"} image`}
+              >
+                <div
+                  style={{
+                    position: "relative",
+                    width: "100%",
+                    aspectRatio: "1 / 1",
+                    background: "rgba(255,255,255,0.04)",
+                  }}
+                >
                   {imageUrls[i.id] ? (
                     <img
                       src={imageUrls[i.id]}
@@ -216,12 +250,20 @@ export default function InventoryPage() {
                       }}
                     />
                   ) : (
-                    <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", opacity: 0.6 }}>
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        display: "grid",
+                        placeItems: "center",
+                        opacity: 0.6,
+                      }}
+                    >
                       No image
                     </div>
                   )}
                 </div>
-              </Link>
+              </button>
 
               <div style={{ padding: 12, display: "grid", gap: 8 }}>
                 <div style={{ fontWeight: 800, lineHeight: 1.2 }}>{i.name}</div>
@@ -234,18 +276,26 @@ export default function InventoryPage() {
                 <div style={{ opacity: 0.85 }}>{money(i.price)}</div>
 
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  <Link
-                    href={`/item/${i.id}`}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const url = imageUrls[i.id];
+                      if (url) setImageModal({ url, alt: i.name ?? "Item image" });
+                    }}
                     style={{
                       padding: "10px 12px",
                       borderRadius: 12,
                       border: "1px solid rgba(255,255,255,0.16)",
                       background: "rgba(255,255,255,0.04)",
                       fontWeight: 700,
+                      color: "inherit",
+                      cursor: imageUrls[i.id] ? "zoom-in" : "not-allowed",
+                      opacity: imageUrls[i.id] ? 1 : 0.6,
                     }}
+                    disabled={!imageUrls[i.id]}
                   >
                     View
-                  </Link>
+                  </button>
                   <AddToCartButton
                     itemId={i.id}
                     disabled={(i.status ?? "available") !== "available"}
@@ -257,6 +307,66 @@ export default function InventoryPage() {
           ))}
         </div>
       )}
+
+      {imageModal ? (
+        <div
+          onClick={() => setImageModal(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.8)",
+            zIndex: 100,
+            display: "grid",
+            placeItems: "center",
+            padding: 20,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              maxWidth: "min(96vw, 900px)",
+              maxHeight: "min(90vh, 900px)",
+              width: "100%",
+              background: "rgba(10,10,12,0.9)",
+              border: "1px solid rgba(255,255,255,0.14)",
+              borderRadius: 16,
+              padding: 12,
+              display: "grid",
+              gap: 10,
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <button
+                type="button"
+                onClick={() => setImageModal(null)}
+                style={{
+                  width: 36,
+                  height: 36,
+                  borderRadius: 10,
+                  border: "1px solid rgba(255,255,255,0.12)",
+                  background: "rgba(255,255,255,0.04)",
+                  color: "inherit",
+                  cursor: "pointer",
+                }}
+                aria-label="Close image"
+              >
+                ✕
+              </button>
+            </div>
+            <img
+              src={imageModal.url}
+              alt={imageModal.alt}
+              style={{
+                width: "100%",
+                height: "auto",
+                maxHeight: "70vh",
+                objectFit: "contain",
+                borderRadius: 10,
+              }}
+            />
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

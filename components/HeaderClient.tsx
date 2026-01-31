@@ -174,6 +174,19 @@ export default function HeaderClient() {
             />
           </span>
           </button>
+          <Link
+            href="/"
+            style={{
+              textDecoration: "none",
+              padding: "8px 12px",
+              borderRadius: 10,
+              border: "1px solid rgba(255,255,255,0.14)",
+              background: "rgba(255,255,255,0.04)",
+              fontWeight: 700,
+            }}
+          >
+            Home
+          </Link>
         </div>
 
         <div style={{ marginLeft: "auto" }} />
@@ -323,20 +336,6 @@ export default function HeaderClient() {
         </div>
 
         <div style={{ padding: 12, overflow: "auto", display: "grid", gap: 10 }}>
-          <Link
-            href="/"
-            onClick={closeMenu}
-            style={{
-              textDecoration: "none",
-              padding: "10px 10px",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.12)",
-              background: "rgba(255,255,255,0.04)",
-              fontWeight: 700,
-            }}
-          >
-            Home
-          </Link>
           <Link
             href="/inventory"
             onClick={closeMenu}

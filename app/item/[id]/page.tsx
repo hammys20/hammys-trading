@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import outputs from "@/amplify_outputs.json";
+import { getUrl } from "aws-amplify/storage";
+import { ensureAmplifyConfigured } from "@/lib/amplify-client";
 import { useParams } from "next/navigation";
 import BuyNowButton from "@/components/BuyNowButton";
 import AddToCartButton from "@/components/AddToCartButton";
@@ -20,10 +21,10 @@ export default function ItemPage() {
   const [item, setItem] = useState<Item | null>(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
-  const bucket = outputs?.storage?.bucket_name ?? "";
-  const region = outputs?.storage?.aws_region ?? "us-east-1";
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
+    ensureAmplifyConfigured();
     let cancelled = false;
 
     (async () => {
@@ -50,13 +51,37 @@ export default function ItemPage() {
     };
   }, [id]);
 
+  useEffect(() => {
+    let cancelled = false;
+    let retryTimer: ReturnType<typeof setTimeout> | null = null;
+
+    async function loadImage(attempt = 0) {
+      if (!item?.image) {
+        setImageUrl("");
+        return;
+      }
+      try {
+        const res = await getUrl({ path: item.image });
+        if (!cancelled) setImageUrl(res.url.toString());
+      } catch {
+        if (!cancelled && attempt < 2) {
+          retryTimer = setTimeout(() => loadImage(attempt + 1), 800);
+        }
+      }
+    }
+
+    loadImage();
+    return () => {
+      cancelled = true;
+      if (retryTimer) clearTimeout(retryTimer);
+    };
+  }, [item?.image]);
+
   if (loading) return <div style={{ padding: 24 }}>Loading item…</div>;
   if (err) return <div style={{ padding: 24 }}>Error: {err}</div>;
   if (!item) return <div style={{ padding: 24 }}>Item not found.</div>;
 
-  const img = item?.image
-    ? `https://${bucket}.s3.${region}.amazonaws.com/${item.image}`
-    : "";
+  const img = imageUrl;
 
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto", padding: 24 }}>

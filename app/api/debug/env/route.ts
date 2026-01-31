@@ -4,5 +4,6 @@ export async function GET() {
   return NextResponse.json({
     stripeSecretKeyPresent: Boolean(process.env.STRIPE_SECRET_KEY),
     nextPublicSiteUrlPresent: Boolean(process.env.NEXT_PUBLIC_SITE_URL),
+    stripeEnvKeys: Object.keys(process.env).filter((k) => k.includes("STRIPE")),
   });
 }

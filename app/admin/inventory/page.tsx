@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import outputs from "@/amplify_outputs.json";
+import { getUrl } from "aws-amplify/storage";
+import { ensureAmplifyConfigured } from "@/lib/amplify-client";
 import {
   listInventoryAdmin,
   createInventoryItem,
@@ -42,8 +43,6 @@ export default function AdminInventoryPage() {
   const [setOptions, setSetOptions] = useState<{ id: string; name: string }[]>([]);
   const [tagsText, setTagsText] = useState("");
   const [itemPreviews, setItemPreviews] = useState<Record<string, string>>({});
-  const bucket = outputs?.storage?.bucket_name ?? "";
-  const region = outputs?.storage?.aws_region ?? "us-east-1";
 
   const gradingOptions = ["", "PSA", "CGC", "BGS"];
   const gradeOptions = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
@@ -68,6 +67,7 @@ export default function AdminInventoryPage() {
   }
 
   useEffect(() => {
+    ensureAmplifyConfigured();
     refresh().finally(() => setLoading(false));
   }, []);
 
@@ -101,15 +101,43 @@ export default function AdminInventoryPage() {
   }, []);
 
   useEffect(() => {
-    if (!bucket) return;
-    const next: Record<string, string> = {};
-    for (const i of items) {
-      if (i.image) {
-        next[i.id] = `https://${bucket}.s3.${region}.amazonaws.com/${i.image}`;
+    let cancelled = false;
+    let retryTimer: ReturnType<typeof setTimeout> | null = null;
+
+    async function loadPreviews(attempt = 0) {
+      const missing = items.filter((i) => i.image && !itemPreviews[i.id]);
+      if (missing.length === 0) return;
+
+      const entries = await Promise.all(
+        missing.map(async (i) => {
+          try {
+            const res = await getUrl({ path: i.image as string });
+            return [i.id, res.url.toString()] as const;
+          } catch {
+            return [i.id, ""] as const;
+          }
+        })
+      );
+
+      if (cancelled) return;
+      const next: Record<string, string> = { ...itemPreviews };
+      for (const [id, url] of entries) {
+        if (url) next[id] = url;
+      }
+      setItemPreviews(next);
+
+      const stillMissing = missing.some((i) => !next[i.id]);
+      if (stillMissing && attempt < 2) {
+        retryTimer = setTimeout(() => loadPreviews(attempt + 1), 800);
       }
     }
-    setItemPreviews(next);
-  }, [items, bucket, region]);
+
+    loadPreviews();
+    return () => {
+      cancelled = true;
+      if (retryTimer) clearTimeout(retryTimer);
+    };
+  }, [items, itemPreviews]);
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase();

@@ -26,12 +26,13 @@ export default function AddToCartButton(props: {
       disabled={isDisabled}
       style={{
         padding: "10px 12px",
-        borderRadius: 10,
-        border: "1px solid rgba(255,255,255,0.14)",
-        background: isDisabled ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.10)",
-        color: "rgba(255,255,255,0.92)",
+        borderRadius: 12,
+        border: "1px solid rgba(255,255,255,0.16)",
+        background: isDisabled ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.06)",
+        color: "rgba(255,255,255,0.95)",
         cursor: isDisabled ? "not-allowed" : "pointer",
         fontWeight: 700,
+        letterSpacing: 0.2,
       }}
       title={disabled ? "Unavailable" : "Add to cart"}
     >

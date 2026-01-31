@@ -12,7 +12,8 @@ export default function BuyNowButton(props: {
   const [loading, setLoading] = useState(false);
 
   const isAvailable = (status ?? "available") === "available";
-  const hasPrice = typeof price === "number" && price > 0;
+  const priceNum = typeof price === "number" ? price : Number(price);
+  const hasPrice = Number.isFinite(priceNum) && priceNum > 0;
 
   const isDisabled = Boolean(disabled) || !isAvailable || !hasPrice || loading;
 
@@ -51,12 +52,15 @@ export default function BuyNowButton(props: {
       disabled={isDisabled}
       style={{
         padding: "10px 12px",
-        borderRadius: 10,
-        border: "1px solid rgba(255,255,255,0.14)",
-        background: isDisabled ? "rgba(255,255,255,0.06)" : "rgba(255,255,255,0.10)",
-        color: "rgba(255,255,255,0.92)",
+        borderRadius: 12,
+        border: "1px solid rgba(201,162,77,0.55)",
+        background: isDisabled
+          ? "rgba(201,162,77,0.12)"
+          : "linear-gradient(180deg, rgba(201,162,77,0.28), rgba(201,162,77,0.12))",
+        color: "var(--accent)",
         cursor: isDisabled ? "not-allowed" : "pointer",
-        fontWeight: 700,
+        fontWeight: 800,
+        letterSpacing: 0.2,
       }}
       title={
         !hasPrice

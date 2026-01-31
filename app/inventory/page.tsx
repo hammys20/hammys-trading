@@ -234,7 +234,16 @@ export default function InventoryPage() {
                 <div style={{ opacity: 0.85 }}>{money(i.price)}</div>
 
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  <Link href={`/item/${i.id}`} style={{ padding: "10px 12px", borderRadius: 10, border: "1px solid rgba(255,255,255,0.14)" }}>
+                  <Link
+                    href={`/item/${i.id}`}
+                    style={{
+                      padding: "10px 12px",
+                      borderRadius: 12,
+                      border: "1px solid rgba(255,255,255,0.16)",
+                      background: "rgba(255,255,255,0.04)",
+                      fontWeight: 700,
+                    }}
+                  >
                     View
                   </Link>
                   <AddToCartButton

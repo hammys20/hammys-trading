@@ -19,7 +19,11 @@ export async function POST(req: Request) {
     }
 
     const site = process.env.NEXT_PUBLIC_SITE_URL;
-    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+    const stripeSecretKey =
+      process.env.STRIPE_SECRET_KEY ??
+      process.env.AMPLIFY_STRIPE_SECRET_KEY ??
+      process.env.AWS_STRIPE_SECRET_KEY ??
+      process.env.STRIPE_SECRET;
     if (!stripeSecretKey) {
       return NextResponse.json(
         { error: "Missing STRIPE_SECRET_KEY env var" },

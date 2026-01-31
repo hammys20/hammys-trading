@@ -1,9 +1,15 @@
 // app/layout.tsx
 import "./globals.css";
 import type { Metadata } from "next";
+import { Chivo_Mono } from "next/font/google";
 import AmplifyProvider from "./amplify-provider";
 import HeaderClient from "@/components/HeaderClient";
 import { CartProvider } from "@/components/CartProvider";
+
+const chivoMono = Chivo_Mono({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Hammy’s Trading",
@@ -20,7 +26,7 @@ export const viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
+      <body className={chivoMono.className}>
         <AmplifyProvider>
           <CartProvider>
             <HeaderClient />

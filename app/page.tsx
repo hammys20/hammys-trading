@@ -2,12 +2,26 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import WhatnotStatus from "./components/WhatnotStatus";
 import ScrollLineObserver from "@/components/ScrollLineObserver";
 
 export default function HomePage() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const media = window.matchMedia("(hover: none) and (pointer: coarse)");
+    const update = () => setIsCoarsePointer(media.matches);
+    update();
+    if (media.addEventListener) {
+      media.addEventListener("change", update);
+      return () => media.removeEventListener("change", update);
+    }
+    media.addListener(update);
+    return () => media.removeListener(update);
+  }, []);
 
   return (
     <div>
@@ -26,7 +40,7 @@ export default function HomePage() {
       >
         <Image
           src="/hero-cards.png"
-          alt="Premium Pokémon Cards"
+          alt="Premium Trading Cards"
           width={1200}
           height={700}
           priority
@@ -44,7 +58,7 @@ export default function HomePage() {
               marginBottom: 16,
             }}
           >
-            Premium Pokémon Cards.
+            Premium Trading Cards.
             <br />
             <span style={{ color: "var(--accent)" }}>Trusted. Curated. Fair.</span>
           </h1>
@@ -59,7 +73,7 @@ export default function HomePage() {
               marginBottom: 28,
             }}
           >
-            Hammy’s Trading specializes in high-quality Pokémon singles, slabs,
+            Hammy’s Trading specializes in high-quality trading card singles, slabs,
             and live breaks — built on transparency, collector trust, and real
             market knowledge.
           </p>
@@ -116,11 +130,14 @@ export default function HomePage() {
               key={c.title}
               data-scroll-line
               className={`scrollLine categoryCard ${
-                activeCategory === c.title ? "categoryActive" : ""
+                !isCoarsePointer && activeCategory === c.title ? "categoryActive" : ""
               }`}
               style={{ "--delay": `${idx * 70}ms` } as React.CSSProperties}
-              onClick={() =>
-                setActiveCategory((prev) => (prev === c.title ? null : c.title))
+              onClick={
+                isCoarsePointer
+                  ? undefined
+                  : () =>
+                      setActiveCategory((prev) => (prev === c.title ? null : c.title))
               }
             >
               <Image

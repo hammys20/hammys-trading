@@ -79,6 +79,7 @@ export default function HeaderClient() {
   const desktopLinks = useMemo(
     () => [
       { label: "Inventory", href: "/inventory" },
+      { label: "PowerPacks", href: "/powerpacks" },
       { label: "Whatnot", href: "/whatnot" },
       { label: "About", href: "/about" },
       { label: "Terms", href: "/terms" },
@@ -175,83 +176,62 @@ export default function HeaderClient() {
           </button>
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-            flexWrap: "wrap",
-            justifyContent: "flex-end",
-          }}
-        >
-          <span style={{ fontSize: 12, opacity: 0.72, fontWeight: 600 }}>
-            Click here if you want to Validate a Certification
-          </span>
-          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <a
-              href="https://www.psacard.com/cert?_gl=1*ynpdn*_gcl_au*MTAzODAwNjk2Ny4xNzY0NjA5Njk2*_ga*NTgwMTExMjg2LjE3NjQ2MDk3MDE.*_ga_GGS8NWPYE2*czE3Njc3MzI0OTkkbzE1JGcxJHQxNzY3NzMyNTMyJGoyNyRsMCRoMA..*_ga_1QVXQ1V575*czE3Njc3MzI1MzMkbzUkZzAkdDE3Njc3MzI1MzMkajYwJGwxJGg1NzU2NTc3NDc.&QTM_SID=a3a5c1746adc3bbd29ab7495ada7ec19&QTM_UID=9bacc3752ab6c5354254d8987e77a5d0"
-              target="_blank"
-              rel="noreferrer"
+        <div style={{ marginLeft: "auto" }} />
+
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <Link
+            href="/cart"
+            style={{
+              position: "relative",
+              display: "inline-flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 42,
+              height: 42,
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.14)",
+              background: "rgba(255,255,255,0.04)",
+            }}
+            aria-label="Cart"
+          >
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+            >
+              <path
+                d="M7 6h14l-2 8H8L6 3H3"
+                stroke="rgba(255,255,255,0.9)"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <circle cx="9" cy="20" r="1.6" fill="rgba(255,255,255,0.9)" />
+              <circle cx="18" cy="20" r="1.6" fill="rgba(255,255,255,0.9)" />
+            </svg>
+            <span
               style={{
+                position: "absolute",
+                top: -6,
+                right: -6,
+                minWidth: 18,
+                height: 18,
+                borderRadius: 999,
+                background: "rgba(255,255,255,0.12)",
                 display: "inline-flex",
                 alignItems: "center",
                 justifyContent: "center",
-                padding: "6px 8px",
-                borderRadius: 10,
-                border: "1px solid rgba(255,255,255,0.12)",
-                background: "rgba(255,255,255,0.04)",
+                fontSize: 11,
+                fontWeight: 800,
+                padding: "0 4px",
               }}
-              aria-label="PSA certification lookup"
             >
-              <img
-                src="https://www.psacard.com/Content/images/psa-logo-reg.png"
-                alt="PSA"
-                style={{ height: 20, width: "auto" }}
-              />
-            </a>
-            <a
-              href="https://www.cgccards.com/certlookup/"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "6px 8px",
-                borderRadius: 10,
-                border: "1px solid rgba(255,255,255,0.12)",
-                background: "rgba(255,255,255,0.04)",
-              }}
-              aria-label="CGC certification lookup"
-            >
-              <img
-                src="https://upload.wikimedia.org/wikipedia/en/thumb/2/2f/Certified_Guaranty_Company.svg/250px-Certified_Guaranty_Company.svg.png"
-                alt="CGC"
-                style={{ height: 20, width: "auto" }}
-              />
-            </a>
-            <a
-              href="https://www.beckett.com/grading/card-lookup"
-              target="_blank"
-              rel="noreferrer"
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "6px 8px",
-                borderRadius: 10,
-                border: "1px solid rgba(255,255,255,0.12)",
-                background: "rgba(255,255,255,0.04)",
-              }}
-              aria-label="Beckett grading card lookup"
-            >
-              <img
-                src="/bgs-logo.png"
-                alt="Beckett Grading"
-                style={{ height: 20, width: "auto" }}
-              />
-            </a>
-          </div>
+              {count}
+            </span>
+          </Link>
         </div>
       </div>
 
@@ -372,6 +352,20 @@ export default function HeaderClient() {
             Inventory
           </Link>
           <Link
+            href="/powerpacks"
+            onClick={closeMenu}
+            style={{
+              textDecoration: "none",
+              padding: "10px 10px",
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.04)",
+              fontWeight: 700,
+            }}
+          >
+            PowerPacks
+          </Link>
+          <Link
             href="/consignment"
             onClick={closeMenu}
             style={{
@@ -398,39 +392,6 @@ export default function HeaderClient() {
             }}
           >
             Cert Validation
-          </Link>
-          <Link
-            href="/cart"
-            onClick={closeMenu}
-            style={{
-              textDecoration: "none",
-              padding: "10px 10px",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.12)",
-              background: "rgba(255,255,255,0.04)",
-              fontWeight: 700,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 10,
-            }}
-          >
-            <span>Cart</span>
-            <span
-              style={{
-                minWidth: 22,
-                height: 22,
-                borderRadius: 999,
-                background: "rgba(255,255,255,0.12)",
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: 12,
-                fontWeight: 800,
-              }}
-            >
-              {count}
-            </span>
           </Link>
           {/* Accordions */}
           {groups.map((g) => (

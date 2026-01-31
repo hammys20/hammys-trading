@@ -3,6 +3,8 @@ import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import crypto from "crypto";
+import { generateClient } from "aws-amplify/data";
+import { configureAmplify } from "@/lib/amplify-server";
 
 function getStripeSecretKey() {
   return (
@@ -63,6 +65,21 @@ async function sendEmail({
   );
 }
 
+configureAmplify();
+const dataClient = generateClient({ authMode: "apiKey" as const }) as any;
+
+async function markItemsSold(itemIds: string[]) {
+  const unique = Array.from(new Set(itemIds.filter(Boolean)));
+  await Promise.all(
+    unique.map((id) =>
+      dataClient.models.InventoryItem.update({
+        id,
+        status: "sold",
+      })
+    )
+  );
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.text();
@@ -108,6 +125,14 @@ export async function POST(req: Request) {
             session.customer_details?.address
         );
         const buyerName = session.customer_details?.name ?? "Customer";
+        const itemIds: string[] = [];
+        if (session.metadata?.itemId) itemIds.push(session.metadata.itemId);
+        if (session.metadata?.itemIds) {
+          try {
+            const parsed = JSON.parse(session.metadata.itemIds);
+            if (Array.isArray(parsed)) itemIds.push(...parsed.map(String));
+          } catch {}
+        }
 
         const subject = "Purchase Confirmation";
         const text = `Thank you for your purchase, ${buyerName}!\n\nConfirmation Number: ${confirmation}\n\nShipping Address: ${shipping}\n\nTracking and shipment information will be provided soon.`;
@@ -123,6 +148,10 @@ export async function POST(req: Request) {
           text: `New purchase received.\n\nConfirmation Number: ${confirmation}\n\nBuyer Email: ${buyerEmail || "Not provided"}\nShipping Address: ${shipping}`,
           html: `<p><strong>New purchase received.</strong></p><p><strong>Confirmation Number:</strong> ${confirmation}</p><p><strong>Buyer Email:</strong> ${buyerEmail || "Not provided"}</p><p><strong>Shipping Address:</strong> ${shipping}</p>`,
         });
+
+        if (itemIds.length > 0) {
+          await markItemsSold(itemIds);
+        }
         break;
       }
       default:

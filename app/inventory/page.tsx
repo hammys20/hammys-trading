@@ -247,6 +247,10 @@ export default function InventoryPage() {
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
+                        filter:
+                          (i.status ?? "available") === "sold"
+                            ? "grayscale(0.6) brightness(0.7)"
+                            : "none",
                       }}
                     />
                   ) : (
@@ -262,6 +266,23 @@ export default function InventoryPage() {
                       No image
                     </div>
                   )}
+                  {(i.status ?? "available") === "sold" ? (
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        display: "grid",
+                        placeItems: "center",
+                        background: "rgba(0,0,0,0.45)",
+                        color: "rgba(255,255,255,0.95)",
+                        fontWeight: 900,
+                        letterSpacing: "0.2em",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Sold
+                    </div>
+                  ) : null}
                 </div>
               </button>
 

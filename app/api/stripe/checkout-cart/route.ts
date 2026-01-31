@@ -92,6 +92,9 @@ export async function POST(req: Request) {
           unit_amount: Math.round(price * 100),
           product_data: {
             name: f.item.name ?? "Item",
+            metadata: {
+              itemId: f.id,
+            },
           },
         },
         quantity: f.qty,
@@ -101,6 +104,9 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
+      metadata: {
+        itemIds: JSON.stringify(Array.from(merged.keys())),
+      },
       shipping_address_collection: {
         allowed_countries: ["US"],
       },

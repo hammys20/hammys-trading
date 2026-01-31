@@ -62,8 +62,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       setItems((prev) => {
         const next = [...prev];
         const idx = next.findIndex((i) => i.id === id);
-        if (idx >= 0) next[idx] = { ...next[idx], qty: next[idx].qty + qty };
-        else next.push({ id, qty });
+        if (idx >= 0) next[idx] = { ...next[idx], qty: 1 };
+        else next.push({ id, qty: 1 });
         return next;
       });
     };
@@ -76,7 +76,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (!Number.isFinite(qty)) return;
       setItems((prev) => {
         if (qty <= 0) return prev.filter((i) => i.id !== id);
-        return prev.map((i) => (i.id === id ? { ...i, qty } : i));
+        return prev.map((i) => (i.id === id ? { ...i, qty: 1 } : i));
       });
     };
 

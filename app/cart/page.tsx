@@ -176,17 +176,7 @@ export default function CartPage() {
               </div>
 
               <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-                <select
-                  value={qty}
-                  onChange={(e) => setQty(item.id, Number(e.target.value))}
-                  style={{ padding: 8 }}
-                >
-                  {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
-                    <option key={n} value={n}>
-                      {n}
-                    </option>
-                  ))}
-                </select>
+                <div style={{ padding: "8px 10px", opacity: 0.8 }}>Qty: {qty}</div>
                 <button
                   onClick={() => removeItem(item.id)}
                   style={{

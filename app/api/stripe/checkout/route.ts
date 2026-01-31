@@ -77,6 +77,9 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       payment_method_types: ["card"],
+      metadata: {
+        itemId,
+      },
       shipping_address_collection: {
         allowed_countries: ["US"],
       },
@@ -87,6 +90,9 @@ export async function POST(req: Request) {
             unit_amount,
             product_data: {
               name: item.name ?? "Item",
+              metadata: {
+                itemId,
+              },
               images: item.image ? [item.image] : undefined,
             },
           },

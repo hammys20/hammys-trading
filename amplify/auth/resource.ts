@@ -8,11 +8,17 @@ export const auth = defineAuth({
 
   groups: ["Admin"],
 
+  multifactor: {
+    mode: "REQUIRED",
+    sms: true,
+  },
+
   userAttributes: {
     email: {
       required: true,
     },
+    phone_number: {
+      required: true,
+    },
   },
 });
-
-

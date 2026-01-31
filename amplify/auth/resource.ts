@@ -17,8 +17,5 @@ export const auth = defineAuth({
     email: {
       required: true,
     },
-    phone_number: {
-      required: true,
-    },
   },
 });

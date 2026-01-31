@@ -13,7 +13,7 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm install --cache .npm --prefer-offline
+        - npm install --cache .npm --prefer-offline --loglevel=error
     build:
       commands:
         - rm -f .env.production

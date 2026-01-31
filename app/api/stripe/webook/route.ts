@@ -104,7 +104,8 @@ export async function POST(req: Request) {
         const confirmation = generateConfirmationNumber();
         const buyerEmail = session.customer_details?.email ?? session.customer_email ?? "";
         const shipping = formatAddress(
-          session.shipping_details?.address ?? session.customer_details?.address
+          (session as any).shipping_details?.address ??
+            session.customer_details?.address
         );
         const buyerName = session.customer_details?.name ?? "Customer";
 

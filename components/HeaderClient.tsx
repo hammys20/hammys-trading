@@ -136,61 +136,7 @@ export default function HeaderClient() {
           <span style={{ fontWeight: 800, letterSpacing: 0.2 }}>Hammy’s Trading</span>
         </Link>
 
-        {/* Desktop nav (hidden on small screens) */}
-        <nav
-          className="desktopNav"
-          style={{
-            display: "none",
-            gap: 14,
-            alignItems: "center",
-            flexWrap: "wrap",
-            justifyContent: "flex-end",
-          }}
-        >
-          {desktopLinks.map((l, idx) => (
-            <span key={l.href} style={{ display: "inline-flex", alignItems: "center" }}>
-              <Link
-                href={l.href}
-                style={{
-                  opacity: pathname === l.href ? 1 : 0.88,
-                  textDecoration: "none",
-                }}
-              >
-                {l.label}
-              </Link>
-              {idx < desktopLinks.length - 1 ? (
-                <span
-                  aria-hidden="true"
-                  style={{ opacity: 0.35, margin: "0 8px" }}
-                >
-                  |
-                </span>
-              ) : null}
-            </span>
-          ))}
-
-          {isAdmin ? (
-            <Link href="/admin" style={{ textDecoration: "none", opacity: 0.95 }}>
-              Admin
-            </Link>
-          ) : null}
-
-          {!isAuthed ? (
-            <Link href="/signin" style={pillStyle}>
-              Sign in
-            </Link>
-          ) : (
-            <button
-              onClick={() => signOut()}
-              style={{
-                ...pillStyle,
-                cursor: "pointer",
-              }}
-            >
-              Sign out
-            </button>
-          )}
-        </nav>
+        {/* Desktop nav removed: use hamburger + slide-over menu for all sizes */}
 
         {/* Mobile hamburger (shown on small screens) */}
         <button
@@ -392,20 +338,7 @@ export default function HeaderClient() {
         </div>
       </aside>
 
-      {/* Responsive switch:
-          - show desktop nav at >= 900px
-          - hide hamburger at >= 900px
-        */}
-      <style jsx global>{`
-        @media (min-width: 900px) {
-          .desktopNav {
-            display: flex !important;
-          }
-          .mobileHamburger {
-            display: none !important;
-          }
-        }
-      `}</style>
+      {/* Hamburger is always available; menu renders as slide-over */}
     </header>
   );
 }

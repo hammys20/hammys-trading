@@ -17,7 +17,27 @@ export default function InventoryPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("available");
+  const [gradingFilter, setGradingFilter] = useState("");
+  const [gradeFilter, setGradeFilter] = useState("");
+  const [languageFilter, setLanguageFilter] = useState("");
   const [error, setError] = useState("");
+
+  const gradingOptions = ["", "PSA", "CGC", "BGS"];
+  const gradeOptions = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  const languageOptions = [
+    "",
+    "English",
+    "Japanese",
+    "Korean",
+    "Chinese",
+    "French",
+    "German",
+    "Italian",
+    "Spanish",
+    "Portuguese",
+    "Indonesian",
+    "Thai",
+  ];
   const [imageUrls, setImageUrls] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -80,6 +100,9 @@ export default function InventoryPage() {
     return items.filter((i) => {
       const status = (i.status ?? "available").toLowerCase();
       if (statusFilter && status !== statusFilter) return false;
+      if (gradingFilter && (i.gradingCompany ?? "") !== gradingFilter) return false;
+      if (gradeFilter && (i.grade ?? "") !== gradeFilter) return false;
+      if (languageFilter && (i.language ?? "") !== languageFilter) return false;
       if (q) {
         const hay = [
           i.name,
@@ -97,7 +120,7 @@ export default function InventoryPage() {
       }
       return true;
     });
-  }, [items, search, statusFilter]);
+  }, [items, search, statusFilter, gradingFilter, gradeFilter, languageFilter]);
 
   if (loading) return <div style={{ padding: 24 }}>Loading inventory…</div>;
 
@@ -123,6 +146,30 @@ export default function InventoryPage() {
           <option value="available">available</option>
           <option value="pending">pending</option>
           <option value="sold">sold</option>
+        </select>
+
+        <select value={gradingFilter} onChange={(e) => setGradingFilter(e.target.value)} style={{ padding: 10 }}>
+          {gradingOptions.map((g) => (
+            <option key={g || "all"} value={g}>
+              {g || "All graders"}
+            </option>
+          ))}
+        </select>
+
+        <select value={gradeFilter} onChange={(e) => setGradeFilter(e.target.value)} style={{ padding: 10 }}>
+          {gradeOptions.map((g) => (
+            <option key={g || "all"} value={g}>
+              {g || "All grades"}
+            </option>
+          ))}
+        </select>
+
+        <select value={languageFilter} onChange={(e) => setLanguageFilter(e.target.value)} style={{ padding: 10 }}>
+          {languageOptions.map((l) => (
+            <option key={l || "all"} value={l}>
+              {l || "All languages"}
+            </option>
+          ))}
         </select>
       </div>
 

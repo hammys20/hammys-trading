@@ -43,6 +43,23 @@ export default function AdminInventoryPage() {
   const [tagsText, setTagsText] = useState("");
   const [itemPreviews, setItemPreviews] = useState<Record<string, string>>({});
 
+  const gradingOptions = ["", "PSA", "CGC", "BGS"];
+  const gradeOptions = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  const languageOptions = [
+    "",
+    "English",
+    "Japanese",
+    "Korean",
+    "Chinese",
+    "French",
+    "German",
+    "Italian",
+    "Spanish",
+    "Portuguese",
+    "Indonesian",
+    "Thai",
+  ];
+
   async function refresh() {
     const res = await listInventoryAdmin();
     setItems(Array.isArray(res) ? res : []);
@@ -212,23 +229,38 @@ export default function AdminInventoryPage() {
           onChange={(e) => setDraft((d) => ({ ...d, condition: e.target.value }))}
         />
 
-        <input
-          placeholder="Grading Company"
+        <select
           value={draft.gradingCompany ?? ""}
-          onChange={(e) => setDraft((d) => ({ ...d, gradingCompany: e.target.value }))}
-        />
+          onChange={(e) => setDraft((d) => ({ ...d, gradingCompany: e.target.value || undefined }))}
+        >
+          {gradingOptions.map((g) => (
+            <option key={g || "none"} value={g}>
+              {g || "Grading Company"}
+            </option>
+          ))}
+        </select>
 
-        <input
-          placeholder="Grade"
+        <select
           value={draft.grade ?? ""}
-          onChange={(e) => setDraft((d) => ({ ...d, grade: e.target.value }))}
-        />
+          onChange={(e) => setDraft((d) => ({ ...d, grade: e.target.value || undefined }))}
+        >
+          {gradeOptions.map((g) => (
+            <option key={g || "none"} value={g}>
+              {g || "Grade"}
+            </option>
+          ))}
+        </select>
 
-        <input
-          placeholder="Language"
+        <select
           value={draft.language ?? ""}
-          onChange={(e) => setDraft((d) => ({ ...d, language: e.target.value }))}
-        />
+          onChange={(e) => setDraft((d) => ({ ...d, language: e.target.value || undefined }))}
+        >
+          {languageOptions.map((l) => (
+            <option key={l || "none"} value={l}>
+              {l || "Language"}
+            </option>
+          ))}
+        </select>
 
         <input
           placeholder="Price"

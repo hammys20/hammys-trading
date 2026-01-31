@@ -111,7 +111,7 @@ export default function AdminInventoryPage() {
       const entries = await Promise.all(
         missing.map(async (i) => {
           try {
-            const res = await getUrl({ path: i.image as string });
+            const res = await getUrl({ path: i.image as string, options: { expiresIn: 3600 } });
             return [i.id, res.url.toString()] as const;
           } catch {
             return [i.id, ""] as const;

@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { getUrl } from "aws-amplify/storage";
 import { ensureAmplifyConfigured } from "@/lib/amplify-client";
 import { useCart } from "@/components/CartProvider";
@@ -64,7 +63,7 @@ export default function CartPage() {
       const entries = await Promise.all(
         missing.map(async ({ item }) => {
           try {
-            const res = await getUrl({ path: item.image as string });
+            const res = await getUrl({ path: item.image as string, options: { expiresIn: 3600 } });
             return [item.id, res.url.toString()] as const;
           } catch {
             return [item.id, ""] as const;
@@ -156,12 +155,15 @@ export default function CartPage() {
             >
               <div style={{ position: "relative", width: 72, height: 72 }}>
                 {imageUrls[item.id] ? (
-                  <Image
+                  <img
                     src={imageUrls[item.id]}
                     alt={item.name}
-                    fill
-                    sizes="72px"
-                    style={{ objectFit: "cover", borderRadius: 8 }}
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      borderRadius: 8,
+                    }}
                   />
                 ) : (
                   <div style={{ width: 72, height: 72, borderRadius: 8, background: "rgba(255,255,255,0.04)" }} />

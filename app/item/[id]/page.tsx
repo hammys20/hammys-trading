@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getUrl } from "aws-amplify/storage";
 import { ensureAmplifyConfigured } from "@/lib/amplify-client";
@@ -61,7 +60,7 @@ export default function ItemPage() {
         return;
       }
       try {
-        const res = await getUrl({ path: item.image });
+        const res = await getUrl({ path: item.image, options: { expiresIn: 3600 } });
         if (!cancelled) setImageUrl(res.url.toString());
       } catch {
         if (!cancelled && attempt < 2) {
@@ -99,12 +98,16 @@ export default function ItemPage() {
             // Click to open full-size in new tab
             <a href={img} target="_blank" rel="noreferrer" style={{ display: "block" }}>
               <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 1" }}>
-                <Image
+                <img
                   src={img}
                   alt={item.name}
-                  fill
-                  sizes="(max-width: 900px) 100vw, 650px"
-                  style={{ objectFit: "contain" }} // show full card (not cropped)
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
                 />
               </div>
             </a>

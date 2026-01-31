@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { getUrl } from "aws-amplify/storage";
 import { ensureAmplifyConfigured } from "@/lib/amplify-client";
@@ -75,7 +74,7 @@ export default function InventoryPage() {
       const entries = await Promise.all(
         missing.map(async (i) => {
           try {
-            const res = await getUrl({ path: i.image as string });
+            const res = await getUrl({ path: i.image as string, options: { expiresIn: 3600 } });
             return [i.id, res.url.toString()] as const;
           } catch {
             return [i.id, ""] as const;
@@ -205,12 +204,16 @@ export default function InventoryPage() {
               <Link href={`/item/${i.id}`} style={{ display: "block" }}>
                 <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 1", background: "rgba(255,255,255,0.04)" }}>
                   {imageUrls[i.id] ? (
-                    <Image
+                    <img
                       src={imageUrls[i.id]}
                       alt={i.name}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 240px"
-                      style={{ objectFit: "cover" }}
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
                     />
                   ) : (
                     <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", opacity: 0.6 }}>

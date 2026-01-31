@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getUrl } from "aws-amplify/storage";
 import { useParams } from "next/navigation";
 import BuyNowButton from "@/components/BuyNowButton";
+import AddToCartButton from "@/components/AddToCartButton";
 import { listInventoryPublic, type Item } from "@/lib/data/inventory";
 
 function money(n?: number) {
@@ -136,6 +137,10 @@ export default function ItemPage() {
 
           {/* IMPORTANT: button is NOT inside a Link and is in normal layout */}
           <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
+            <AddToCartButton
+              itemId={item.id}
+              disabled={(item.status ?? "available") !== "available"}
+            />
             <BuyNowButton itemId={item.id} price={item.price} status={item.status} />
           </div>
 

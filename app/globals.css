@@ -436,6 +436,26 @@ body {
   }
 }
 
+/* Mobile image card overlap: description sits behind image for a smooth scroll feel */
+@media (max-width: 900px) {
+  .imageCard {
+    position: relative;
+  }
+  .imageCard img {
+    position: relative;
+    z-index: 2;
+    display: block;
+  }
+  .imageCardBody {
+    position: relative;
+    z-index: 1;
+    margin-top: -18px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    background: rgba(12,12,14,0.95);
+    backdrop-filter: blur(6px);
+  }
+}
+
 /* ===== Breakpoint: show desktop nav, hide hamburger ===== */
 @media (min-width: 860px) {
   .desktopNav { display: flex; }

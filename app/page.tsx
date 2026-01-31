@@ -156,7 +156,7 @@ export default function HomePage() {
             <div
               key={c.title}
               data-scroll-line
-              className="card scrollLine"
+              className="card scrollLine imageCard"
               style={{ overflow: "hidden", "--delay": `${idx * 70}ms` } as React.CSSProperties}
             >
               <Image
@@ -166,7 +166,7 @@ export default function HomePage() {
                 height={260}
                 style={{ width: "100%", height: "auto", objectFit: "cover" }}
               />
-              <div style={{ padding: 14 }}>
+              <div className="imageCardBody" style={{ padding: 14 }}>
                 <div style={{ fontWeight: 900 }}>{c.title}</div>
                 <div style={{ fontSize: 13, color: "var(--muted)", marginTop: 4 }}>
                   {c.desc}

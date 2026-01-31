@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Hub } from "aws-amplify/utils";
 import { fetchAuthSession, signOut } from "aws-amplify/auth";
 import { usePathname } from "next/navigation";
+import { useCart } from "@/components/CartProvider";
 
 function isAdminFromGroups(groups: unknown): boolean {
   if (!Array.isArray(groups)) return false;
@@ -23,6 +24,7 @@ export default function HeaderClient() {
   const [isAuthed, setIsAuthed] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { count } = useCart();
 
   function closeMenu() {
     setMobileOpen(false);
@@ -268,6 +270,39 @@ export default function HeaderClient() {
             }}
           >
             Inventory
+          </Link>
+          <Link
+            href="/cart"
+            onClick={closeMenu}
+            style={{
+              textDecoration: "none",
+              padding: "10px 10px",
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.04)",
+              fontWeight: 700,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 10,
+            }}
+          >
+            <span>Cart</span>
+            <span
+              style={{
+                minWidth: 22,
+                height: 22,
+                borderRadius: 999,
+                background: "rgba(255,255,255,0.12)",
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: 12,
+                fontWeight: 800,
+              }}
+            >
+              {count}
+            </span>
           </Link>
           {/* Accordions */}
           {groups.map((g) => (

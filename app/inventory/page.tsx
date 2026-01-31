@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { getUrl } from "aws-amplify/storage";
 import BuyNowButton from "@/components/BuyNowButton";
+import AddToCartButton from "@/components/AddToCartButton";
 import { listInventoryPublic, type Item } from "@/lib/data/inventory";
 
 function money(n?: number) {
@@ -222,10 +223,14 @@ export default function InventoryPage() {
                 </div>
                 <div style={{ opacity: 0.85 }}>{money(i.price)}</div>
 
-                <div style={{ display: "flex", gap: 8 }}>
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                   <Link href={`/item/${i.id}`} style={{ padding: "10px 12px", borderRadius: 10, border: "1px solid rgba(255,255,255,0.14)" }}>
                     View
                   </Link>
+                  <AddToCartButton
+                    itemId={i.id}
+                    disabled={(i.status ?? "available") !== "available"}
+                  />
                   <BuyNowButton itemId={i.id} price={i.price} status={i.status} />
                 </div>
               </div>

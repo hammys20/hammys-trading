@@ -1,0 +1,106 @@
+// app/api/stripe/checkout-cart/route.ts
+import Stripe from "stripe";
+import { NextResponse } from "next/server";
+import { generateClient } from "aws-amplify/data";
+import { configureAmplify } from "@/lib/amplify-server";
+
+configureAmplify();
+
+const client = generateClient({ authMode: "apiKey" as const }) as any;
+
+type CartInput = { id: string; qty: number };
+
+export async function POST(req: Request) {
+  try {
+    const { items } = (await req.json()) as { items?: CartInput[] };
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
+    }
+
+    const site = process.env.NEXT_PUBLIC_SITE_URL;
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+    if (!stripeSecretKey) {
+      return NextResponse.json(
+        { error: "Missing STRIPE_SECRET_KEY env var" },
+        { status: 500 }
+      );
+    }
+    if (!site) {
+      return NextResponse.json(
+        { error: "Missing NEXT_PUBLIC_SITE_URL env var" },
+        { status: 500 }
+      );
+    }
+
+    const merged = new Map<string, number>();
+    for (const it of items) {
+      const qty = Number(it?.qty ?? 0);
+      if (!it?.id || !Number.isFinite(qty) || qty <= 0) continue;
+      merged.set(it.id, (merged.get(it.id) ?? 0) + qty);
+    }
+
+    if (merged.size === 0) {
+      return NextResponse.json({ error: "Invalid cart items" }, { status: 400 });
+    }
+
+    const stripe = new Stripe(stripeSecretKey);
+
+    const fetched = await Promise.all(
+      Array.from(merged.entries()).map(async ([id, qty]) => {
+        const res = await client.models.InventoryItem.get({ id });
+        return { id, qty, item: res?.data ?? null };
+      })
+    );
+
+    for (const f of fetched) {
+      if (!f.item) {
+        return NextResponse.json({ error: `Item not found: ${f.id}` }, { status: 404 });
+      }
+      const status = (f.item.status ?? "available").toString().toLowerCase();
+      if (status !== "available") {
+        return NextResponse.json(
+          { error: `Item not available: ${f.item.name ?? f.id}` },
+          { status: 400 }
+        );
+      }
+      const price = typeof f.item.price === "number" ? f.item.price : Number(f.item.price);
+      if (!Number.isFinite(price) || price <= 0) {
+        return NextResponse.json(
+          { error: `Invalid price for item: ${f.item.name ?? f.id}` },
+          { status: 400 }
+        );
+      }
+    }
+
+    const line_items = fetched.map((f) => {
+      const price = typeof f.item.price === "number" ? f.item.price : Number(f.item.price);
+      return {
+        price_data: {
+          currency: "usd",
+          unit_amount: Math.round(price * 100),
+          product_data: {
+            name: f.item.name ?? "Item",
+          },
+        },
+        quantity: f.qty,
+      };
+    });
+
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      payment_method_types: ["card"],
+      line_items,
+      success_url: `${site}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${site}/cart`,
+    });
+
+    return NextResponse.json({ url: session.url });
+  } catch (err: any) {
+    console.error("Stripe cart checkout error:", err);
+    return NextResponse.json(
+      { error: err?.message ?? "Checkout failed" },
+      { status: 500 }
+    );
+  }
+}

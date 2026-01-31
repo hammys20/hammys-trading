@@ -17,9 +17,9 @@ frontend:
     build:
       commands:
         - rm -f .env.production
-        - env | grep -e STRIPE_SECRET_KEY >> .env.production
-        - env | grep -e NEXT_PUBLIC_ >> .env.production
-        - env | grep -e STRIPE_WEBHOOK_SECRET >> .env.production
+        - env | grep -e STRIPE_SECRET_KEY >> .env.production || true
+        - env | grep -e NEXT_PUBLIC_ >> .env.production || true
+        - env | grep -e STRIPE_WEBHOOK_SECRET >> .env.production || true
         - npm run build
   artifacts:
     baseDirectory: .next

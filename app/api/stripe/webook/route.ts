@@ -89,9 +89,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing stripe-signature" }, { status: 400 });
     }
 
-    const secret =
-      process.env.STRIPE_WEBHOOK_SECRET ??
-      process.env.STRIPE_WEBHOOK_KEY;
+    const secret = process.env.STRIPE_WEBHOOK_SECRET;
     if (!secret) {
       return NextResponse.json(
         { error: "Missing STRIPE_WEBHOOK_SECRET" },
@@ -162,7 +160,11 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ received: true });
   } catch (err: any) {
-    console.error("Webhook error:", err?.message ?? err);
-    return NextResponse.json({ error: "Webhook error" }, { status: 400 });
+    const message = err?.message ?? String(err);
+    console.error("Webhook error:", message);
+    return NextResponse.json(
+      { error: "Webhook error", message },
+      { status: 400 }
+    );
   }
 }

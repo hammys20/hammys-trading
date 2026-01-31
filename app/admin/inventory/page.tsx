@@ -6,6 +6,7 @@ import { ensureAmplifyConfigured } from "@/lib/amplify-client";
 import {
   listInventoryAdmin,
   createInventoryItem,
+  updateInventoryItem,
   deleteInventoryItem,
   type Item,
 } from "@/lib/data/inventory";
@@ -16,6 +17,61 @@ import ImageUpload from "@/components/ImageUpload";
 function money(n?: number) {
   if (typeof n !== "number") return "—";
   return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
+}
+
+function csvEscape(value: string) {
+  if (value.includes("\"") || value.includes(",") || value.includes("\n")) {
+    return `"${value.replace(/"/g, "\"\"")}"`;
+  }
+  return value;
+}
+
+function toCsvRow(values: string[]) {
+  return values.map(csvEscape).join(",");
+}
+
+function parseCsv(text: string) {
+  const rows: string[][] = [];
+  let cur = "";
+  let inQuotes = false;
+  let row: string[] = [];
+
+  for (let i = 0; i < text.length; i += 1) {
+    const ch = text[i];
+    const next = text[i + 1];
+
+    if (ch === "\"" && next === "\"") {
+      cur += "\"";
+      i += 1;
+      continue;
+    }
+
+    if (ch === "\"") {
+      inQuotes = !inQuotes;
+      continue;
+    }
+
+    if (ch === "," && !inQuotes) {
+      row.push(cur);
+      cur = "";
+      continue;
+    }
+
+    if ((ch === "\n" || ch === "\r") && !inQuotes) {
+      if (ch === "\r" && next === "\n") i += 1;
+      row.push(cur);
+      cur = "";
+      if (row.some((v) => v.trim().length > 0)) rows.push(row);
+      row = [];
+      continue;
+    }
+
+    cur += ch;
+  }
+
+  row.push(cur);
+  if (row.some((v) => v.trim().length > 0)) rows.push(row);
+  return rows;
 }
 
 const EMPTY: Partial<Item> = {
@@ -38,6 +94,7 @@ export default function AdminInventoryPage() {
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [draft, setDraft] = useState<Partial<Item>>(EMPTY);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [draftId, setDraftId] = useState(() => crypto.randomUUID());
   const [imagePreview, setImagePreview] = useState("");
   const [setOptions, setSetOptions] = useState<{ id: string; name: string }[]>([]);
@@ -157,7 +214,7 @@ export default function AdminInventoryPage() {
     });
   }, [items, search]);
 
-  async function onCreate() {
+  async function onCreateOrUpdate() {
     if (!draft.name?.trim()) {
       setError("Name is required");
       return;
@@ -167,21 +224,38 @@ export default function AdminInventoryPage() {
     setError("");
 
     try {
-      await createInventoryItem({
-        id: draftId,
-        name: draft.name.trim(),
-        set: draft.set || undefined,
-        condition: draft.condition || undefined,
-        gradingCompany: draft.gradingCompany || undefined,
-        grade: draft.grade || undefined,
-        language: draft.language || undefined,
-        price: draft.price,
-        status: draft.status ?? "available",
-        image: draft.image || undefined,
-        tags: draft.tags ?? [],
-      });
+      if (editingId) {
+        await updateInventoryItem({
+          id: editingId,
+          name: draft.name.trim(),
+          set: draft.set || undefined,
+          condition: draft.condition || undefined,
+          gradingCompany: draft.gradingCompany || undefined,
+          grade: draft.grade || undefined,
+          language: draft.language || undefined,
+          price: draft.price,
+          status: draft.status ?? "available",
+          image: draft.image || undefined,
+          tags: draft.tags ?? [],
+        });
+      } else {
+        await createInventoryItem({
+          id: draftId,
+          name: draft.name.trim(),
+          set: draft.set || undefined,
+          condition: draft.condition || undefined,
+          gradingCompany: draft.gradingCompany || undefined,
+          grade: draft.grade || undefined,
+          language: draft.language || undefined,
+          price: draft.price,
+          status: draft.status ?? "available",
+          image: draft.image || undefined,
+          tags: draft.tags ?? [],
+        });
+      }
 
       setDraft(EMPTY);
+      setEditingId(null);
       setDraftId(crypto.randomUUID());
       setImagePreview("");
       setTagsText("");
@@ -194,10 +268,135 @@ export default function AdminInventoryPage() {
     }
   }
 
+  function exportCsv() {
+    const header = [
+      "name",
+      "set",
+      "condition",
+      "gradingCompany",
+      "grade",
+      "language",
+      "price",
+      "status",
+      "image",
+      "tags",
+    ];
+
+    const rows = filtered.map((i) =>
+      toCsvRow([
+        i.name ?? "",
+        i.set ?? "",
+        i.condition ?? "",
+        i.gradingCompany ?? "",
+        i.grade ?? "",
+        i.language ?? "",
+        i.price != null ? String(i.price) : "",
+        i.status ?? "",
+        i.image ?? "",
+        Array.isArray(i.tags) ? i.tags.join("|") : "",
+      ])
+    );
+
+    const csv = [toCsvRow(header), ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `inventory-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  async function importCsv(file: File) {
+    const text = await file.text();
+    const rows = parseCsv(text);
+    if (rows.length === 0) return;
+
+    const header = rows[0].map((h) => h.trim());
+    const idx = (key: string) => header.findIndex((h) => h === key);
+
+    const iName = idx("name");
+    if (iName === -1) {
+      setError("CSV must include a 'name' column");
+      return;
+    }
+
+    const toTags = (raw: string) =>
+      raw
+        .split("|")
+        .map((t) => t.trim())
+        .filter(Boolean);
+
+    setSaving(true);
+    setError("");
+
+    try {
+      for (let r = 1; r < rows.length; r += 1) {
+        const row = rows[r];
+        const name = row[iName]?.trim();
+        if (!name) continue;
+
+        const get = (key: string) => {
+          const i = idx(key);
+          return i >= 0 ? row[i]?.trim() ?? "" : "";
+        };
+
+        const priceRaw = get("price");
+        const price = priceRaw ? Number(priceRaw) : undefined;
+
+        await createInventoryItem({
+          name,
+          set: get("set") || undefined,
+          condition: get("condition") || undefined,
+          gradingCompany: get("gradingCompany") || undefined,
+          grade: get("grade") || undefined,
+          language: get("language") || undefined,
+          price: Number.isFinite(price as number) ? price : undefined,
+          status: get("status") || "available",
+          image: get("image") || undefined,
+          tags: toTags(get("tags")),
+        });
+      }
+
+      await refresh();
+    } catch (e: any) {
+      console.error(e);
+      setError(e?.message ?? "CSV import failed");
+    } finally {
+      setSaving(false);
+    }
+  }
+
   async function onDelete(id: string) {
     if (!confirm("Delete item?")) return;
     await deleteInventoryItem(id);
     await refresh();
+  }
+
+  function startEdit(item: Item) {
+    setEditingId(item.id);
+    setDraft({
+      name: item.name ?? "",
+      set: item.set ?? "",
+      condition: item.condition ?? "",
+      gradingCompany: item.gradingCompany ?? "",
+      grade: item.grade ?? "",
+      language: item.language ?? "",
+      price: item.price,
+      status: item.status ?? "available",
+      image: item.image ?? "",
+      tags: item.tags ?? [],
+    });
+    setTagsText(Array.isArray(item.tags) ? item.tags.join(", ") : "");
+    setImagePreview(itemPreviews[item.id] ?? "");
+  }
+
+  function cancelEdit() {
+    setEditingId(null);
+    setDraft(EMPTY);
+    setDraftId(crypto.randomUUID());
+    setImagePreview("");
+    setTagsText("");
   }
 
   if (loading) return <div style={{ padding: 24 }}>Loading…</div>;
@@ -228,7 +427,41 @@ export default function AdminInventoryPage() {
           background: "rgba(255,255,255,0.03)",
         }}
       >
-        <div style={{ fontWeight: 800, letterSpacing: 0.2 }}>New Listing</div>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <div style={{ fontWeight: 800, letterSpacing: 0.2 }}>
+            {editingId ? "Edit Listing" : "New Listing"}
+          </div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button
+              onClick={exportCsv}
+              style={{ padding: "8px 10px", borderRadius: 10, fontWeight: 700 }}
+            >
+              Export CSV
+            </button>
+            <label
+              style={{
+                padding: "8px 10px",
+                borderRadius: 10,
+                border: "1px solid rgba(255,255,255,0.14)",
+                background: "rgba(255,255,255,0.04)",
+                cursor: "pointer",
+                fontWeight: 700,
+              }}
+            >
+              Import CSV
+              <input
+                type="file"
+                accept=".csv,text/csv"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  e.target.value = "";
+                  if (file) void importCsv(file);
+                }}
+              />
+            </label>
+          </div>
+        </div>
 
         <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 12 }}>
           <input
@@ -346,9 +579,24 @@ export default function AdminInventoryPage() {
             )}
           </div>
 
-          <button onClick={onCreate} disabled={saving} style={{ padding: "10px 14px", fontWeight: 800 }}>
-            {saving ? "Saving…" : "Add Item"}
-          </button>
+          <div style={{ display: "flex", gap: 8 }}>
+            {editingId ? (
+              <button
+                onClick={cancelEdit}
+                disabled={saving}
+                style={{ padding: "10px 14px", fontWeight: 700 }}
+              >
+                Cancel
+              </button>
+            ) : null}
+            <button
+              onClick={onCreateOrUpdate}
+              disabled={saving}
+              style={{ padding: "10px 14px", fontWeight: 800 }}
+            >
+              {saving ? "Saving…" : editingId ? "Save Changes" : "Add Item"}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -395,7 +643,10 @@ export default function AdminInventoryPage() {
             </div>
           </div>
 
-          <button onClick={() => onDelete(i.id)}>Delete</button>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button onClick={() => startEdit(i)}>Edit</button>
+            <button onClick={() => onDelete(i.id)}>Delete</button>
+          </div>
         </div>
       ))}
     </div>

@@ -19,6 +19,7 @@ frontend:
         - rm -f .env.production
         - env | grep -e STRIPE_SECRET_KEY >> .env.production
         - env | grep -e NEXT_PUBLIC_ >> .env.production
+        - env | grep -e STRIPE_WEBHOOK_SECRET >> .env.production
         - npm run build
   artifacts:
     baseDirectory: .next

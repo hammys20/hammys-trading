@@ -204,139 +204,163 @@ export default function AdminInventoryPage() {
 
   return (
     <div style={{ maxWidth: 1200, margin: "0 auto", padding: 24 }}>
-      <h1 style={{ fontSize: 28, fontWeight: 800 }}>Admin Inventory</h1>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 16 }}>
+        <div>
+          <h1 style={{ fontSize: 28, fontWeight: 800, margin: 0 }}>Admin Inventory</h1>
+          <div style={{ opacity: 0.7, marginTop: 4 }}>Create and manage your listings</div>
+        </div>
+        <div style={{ opacity: 0.7, fontSize: 12 }}>{items.length} items</div>
+      </div>
 
       {error && (
         <div style={{ color: "red", marginBottom: 12 }}>{error}</div>
       )}
 
       {/* CREATE FORM */}
-      <div style={{ display: "grid", gap: 12, marginBottom: 24 }}>
-        <input
-          placeholder="Name *"
-          value={draft.name ?? ""}
-          onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
-        />
+      <div
+        style={{
+          display: "grid",
+          gap: 16,
+          marginBottom: 24,
+          padding: 16,
+          borderRadius: 14,
+          border: "1px solid rgba(255,255,255,0.08)",
+          background: "rgba(255,255,255,0.03)",
+        }}
+      >
+        <div style={{ fontWeight: 800, letterSpacing: 0.2 }}>New Listing</div>
 
-        <input
-          list="pokemon-sets"
-          placeholder="Set"
-          value={draft.set ?? ""}
-          onChange={(e) => setDraft((d) => ({ ...d, set: e.target.value }))}
-        />
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: 12 }}>
+          <input
+            placeholder="Name *"
+            value={draft.name ?? ""}
+            onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
+          />
+          <input
+            placeholder="Price"
+            type="number"
+            value={draft.price ?? ""}
+            onChange={(e) =>
+              setDraft((d) => ({
+                ...d,
+                price: e.target.value ? Number(e.target.value) : undefined,
+              }))
+            }
+          />
+        </div>
+
+        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 12 }}>
+          <input
+            list="pokemon-sets"
+            placeholder="Set"
+            value={draft.set ?? ""}
+            onChange={(e) => setDraft((d) => ({ ...d, set: e.target.value }))}
+          />
+          <select
+            value={draft.status ?? "available"}
+            onChange={(e) => setDraft((d) => ({ ...d, status: e.target.value }))}
+          >
+            <option value="available">available</option>
+            <option value="pending">pending</option>
+            <option value="sold">sold</option>
+          </select>
+          <select
+            value={draft.language ?? ""}
+            onChange={(e) => setDraft((d) => ({ ...d, language: e.target.value || undefined }))}
+          >
+            {languageOptions.map((l) => (
+              <option key={l || "none"} value={l}>
+                {l || "Language"}
+              </option>
+            ))}
+          </select>
+        </div>
         <datalist id="pokemon-sets">
           {setOptions.map((s) => (
             <option key={s.id} value={s.name} />
           ))}
         </datalist>
 
-        <input
-          placeholder="Condition"
-          value={draft.condition ?? ""}
-          onChange={(e) => setDraft((d) => ({ ...d, condition: e.target.value }))}
-        />
-
-        <select
-          value={draft.gradingCompany ?? ""}
-          onChange={(e) => setDraft((d) => ({ ...d, gradingCompany: e.target.value || undefined }))}
-        >
-          {gradingOptions.map((g) => (
-            <option key={g || "none"} value={g}>
-              {g || "Grading Company"}
-            </option>
-          ))}
-        </select>
-
-        <select
-          value={draft.grade ?? ""}
-          onChange={(e) => setDraft((d) => ({ ...d, grade: e.target.value || undefined }))}
-        >
-          {gradeOptions.map((g) => (
-            <option key={g || "none"} value={g}>
-              {g || "Grade"}
-            </option>
-          ))}
-        </select>
-
-        <select
-          value={draft.language ?? ""}
-          onChange={(e) => setDraft((d) => ({ ...d, language: e.target.value || undefined }))}
-        >
-          {languageOptions.map((l) => (
-            <option key={l || "none"} value={l}>
-              {l || "Language"}
-            </option>
-          ))}
-        </select>
-
-        <input
-          placeholder="Price"
-          type="number"
-          value={draft.price ?? ""}
-          onChange={(e) =>
-            setDraft((d) => ({
-              ...d,
-              price: e.target.value ? Number(e.target.value) : undefined,
-            }))
-          }
-        />
-
-        <select
-          value={draft.status ?? "available"}
-          onChange={(e) => setDraft((d) => ({ ...d, status: e.target.value }))}
-        >
-          <option value="available">available</option>
-          <option value="pending">pending</option>
-          <option value="sold">sold</option>
-        </select>
-
-        {/* 🔑 IMAGE UPLOAD */}
-        <ImageUpload
-          itemId={draftId}
-          currentKey={draft.image}
-          onUploaded={(key, previewUrl) => {
-            setDraft((d) => ({
-              ...d,
-              image: key,
-            }));
-            setImagePreview(previewUrl);
-          }}
-        />
-
-        {imagePreview && (
-          <img
-            src={imagePreview}
-            alt="Preview"
-            style={{ width: 120, borderRadius: 8 }}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12 }}>
+          <input
+            placeholder="Condition"
+            value={draft.condition ?? ""}
+            onChange={(e) => setDraft((d) => ({ ...d, condition: e.target.value }))}
           />
-        )}
+          <select
+            value={draft.gradingCompany ?? ""}
+            onChange={(e) => setDraft((d) => ({ ...d, gradingCompany: e.target.value || undefined }))}
+          >
+            {gradingOptions.map((g) => (
+              <option key={g || "none"} value={g}>
+                {g || "Grading Company"}
+              </option>
+            ))}
+          </select>
+          <select
+            value={draft.grade ?? ""}
+            onChange={(e) => setDraft((d) => ({ ...d, grade: e.target.value || undefined }))}
+          >
+            {gradeOptions.map((g) => (
+              <option key={g || "none"} value={g}>
+                {g || "Grade"}
+              </option>
+            ))}
+          </select>
+          <input
+            placeholder="Tags (comma separated)"
+            value={tagsText}
+            onChange={(e) => {
+              const next = e.target.value;
+              setTagsText(next);
+              const tags = next
+                .split(",")
+                .map((t) => t.trim())
+                .filter(Boolean);
+              setDraft((d) => ({ ...d, tags }));
+            }}
+          />
+        </div>
 
-        <input
-          placeholder="Tags (comma separated)"
-          value={tagsText}
-          onChange={(e) => {
-            const next = e.target.value;
-            setTagsText(next);
-            const tags = next
-              .split(",")
-              .map((t) => t.trim())
-              .filter(Boolean);
-            setDraft((d) => ({ ...d, tags }));
-          }}
-        />
+        <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 12, alignItems: "center" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <ImageUpload
+              itemId={draftId}
+              currentKey={draft.image}
+              onUploaded={(key, previewUrl) => {
+                setDraft((d) => ({
+                  ...d,
+                  image: key,
+                }));
+                setImagePreview(previewUrl);
+              }}
+            />
+            {imagePreview ? (
+              <img
+                src={imagePreview}
+                alt="Preview"
+                style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 8 }}
+              />
+            ) : (
+              <div style={{ opacity: 0.6, fontSize: 12 }}>No preview yet</div>
+            )}
+          </div>
 
-        <button onClick={onCreate} disabled={saving}>
-          {saving ? "Saving…" : "Add Item"}
-        </button>
+          <button onClick={onCreate} disabled={saving} style={{ padding: "10px 14px", fontWeight: 800 }}>
+            {saving ? "Saving…" : "Add Item"}
+          </button>
+        </div>
       </div>
 
       {/* LIST */}
-      <input
-        placeholder="Search…"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        style={{ marginBottom: 12 }}
-      />
+      <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+        <input
+          placeholder="Search…"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{ flex: 1 }}
+        />
+      </div>
 
       {filtered.map((i) => (
         <div
@@ -345,9 +369,10 @@ export default function AdminInventoryPage() {
             display: "flex",
             justifyContent: "space-between",
             padding: 12,
-            border: "1px solid #333",
+            border: "1px solid rgba(255,255,255,0.10)",
             borderRadius: 10,
             marginBottom: 8,
+            background: "rgba(255,255,255,0.02)",
           }}
         >
           <div style={{ display: "flex", gap: 12, alignItems: "center" }}>

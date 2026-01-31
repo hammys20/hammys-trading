@@ -1,5 +1,12 @@
 import type { NextConfig } from "next";
 
+// Debug: log env var presence during build (no values).
+if (process.env.STRIPE_SECRET_KEY) {
+  console.log("Build env: STRIPE_SECRET_KEY present");
+} else {
+  console.log("Build env: STRIPE_SECRET_KEY missing");
+}
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [

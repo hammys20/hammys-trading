@@ -1,12 +1,16 @@
 import Link from "next/link";
 import Image from "next/image";
 import WhatnotStatus from "./components/WhatnotStatus";
+import ScrollLineObserver from "@/components/ScrollLineObserver";
 
 export default function HomePage() {
   return (
     <div>
+      <ScrollLineObserver />
       {/* HERO */}
       <section
+        data-scroll-line
+        className="scrollLine"
         style={{
           padding: "80px 0 60px",
           display: "grid",
@@ -17,6 +21,8 @@ export default function HomePage() {
       >
         <div>
           <h1
+            data-scroll-line
+            className="scrollLine"
             style={{
               fontSize: 44,
               lineHeight: 1.1,
@@ -30,6 +36,8 @@ export default function HomePage() {
           </h1>
 
           <p
+            data-scroll-line
+            className="scrollLine"
             style={{
               fontSize: 18,
               color: "var(--muted)",
@@ -42,7 +50,11 @@ export default function HomePage() {
             market knowledge.
           </p>
 
-          <div style={{ display: "flex", gap: 14 }}>
+          <div
+            data-scroll-line
+            className="scrollLine"
+            style={{ display: "flex", gap: 14 }}
+          >
             <Link href="/inventory" className="btn btnPrimary">
               View Inventory
             </Link>
@@ -53,7 +65,11 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="card" style={{ padding: 18, display: "grid", placeItems: "center" }}>
+        <div
+          data-scroll-line
+          className="card scrollLine"
+          style={{ padding: 18, display: "grid", placeItems: "center" }}
+        >
           <Image
             src="/hero-cards.png"
             alt="Premium Pokémon Cards"
@@ -72,6 +88,8 @@ export default function HomePage() {
 
       {/* TRUST */}
       <section
+        data-scroll-line
+        className="scrollLine"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
@@ -92,8 +110,13 @@ export default function HomePage() {
             title: "Fast & Secure Shipping",
             text: "Cards ship quickly and safely — protected like they’re our own.",
           },
-        ].map((f) => (
-          <div key={f.title} className="card" style={{ padding: 18 }}>
+        ].map((f, idx) => (
+          <div
+            key={f.title}
+            data-scroll-line
+            className="card scrollLine"
+            style={{ padding: 18, "--delay": `${idx * 60}ms` } as React.CSSProperties}
+          >
             <div style={{ fontWeight: 900, marginBottom: 8 }}>{f.title}</div>
             <div style={{ color: "var(--muted)", fontSize: 14 }}>{f.text}</div>
           </div>
@@ -102,7 +125,9 @@ export default function HomePage() {
 
       {/* CATEGORIES */}
       <section style={{ marginBottom: 70 }}>
-        <h2 style={{ marginBottom: 18 }}>What We Offer</h2>
+        <h2 data-scroll-line className="scrollLine" style={{ marginBottom: 18 }}>
+          What We Offer
+        </h2>
 
         <div
           style={{
@@ -127,8 +152,13 @@ export default function HomePage() {
               img: "/category-breaks.png",
               desc: "Community-driven live openings with full transparency.",
             },
-          ].map((c) => (
-            <div key={c.title} className="card" style={{ overflow: "hidden" }}>
+          ].map((c, idx) => (
+            <div
+              key={c.title}
+              data-scroll-line
+              className="card scrollLine"
+              style={{ overflow: "hidden", "--delay": `${idx * 70}ms` } as React.CSSProperties}
+            >
               <Image
                 src={c.img}
                 alt={c.title}
@@ -149,7 +179,8 @@ export default function HomePage() {
 
       {/* WHATNOT (LIVE NOW + COUNTDOWN) */}
       <section
-        className="card"
+        data-scroll-line
+        className="card scrollLine"
         style={{
           padding: 28,
           display: "grid",
@@ -201,7 +232,11 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="card" style={{ padding: 30, textAlign: "center", marginBottom: 40 }}>
+      <section
+        data-scroll-line
+        className="card scrollLine"
+        style={{ padding: 30, textAlign: "center", marginBottom: 40 }}
+      >
         <h2 style={{ marginBottom: 10 }}>Built for collectors who care about quality.</h2>
         <p style={{ color: "var(--muted)", marginBottom: 18 }}>
           Browse the inventory or join us live — no fluff, no games.

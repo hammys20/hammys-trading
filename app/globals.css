@@ -413,6 +413,29 @@ body {
   margin-top: 8px;
 }
 
+/* Scroll-in line animations (mobile only) */
+@media (max-width: 900px) {
+  .scrollLine {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 420ms ease, transform 420ms ease;
+    transition-delay: var(--delay, 0ms);
+  }
+  .scrollLineVisible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollLine,
+  .scrollLineVisible {
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
 /* ===== Breakpoint: show desktop nav, hide hamburger ===== */
 @media (min-width: 860px) {
   .desktopNav { display: flex; }

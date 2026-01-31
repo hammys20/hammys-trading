@@ -59,15 +59,6 @@ export default function HeaderClient() {
   const groups: NavGroup[] = useMemo(
     () => [
       {
-        label: "Shop",
-        items: [
-          { label: "Inventory", href: "/inventory" },
-          { label: "Singles", href: "/singles" },
-          { label: "Slabs", href: "/slabs" },
-          { label: "Sealed", href: "/sealed" },
-        ],
-      },
-      {
         label: "Whatnot",
         items: [{ label: "Whatnot", href: "/whatnot" }],
       },
@@ -85,9 +76,6 @@ export default function HeaderClient() {
   const desktopLinks = useMemo(
     () => [
       { label: "Inventory", href: "/inventory" },
-      { label: "Singles", href: "/singles" },
-      { label: "Slabs", href: "/slabs" },
-      { label: "Sealed", href: "/sealed" },
       { label: "Whatnot", href: "/whatnot" },
       { label: "About", href: "/about" },
       { label: "Terms", href: "/terms" },
@@ -253,6 +241,34 @@ export default function HeaderClient() {
         </div>
 
         <div style={{ padding: 12, overflow: "auto", display: "grid", gap: 10 }}>
+          <Link
+            href="/"
+            onClick={closeMenu}
+            style={{
+              textDecoration: "none",
+              padding: "10px 10px",
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.04)",
+              fontWeight: 700,
+            }}
+          >
+            Home
+          </Link>
+          <Link
+            href="/inventory"
+            onClick={closeMenu}
+            style={{
+              textDecoration: "none",
+              padding: "10px 10px",
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.04)",
+              fontWeight: 700,
+            }}
+          >
+            Inventory
+          </Link>
           {/* Accordions */}
           {groups.map((g) => (
             <MobileAccordion

@@ -115,21 +115,9 @@ export default function HeaderClient() {
           justifyContent: "space-between",
         }}
       >
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <Image
-            src="/hammys-logo.png"
-            alt="Hammy's Trading"
-            width={34}
-            height={34}
-            priority
-          />
-          <span style={{ fontWeight: 800, letterSpacing: 0.2 }}>Hammy’s Trading</span>
-        </Link>
-
-        {/* Desktop nav removed: use hamburger + slide-over menu for all sizes */}
-
-        {/* Mobile hamburger (shown on small screens) */}
-        <button
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          {/* Hamburger (all sizes) */}
+          <button
           className="mobileHamburger"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
@@ -181,7 +169,19 @@ export default function HeaderClient() {
               }}
             />
           </span>
-        </button>
+          </button>
+
+          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <Image
+              src="/hammys-logo.png"
+              alt="Hammy's Trading"
+              width={34}
+              height={34}
+              priority
+            />
+            <span style={{ fontWeight: 800, letterSpacing: 0.2 }}>Hammy’s Trading</span>
+          </Link>
+        </div>
       </div>
 
       {/* Mobile backdrop */}
@@ -203,13 +203,13 @@ export default function HeaderClient() {
         style={{
           position: "fixed",
           top: 0,
-          right: 0,
+          left: 0,
           height: "100dvh",
           width: "min(92vw, 360px)",
           background: "rgba(12,12,14,0.98)",
-          borderLeft: "1px solid rgba(255,255,255,0.10)",
+          borderRight: "1px solid rgba(255,255,255,0.10)",
           zIndex: 50,
-          transform: mobileOpen ? "translateX(0)" : "translateX(105%)",
+          transform: mobileOpen ? "translateX(0)" : "translateX(-105%)",
           transition: "transform 180ms ease",
           display: "flex",
           flexDirection: "column",

@@ -7,9 +7,6 @@ import { configureAmplify } from "@/lib/amplify-server";
 // Configure Amplify for server usage BEFORE generateClient()
 configureAmplify();
 
-// Create Stripe client (do NOT set a fake apiVersion)
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string);
-
 const client = generateClient({ authMode: "apiKey" as const }) as any;
 
 export async function POST(req: Request) {
@@ -21,7 +18,8 @@ export async function POST(req: Request) {
     }
 
     const site = process.env.NEXT_PUBLIC_SITE_URL;
-    if (!process.env.STRIPE_SECRET_KEY) {
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+    if (!stripeSecretKey) {
       return NextResponse.json(
         { error: "Missing STRIPE_SECRET_KEY env var" },
         { status: 500 }
@@ -33,6 +31,9 @@ export async function POST(req: Request) {
         { status: 500 }
       );
     }
+
+    // Create Stripe client only after we've validated env vars.
+    const stripe = new Stripe(stripeSecretKey);
 
     // Fetch item server-side (prevents client spoofing price)
     const res = await client.models.InventoryItem.get({ id: itemId });
@@ -72,7 +73,6 @@ export async function POST(req: Request) {
             unit_amount,
             product_data: {
               name: item.name ?? "Item",
-              description: item.description ?? undefined,
               images: item.image ? [item.image] : undefined,
             },
           },

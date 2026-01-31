@@ -5,12 +5,13 @@ export type Item = {
   id: string;
   name: string;
   set?: string;
-  number?: string;
   condition?: string;
+  gradingCompany?: string;
+  grade?: string;
+  language?: string;
   price?: number;
   image?: string;
   tags?: string[];
-  description?: string;
   status?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -20,12 +21,13 @@ export type CreateInput = {
   id?: string;
   name: string;
   set?: string;
-  number?: string;
   condition?: string;
+  gradingCompany?: string;
+  grade?: string;
+  language?: string;
   price?: number;
   image?: string;
   tags?: string[];
-  description?: string;
   status?: string;
 };
 

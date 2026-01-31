@@ -80,7 +80,21 @@ export default function InventoryPage() {
     return items.filter((i) => {
       const status = (i.status ?? "available").toLowerCase();
       if (statusFilter && status !== statusFilter) return false;
-      if (q && !(i.name ?? "").toLowerCase().includes(q)) return false;
+      if (q) {
+        const hay = [
+          i.name,
+          i.set,
+          i.condition,
+          i.gradingCompany,
+          i.grade,
+          i.language,
+          ...(i.tags ?? []),
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+        if (!hay.includes(q)) return false;
+      }
       return true;
     });
   }, [items, search, statusFilter]);
@@ -153,6 +167,12 @@ export default function InventoryPage() {
 
               <div style={{ padding: 12, display: "grid", gap: 8 }}>
                 <div style={{ fontWeight: 800, lineHeight: 1.2 }}>{i.name}</div>
+                {i.set ? <div style={{ opacity: 0.85 }}>{i.set}</div> : null}
+                <div style={{ opacity: 0.75 }}>
+                  {[i.condition, i.gradingCompany, i.grade, i.language]
+                    .filter(Boolean)
+                    .join(" · ") || "—"}
+                </div>
                 <div style={{ opacity: 0.85 }}>{money(i.price)}</div>
 
                 <div style={{ display: "flex", gap: 8 }}>

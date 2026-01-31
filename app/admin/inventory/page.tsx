@@ -5,7 +5,6 @@ import { getUrl } from "aws-amplify/storage";
 import {
   listInventoryAdmin,
   createInventoryItem,
-  updateInventoryItem,
   deleteInventoryItem,
   type Item,
 } from "@/lib/data/inventory";
@@ -20,10 +19,14 @@ function money(n?: number) {
 
 const EMPTY: Partial<Item> = {
   name: "",
+  set: "",
+  condition: "",
+  gradingCompany: "",
+  grade: "",
+  language: "",
   price: undefined,
   status: "available",
   image: "",
-  description: "",
   tags: [],
 };
 
@@ -36,6 +39,8 @@ export default function AdminInventoryPage() {
   const [draft, setDraft] = useState<Partial<Item>>(EMPTY);
   const [draftId, setDraftId] = useState(() => crypto.randomUUID());
   const [imagePreview, setImagePreview] = useState("");
+  const [setOptions, setSetOptions] = useState<{ id: string; name: string }[]>([]);
+  const [tagsText, setTagsText] = useState("");
   const [itemPreviews, setItemPreviews] = useState<Record<string, string>>({});
 
   async function refresh() {
@@ -45,6 +50,35 @@ export default function AdminInventoryPage() {
 
   useEffect(() => {
     refresh().finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadSets() {
+      try {
+        const res = await fetch(
+          "https://api.pokemontcg.io/v2/sets?orderBy=-releaseDate&select=id,name&pageSize=250"
+        );
+        if (!res.ok) return;
+        const json = await res.json();
+        const data = Array.isArray(json?.data) ? json.data : [];
+        if (!cancelled) {
+          setSetOptions(
+            data
+              .map((s: any) => ({ id: String(s.id ?? ""), name: String(s.name ?? "") }))
+              .filter((s: { id: string; name: string }) => s.id && s.name)
+          );
+        }
+      } catch (e) {
+        console.error("Failed to load Pokemon sets", e);
+      }
+    }
+
+    loadSets();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
@@ -83,7 +117,20 @@ export default function AdminInventoryPage() {
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
-    return items.filter((i) => i.name.toLowerCase().includes(q));
+    return items.filter((i) => {
+      const hay = [
+        i.name,
+        i.set,
+        i.condition,
+        i.gradingCompany,
+        i.grade,
+        i.language,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return hay.includes(q);
+    });
   }, [items, search]);
 
   async function onCreate() {
@@ -99,16 +146,21 @@ export default function AdminInventoryPage() {
       await createInventoryItem({
         id: draftId,
         name: draft.name.trim(),
+        set: draft.set || undefined,
+        condition: draft.condition || undefined,
+        gradingCompany: draft.gradingCompany || undefined,
+        grade: draft.grade || undefined,
+        language: draft.language || undefined,
         price: draft.price,
         status: draft.status ?? "available",
         image: draft.image || undefined,
-        description: draft.description || undefined,
         tags: draft.tags ?? [],
       });
 
       setDraft(EMPTY);
       setDraftId(crypto.randomUUID());
       setImagePreview("");
+      setTagsText("");
       await refresh();
     } catch (e: any) {
       console.error(e);
@@ -143,6 +195,42 @@ export default function AdminInventoryPage() {
         />
 
         <input
+          list="pokemon-sets"
+          placeholder="Set"
+          value={draft.set ?? ""}
+          onChange={(e) => setDraft((d) => ({ ...d, set: e.target.value }))}
+        />
+        <datalist id="pokemon-sets">
+          {setOptions.map((s) => (
+            <option key={s.id} value={s.name} />
+          ))}
+        </datalist>
+
+        <input
+          placeholder="Condition"
+          value={draft.condition ?? ""}
+          onChange={(e) => setDraft((d) => ({ ...d, condition: e.target.value }))}
+        />
+
+        <input
+          placeholder="Grading Company"
+          value={draft.gradingCompany ?? ""}
+          onChange={(e) => setDraft((d) => ({ ...d, gradingCompany: e.target.value }))}
+        />
+
+        <input
+          placeholder="Grade"
+          value={draft.grade ?? ""}
+          onChange={(e) => setDraft((d) => ({ ...d, grade: e.target.value }))}
+        />
+
+        <input
+          placeholder="Language"
+          value={draft.language ?? ""}
+          onChange={(e) => setDraft((d) => ({ ...d, language: e.target.value }))}
+        />
+
+        <input
           placeholder="Price"
           type="number"
           value={draft.price ?? ""}
@@ -153,6 +241,15 @@ export default function AdminInventoryPage() {
             }))
           }
         />
+
+        <select
+          value={draft.status ?? "available"}
+          onChange={(e) => setDraft((d) => ({ ...d, status: e.target.value }))}
+        >
+          <option value="available">available</option>
+          <option value="pending">pending</option>
+          <option value="sold">sold</option>
+        </select>
 
         {/* 🔑 IMAGE UPLOAD */}
         <ImageUpload
@@ -175,12 +272,18 @@ export default function AdminInventoryPage() {
           />
         )}
 
-        <textarea
-          placeholder="Description"
-          value={draft.description ?? ""}
-          onChange={(e) =>
-            setDraft((d) => ({ ...d, description: e.target.value }))
-          }
+        <input
+          placeholder="Tags (comma separated)"
+          value={tagsText}
+          onChange={(e) => {
+            const next = e.target.value;
+            setTagsText(next);
+            const tags = next
+              .split(",")
+              .map((t) => t.trim())
+              .filter(Boolean);
+            setDraft((d) => ({ ...d, tags }));
+          }}
         />
 
         <button onClick={onCreate} disabled={saving}>
@@ -216,8 +319,16 @@ export default function AdminInventoryPage() {
                 style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 8 }}
               />
             ) : null}
-            <strong>{i.name}</strong>
-            <div>{money(i.price)}</div>
+            <div>
+              <strong>{i.name}</strong>
+              {i.set ? <div style={{ opacity: 0.8 }}>{i.set}</div> : null}
+              <div style={{ opacity: 0.8 }}>
+                {[i.condition, i.gradingCompany, i.grade, i.language]
+                  .filter(Boolean)
+                  .join(" · ") || "—"}
+              </div>
+              <div>{money(i.price)}</div>
+            </div>
           </div>
 
           <button onClick={() => onDelete(i.id)}>Delete</button>

@@ -49,11 +49,10 @@ export async function POST(req: Request) {
           price_data: {
             currency: "usd",
             unit_amount: Math.round(price * 100),
-            product_data: {
-              name: String(item.name ?? "Item"),
-              description: item.description ? String(item.description) : undefined,
-              images: item.image ? [String(item.image)] : undefined,
-            },
+              product_data: {
+                name: String(item.name ?? "Item"),
+                images: item.image ? [String(item.image)] : undefined,
+              },
           },
           quantity: 1,
         },

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { getUrl } from "aws-amplify/storage";
 import { useParams } from "next/navigation";
 import BuyNowButton from "@/components/BuyNowButton";
 import { listInventoryPublic, type Item } from "@/lib/data/inventory";
@@ -18,6 +19,7 @@ export default function ItemPage() {
   const [item, setItem] = useState<Item | null>(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
     let cancelled = false;
@@ -46,11 +48,34 @@ export default function ItemPage() {
     };
   }, [id]);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadImage() {
+      if (!item?.image) {
+        setImageUrl("");
+        return;
+      }
+      try {
+        const res = await getUrl({ path: item.image });
+        if (!cancelled) setImageUrl(res.url.toString());
+      } catch (e) {
+        console.error("Failed to load image url", e);
+        if (!cancelled) setImageUrl("");
+      }
+    }
+
+    loadImage();
+    return () => {
+      cancelled = true;
+    };
+  }, [item?.image]);
+
   if (loading) return <div style={{ padding: 24 }}>Loading item…</div>;
   if (err) return <div style={{ padding: 24 }}>Error: {err}</div>;
   if (!item) return <div style={{ padding: 24 }}>Item not found.</div>;
 
-  const img = item.image ? String(item.image) : "";
+  const img = imageUrl;
 
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto", padding: 24 }}>
@@ -99,7 +124,15 @@ export default function ItemPage() {
             {money(item.price)} · {item.status ?? "available"}
           </div>
 
-          {item.description ? <div style={{ opacity: 0.85 }}>{item.description}</div> : null}
+          {item.set ? <div style={{ opacity: 0.85 }}>{item.set}</div> : null}
+          <div style={{ opacity: 0.8 }}>
+            {[item.condition, item.gradingCompany, item.grade, item.language]
+              .filter(Boolean)
+              .join(" · ") || "—"}
+          </div>
+          {item.tags && item.tags.length > 0 ? (
+            <div style={{ opacity: 0.75 }}>Tags: {item.tags.join(", ")}</div>
+          ) : null}
 
           {/* IMPORTANT: button is NOT inside a Link and is in normal layout */}
           <div style={{ display: "flex", gap: 10, marginTop: 10 }}>

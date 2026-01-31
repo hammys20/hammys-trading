@@ -16,12 +16,13 @@ const schema = a.schema({
       id: a.id(),
       name: a.string().required(),
       set: a.string(),
-      number: a.string(),
       condition: a.string(),
+      gradingCompany: a.string(),
+      grade: a.string(),
+      language: a.string(),
       price: a.float(),
       image: a.string(),
       tags: a.string().array(),
-      description: a.string(),
 
       // Keep as string for now (prevents Enum serialization errors from old data)
       status: a.string(),
@@ -52,7 +53,6 @@ export const data = defineData({
     },
   },
 });
-
 
 
 

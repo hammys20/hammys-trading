@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { generateClient } from "aws-amplify/data";
+import { configureAmplify } from "@/lib/amplify-server";
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
@@ -8,6 +9,8 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 // Let Stripe SDK choose its default API version.
 // (Setting a bogus version = 500)
 const stripe = new Stripe(stripeSecretKey ?? "", {});
+
+configureAmplify();
 
 const client = generateClient({ authMode: "apiKey" }) as any;
 

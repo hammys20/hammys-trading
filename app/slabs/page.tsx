@@ -1,0 +1,9 @@
+// app/slabs/page.tsx
+export default function SlabsPage() {
+  return (
+    <main style={{ maxWidth: 1100, margin: "0 auto", padding: "24px 16px" }}>
+      <h1 style={{ margin: 0 }}>Slabs</h1>
+      <p style={{ opacity: 0.85 }}>Browse slabs here.</p>
+    </main>
+  );
+}

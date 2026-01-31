@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { getUrl } from "aws-amplify/storage";
 import {
   listInventoryAdmin,
   createInventoryItem,
@@ -33,6 +34,9 @@ export default function AdminInventoryPage() {
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [draft, setDraft] = useState<Partial<Item>>(EMPTY);
+  const [draftId, setDraftId] = useState(() => crypto.randomUUID());
+  const [imagePreview, setImagePreview] = useState("");
+  const [itemPreviews, setItemPreviews] = useState<Record<string, string>>({});
 
   async function refresh() {
     const res = await listInventoryAdmin();
@@ -42,6 +46,40 @@ export default function AdminInventoryPage() {
   useEffect(() => {
     refresh().finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    let canceled = false;
+
+    async function loadPreviews() {
+      const missing = items.filter((i) => i.image && !itemPreviews[i.id]);
+      if (missing.length === 0) return;
+
+      const entries = await Promise.all(
+        missing.map(async (i) => {
+          try {
+            const res = await getUrl({ path: i.image as string });
+            return [i.id, res.url.toString()] as const;
+          } catch {
+            return [i.id, ""] as const;
+          }
+        })
+      );
+
+      if (canceled) return;
+      setItemPreviews((prev) => {
+        const next = { ...prev };
+        for (const [id, url] of entries) {
+          if (url) next[id] = url;
+        }
+        return next;
+      });
+    }
+
+    loadPreviews();
+    return () => {
+      canceled = true;
+    };
+  }, [items, itemPreviews]);
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
@@ -59,6 +97,7 @@ export default function AdminInventoryPage() {
 
     try {
       await createInventoryItem({
+        id: draftId,
         name: draft.name.trim(),
         price: draft.price,
         status: draft.status ?? "available",
@@ -68,6 +107,8 @@ export default function AdminInventoryPage() {
       });
 
       setDraft(EMPTY);
+      setDraftId(crypto.randomUUID());
+      setImagePreview("");
       await refresh();
     } catch (e: any) {
       console.error(e);
@@ -115,18 +156,20 @@ export default function AdminInventoryPage() {
 
         {/* 🔑 IMAGE UPLOAD */}
         <ImageUpload
-          value={draft.image}
-          onUploaded={(url) =>
+          itemId={draftId}
+          currentKey={draft.image}
+          onUploaded={(key, previewUrl) => {
             setDraft((d) => ({
               ...d,
-              image: url,
-            }))
-          }
+              image: key,
+            }));
+            setImagePreview(previewUrl);
+          }}
         />
 
-        {draft.image && (
+        {imagePreview && (
           <img
-            src={draft.image}
+            src={imagePreview}
             alt="Preview"
             style={{ width: 120, borderRadius: 8 }}
           />
@@ -165,7 +208,14 @@ export default function AdminInventoryPage() {
             marginBottom: 8,
           }}
         >
-          <div>
+          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            {itemPreviews[i.id] ? (
+              <img
+                src={itemPreviews[i.id]}
+                alt={i.name}
+                style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 8 }}
+              />
+            ) : null}
             <strong>{i.name}</strong>
             <div>{money(i.price)}</div>
           </div>

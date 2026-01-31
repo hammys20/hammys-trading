@@ -147,17 +147,26 @@ export default function HeaderClient() {
             justifyContent: "flex-end",
           }}
         >
-          {desktopLinks.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              style={{
-                opacity: pathname === l.href ? 1 : 0.88,
-                textDecoration: "none",
-              }}
-            >
-              {l.label}
-            </Link>
+          {desktopLinks.map((l, idx) => (
+            <span key={l.href} style={{ display: "inline-flex", alignItems: "center" }}>
+              <Link
+                href={l.href}
+                style={{
+                  opacity: pathname === l.href ? 1 : 0.88,
+                  textDecoration: "none",
+                }}
+              >
+                {l.label}
+              </Link>
+              {idx < desktopLinks.length - 1 ? (
+                <span
+                  aria-hidden="true"
+                  style={{ opacity: 0.35, margin: "0 8px" }}
+                >
+                  |
+                </span>
+              ) : null}
+            </span>
           ))}
 
           {isAdmin ? (

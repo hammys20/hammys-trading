@@ -199,3 +199,223 @@ body {
 @media (min-width: 640px) {
   .container { padding: 0 24px; }
 }
+
+/* ===== Header layout ===== */
+.siteHeader {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(10, 10, 12, 0.72);
+  backdrop-filter: blur(12px);
+}
+
+.siteHeaderInner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+  color: rgba(255,255,255,0.92);
+}
+
+/* Desktop nav */
+.desktopNav {
+  display: none;
+  align-items: center;
+  gap: 14px;
+}
+
+.navLink {
+  text-decoration: none;
+  color: rgba(255,255,255,0.80);
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.navLink:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.navLink.active {
+  color: rgba(255,255,255,0.95);
+  background: rgba(255,255,255,0.08);
+}
+
+.navGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navGroupLabel {
+  color: rgba(255,255,255,0.55);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.navGroupLinks {
+  display: flex;
+  gap: 8px;
+}
+
+/* Hamburger */
+.hamburger {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.04);
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburgerBars {
+  width: 18px;
+  height: 2px;
+  background: rgba(255,255,255,0.85);
+  position: relative;
+  display: inline-block;
+  border-radius: 999px;
+}
+.hamburgerBars::before,
+.hamburgerBars::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 18px;
+  height: 2px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 999px;
+}
+.hamburgerBars::before { top: -6px; }
+.hamburgerBars::after { top: 6px; }
+
+/* Backdrop + slide-over */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 59;
+}
+
+.mobileMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100dvh;
+  width: min(92vw, 360px);
+  background: rgba(12, 12, 14, 0.98);
+  border-left: 1px solid rgba(255,255,255,0.10);
+  z-index: 60;
+  transform: translateX(105%);
+  transition: transform 180ms ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileMenu.open {
+  transform: translateX(0);
+}
+
+.mobileMenuHeader {
+  padding: 14px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.mobileMenuTitle {
+  color: rgba(255,255,255,0.9);
+  font-weight: 700;
+}
+
+.closeBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.9);
+}
+
+/* Mobile nav items */
+.mobileNav {
+  padding: 10px 12px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: auto;
+}
+
+.mobileLink {
+  text-decoration: none;
+  padding: 12px 12px;
+  border-radius: 12px;
+  color: rgba(255,255,255,0.88);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.accordion {
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.03);
+  overflow: hidden;
+}
+
+.accordionBtn {
+  width: 100%;
+  padding: 12px 12px;
+  background: transparent;
+  border: 0;
+  color: rgba(255,255,255,0.88);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chev {
+  opacity: 0.8;
+  transition: transform 150ms ease;
+}
+.chev.open {
+  transform: rotate(180deg);
+}
+
+.accordionPanel {
+  display: none;
+  padding: 6px 10px 12px;
+}
+.accordionPanel.open {
+  display: block;
+}
+
+.mobileSublink {
+  display: block;
+  text-decoration: none;
+  padding: 10px 10px;
+  border-radius: 12px;
+  color: rgba(255,255,255,0.82);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  margin-top: 8px;
+}
+
+/* ===== Breakpoint: show desktop nav, hide hamburger ===== */
+@media (min-width: 860px) {
+  .desktopNav { display: flex; }
+  .hamburger { display: none; }
+  .backdrop, .mobileMenu { display: none; }
+}

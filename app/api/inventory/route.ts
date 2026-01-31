@@ -1,5 +1,8 @@
 import { generateClient } from "aws-amplify/data";
 import { NextResponse } from "next/server";
+import { configureAmplify } from "@/lib/amplify-server";
+
+configureAmplify();
 
 // 👇 Cast to any so TS knows models exist
 const client = generateClient({ authMode: "apiKey" }) as any;

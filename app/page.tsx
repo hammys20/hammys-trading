@@ -1,9 +1,14 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import WhatnotStatus from "./components/WhatnotStatus";
 import ScrollLineObserver from "@/components/ScrollLineObserver";
 
 export default function HomePage() {
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+
   return (
     <div>
       <ScrollLineObserver />
@@ -110,8 +115,13 @@ export default function HomePage() {
             <div
               key={c.title}
               data-scroll-line
-              className="scrollLine categoryCard"
+              className={`scrollLine categoryCard ${
+                activeCategory === c.title ? "categoryActive" : ""
+              }`}
               style={{ "--delay": `${idx * 70}ms` } as React.CSSProperties}
+              onClick={() =>
+                setActiveCategory((prev) => (prev === c.title ? null : c.title))
+              }
             >
               <Image
                 src={c.img}
@@ -182,27 +192,29 @@ export default function HomePage() {
           marginBottom: 60,
         }}
       >
-        <div>
-          <div
-            style={{
-              fontSize: 12,
-              fontWeight: 800,
-              letterSpacing: 0.6,
-              color: "var(--accent)",
-              marginBottom: 6,
-            }}
-          >
-            LIVE BREAKS
+        <div className="whatnotContent">
+          <div className="whatnotText">
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 800,
+                letterSpacing: 0.6,
+                color: "var(--accent)",
+                marginBottom: 6,
+              }}
+            >
+              LIVE BREAKS
+            </div>
+
+            <h2 style={{ marginTop: 0, marginBottom: 10 }}>Join us live on Whatnot</h2>
+
+            <p style={{ color: "var(--muted)", maxWidth: 520 }}>
+              Real-time pulls, community auctions, and transparent breaks. Follow the channel for stream
+              alerts and upcoming shows.
+            </p>
           </div>
 
-          <h2 style={{ marginTop: 0, marginBottom: 10 }}>Join us live on Whatnot</h2>
-
-          <p style={{ color: "var(--muted)", maxWidth: 520 }}>
-            Real-time pulls, community auctions, and transparent breaks. Follow the channel for stream
-            alerts and upcoming shows.
-          </p>
-
-          <div style={{ marginTop: 18 }}>
+          <div className="whatnotActions" style={{ marginTop: 18 }}>
             <WhatnotStatus />
           </div>
         </div>

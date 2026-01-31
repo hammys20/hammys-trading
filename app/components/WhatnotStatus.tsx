@@ -93,6 +93,7 @@ export default function WhatnotStatus() {
         </span>
       ) : showCountdown ? (
         <span
+          className="whatnotCountdown"
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -114,7 +115,7 @@ export default function WhatnotStatus() {
         href={status.whatnotUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="btn btnPrimary"
+        className="btn btnPrimary whatnotBtn"
       >
         Visit Whatnot Channel
       </a>

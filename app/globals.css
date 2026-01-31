@@ -478,6 +478,24 @@ body {
   right: 14px;
   bottom: 14px;
   z-index: 2;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.categoryCard:hover .categoryText,
+.categoryCard.categoryActive .categoryText {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.categoryCard:hover .categoryFade,
+.categoryCard.categoryActive .categoryFade {
+  opacity: 1;
+}
+
+.categoryFade {
+  transition: opacity 180ms ease;
 }
 
 /* Hero image sits behind text */
@@ -539,6 +557,16 @@ body {
 
 /* Mobile image card overlap: description sits behind image for a smooth scroll feel */
 @media (max-width: 900px) {
+  .whatnotCountdown {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .whatnotBtn {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
   .categoryGrid {
     grid-template-columns: 1fr !important;
   }
@@ -565,6 +593,7 @@ body {
   .whatnotSection {
     position: relative;
     grid-template-columns: 1fr !important;
+    overflow: visible;
   }
 
   .whatnotPreview {
@@ -572,19 +601,27 @@ body {
     z-index: 1;
     border-radius: 16px;
     overflow: hidden;
-    border: 1px solid var(--border);
+    border: 0;
     opacity: 1;
     filter: none;
+    aspect-ratio: 16 / 9;
+    margin-top: 10px;
   }
 
-  .whatnotPreview img {
-    opacity: 0.78;
-    filter: saturate(0.9) brightness(0.95);
-  }
-
-  .whatnotSection > div {
+  .whatnotContent {
     position: relative;
-    z-index: 1;
+    z-index: 2;
+  }
+
+  .whatnotText {
+    position: relative;
+    z-index: 3;
+  }
+
+  .whatnotActions {
+    position: relative;
+    z-index: 3;
+    margin-top: -18px;
   }
 }
 

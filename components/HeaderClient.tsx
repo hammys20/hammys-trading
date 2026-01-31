@@ -69,6 +69,7 @@ export default function HeaderClient() {
         items: [
           { label: "About", href: "/about" },
           { label: "Terms", href: "/terms" },
+          { label: "Contact Us", href: "/contact" },
         ],
       },
     ],
@@ -81,6 +82,7 @@ export default function HeaderClient() {
       { label: "Whatnot", href: "/whatnot" },
       { label: "About", href: "/about" },
       { label: "Terms", href: "/terms" },
+      { label: "Contact Us", href: "/contact" },
     ],
     []
   );
@@ -333,59 +335,43 @@ export default function HeaderClient() {
           ))}
 
           {/* Account area */}
-          <div
-            style={{
-              border: "1px solid rgba(255,255,255,0.08)",
-              background: "rgba(255,255,255,0.03)",
-              borderRadius: 14,
-              overflow: "hidden",
-            }}
-          >
+          {isAuthed ? (
             <div
               style={{
-                padding: 12,
-                opacity: 0.8,
-                fontSize: 12,
-                letterSpacing: "0.12em",
+                border: "1px solid rgba(255,255,255,0.08)",
+                background: "rgba(255,255,255,0.03)",
+                borderRadius: 14,
+                overflow: "hidden",
               }}
             >
-              ACCOUNT
-            </div>
+              <div
+                style={{
+                  padding: 12,
+                  opacity: 0.8,
+                  fontSize: 12,
+                  letterSpacing: "0.12em",
+                }}
+              >
+                ACCOUNT
+              </div>
 
-            <div style={{ padding: "0 12px 12px", display: "grid", gap: 8 }}>
-              {isAdmin ? (
-                <Link
-                  href="/admin"
-                  onClick={closeMenu}
-                  style={{
-                    textDecoration: "none",
-                    padding: "10px 10px",
-                    borderRadius: 12,
-                    border: "1px solid rgba(255,255,255,0.08)",
-                    background: "rgba(255,255,255,0.03)",
-                  }}
-                >
-                  Admin
-                </Link>
-              ) : null}
+              <div style={{ padding: "0 12px 12px", display: "grid", gap: 8 }}>
+                {isAdmin ? (
+                  <Link
+                    href="/admin"
+                    onClick={closeMenu}
+                    style={{
+                      textDecoration: "none",
+                      padding: "10px 10px",
+                      borderRadius: 12,
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      background: "rgba(255,255,255,0.03)",
+                    }}
+                  >
+                    Admin
+                  </Link>
+                ) : null}
 
-              {!isAuthed && pathname?.startsWith("/admin") ? (
-                <Link
-                  href="/signin"
-                  onClick={closeMenu}
-                  style={{
-                    textDecoration: "none",
-                    padding: "10px 10px",
-                    borderRadius: 12,
-                    border: "1px solid rgba(255,255,255,0.14)",
-                    background: "rgba(255,255,255,0.04)",
-                  }}
-                >
-                  Sign in
-                </Link>
-              ) : null}
-
-              {isAuthed ? (
                 <button
                   onClick={() => {
                     closeMenu();
@@ -403,9 +389,9 @@ export default function HeaderClient() {
                 >
                   Sign out
                 </button>
-              ) : null}
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </aside>
 

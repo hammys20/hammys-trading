@@ -470,6 +470,8 @@ body {
       rgba(0,0,0,0.15) 82%,
       rgba(0,0,0,0.7) 100%
     );
+  opacity: 0.35;
+  pointer-events: none;
 }
 
 .categoryText {
@@ -491,11 +493,21 @@ body {
 
 .categoryCard:hover .categoryFade,
 .categoryCard.categoryActive .categoryFade {
-  opacity: 1;
+  opacity: 0.7;
 }
 
 .categoryFade {
   transition: opacity 180ms ease;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .categoryCard:hover .categoryText {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  .categoryCard:hover .categoryFade {
+    opacity: 0.35;
+  }
 }
 
 /* Hero image sits behind text */

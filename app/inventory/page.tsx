@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import { getUrl } from "aws-amplify/storage";
 import BuyNowButton from "@/components/BuyNowButton";
 import { listInventoryPublic, type Item } from "@/lib/data/inventory";
 
@@ -17,6 +18,7 @@ export default function InventoryPage() {
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("available");
   const [error, setError] = useState("");
+  const [imageUrls, setImageUrls] = useState<Record<string, string>>({});
 
   useEffect(() => {
     let cancelled = false;
@@ -38,6 +40,40 @@ export default function InventoryPage() {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadImageUrls() {
+      const missing = items.filter((i) => i.image && !imageUrls[i.id]);
+      if (missing.length === 0) return;
+
+      const entries = await Promise.all(
+        missing.map(async (i) => {
+          try {
+            const res = await getUrl({ path: i.image as string });
+            return [i.id, res.url.toString()] as const;
+          } catch {
+            return [i.id, ""] as const;
+          }
+        })
+      );
+
+      if (cancelled) return;
+      setImageUrls((prev) => {
+        const next = { ...prev };
+        for (const [id, url] of entries) {
+          if (url) next[id] = url;
+        }
+        return next;
+      });
+    }
+
+    loadImageUrls();
+    return () => {
+      cancelled = true;
+    };
+  }, [items, imageUrls]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -99,9 +135,9 @@ export default function InventoryPage() {
             >
               <Link href={`/item/${i.id}`} style={{ display: "block" }}>
                 <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 1", background: "rgba(255,255,255,0.04)" }}>
-                  {i.image ? (
+                  {imageUrls[i.id] ? (
                     <Image
-                      src={i.image}
+                      src={imageUrls[i.id]}
                       alt={i.name}
                       fill
                       sizes="(max-width: 768px) 100vw, 240px"

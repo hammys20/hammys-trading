@@ -66,14 +66,6 @@ export default function WhatnotStatus() {
         >
           Visit Whatnot Channel
         </a>
-        <a
-          href="https://www.whatnot.com/user/hammys_trading"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn"
-        >
-          Follow for Live Alerts
-        </a>
       </div>
     );
   }
@@ -127,9 +119,6 @@ export default function WhatnotStatus() {
         Visit Whatnot Channel
       </a>
 
-      <a href={status.whatnotUrl} target="_blank" rel="noopener noreferrer" className="btn">
-        Follow for Live Alerts
-      </a>
     </div>
   );
 }

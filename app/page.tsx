@@ -76,43 +76,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* TRUST */}
-      <section
-        data-scroll-line
-        className="scrollLine trustGrid"
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: 18,
-          marginBottom: 70,
-        }}
-      >
-        {[
-          {
-            title: "Collector First",
-            text: "Every card is described honestly with condition clearly stated. No surprises.",
-          },
-          {
-            title: "Market-Driven Pricing",
-            text: "Prices reflect real comps, not hype. Fair for buyers and sellers.",
-          },
-          {
-            title: "Fast & Secure Shipping",
-            text: "Cards ship quickly and safely — protected like they’re our own.",
-          },
-        ].map((f, idx) => (
-          <div
-            key={f.title}
-            data-scroll-line
-            className="card scrollLine"
-            style={{ padding: 18, "--delay": `${idx * 60}ms` } as React.CSSProperties}
-          >
-            <div style={{ fontWeight: 900, marginBottom: 8 }}>{f.title}</div>
-            <div style={{ color: "var(--muted)", fontSize: 14 }}>{f.text}</div>
-          </div>
-        ))}
-      </section>
-
       {/* CATEGORIES */}
       <section style={{ marginBottom: 70 }}>
         <h2 data-scroll-line className="scrollLine" style={{ marginBottom: 18 }}>
@@ -169,10 +132,47 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* TRUST */}
+      <section
+        data-scroll-line
+        className="scrollLine trustGrid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: 18,
+          marginBottom: 70,
+        }}
+      >
+        {[
+          {
+            title: "Collector First",
+            text: "Every card is described honestly with condition clearly stated. No surprises.",
+          },
+          {
+            title: "Market-Driven Pricing",
+            text: "Prices reflect real comps, not hype. Fair for buyers and sellers.",
+          },
+          {
+            title: "Fast & Secure Shipping",
+            text: "Cards ship quickly and safely — protected like they’re our own.",
+          },
+        ].map((f, idx) => (
+          <div
+            key={f.title}
+            data-scroll-line
+            className="card scrollLine"
+            style={{ padding: 18, "--delay": `${idx * 60}ms` } as React.CSSProperties}
+          >
+            <div style={{ fontWeight: 900, marginBottom: 8 }}>{f.title}</div>
+            <div style={{ color: "var(--muted)", fontSize: 14 }}>{f.text}</div>
+          </div>
+        ))}
+      </section>
+
       {/* WHATNOT (LIVE NOW + COUNTDOWN) */}
       <section
         data-scroll-line
-        className="card scrollLine"
+        className="card scrollLine whatnotSection"
         style={{
           padding: 28,
           display: "grid",
@@ -207,14 +207,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div
-          style={{
-            borderRadius: 16,
-            overflow: "hidden",
-            border: "1px solid var(--border)",
-            background: "var(--surface)",
-          }}
-        >
+        <div className="whatnotPreview">
           <img
             src="/whatnot-preview.png"
             alt="Hammy’s Trading on Whatnot"

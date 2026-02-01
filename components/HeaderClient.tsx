@@ -60,17 +60,7 @@ export default function HeaderClient() {
 
   const groups: NavGroup[] = useMemo(
     () => [
-      {
-        label: "Whatnot",
-        items: [{ label: "Whatnot", href: "/whatnot" }],
-      },
-      {
-        label: "Info",
-        items: [
-          { label: "Terms", href: "/terms" },
-          { label: "Contact Us", href: "/contact" },
-        ],
-      },
+      // no grouped menus
     ],
     []
   );
@@ -79,7 +69,6 @@ export default function HeaderClient() {
     () => [
       { label: "Inventory", href: "/inventory" },
       { label: "PowerPacks", href: "/powerpacks" },
-      { label: "Whatnot", href: "/whatnot" },
       { label: "Terms", href: "/terms" },
       { label: "Contact Us", href: "/contact" },
     ],
@@ -401,6 +390,34 @@ export default function HeaderClient() {
             }}
           >
             About
+          </Link>
+          <Link
+            href="/terms"
+            onClick={closeMenu}
+            style={{
+              textDecoration: "none",
+              padding: "10px 10px",
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.04)",
+              fontWeight: 700,
+            }}
+          >
+            Terms
+          </Link>
+          <Link
+            href="/contact"
+            onClick={closeMenu}
+            style={{
+              textDecoration: "none",
+              padding: "10px 10px",
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.04)",
+              fontWeight: 700,
+            }}
+          >
+            Contact Us
           </Link>
           <Link
             href="/about"

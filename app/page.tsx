@@ -81,14 +81,18 @@ export default function HomePage() {
           <div
             data-scroll-line
             className="scrollLine"
-            style={{ display: "flex", gap: 14 }}
+            style={{ display: "flex", gap: 14, flexWrap: "wrap" }}
           >
             <Link href="/inventory" className="btn btnPrimary">
               View Inventory
             </Link>
 
-            <Link href="/inventory" className="btn">
-              Browse All Cards
+            <Link href="/inventory?category=pokemon" className="btn">
+              Browse Pokemon Cards
+            </Link>
+
+            <Link href="/inventory?category=sports" className="btn">
+              Browse Sports Cards
             </Link>
           </div>
           </div>

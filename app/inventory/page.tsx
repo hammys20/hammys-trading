@@ -6,6 +6,7 @@ import { ensureAmplifyConfigured } from "@/lib/amplify-client";
 import BuyNowButton from "@/components/BuyNowButton";
 import AddToCartButton from "@/components/AddToCartButton";
 import { listInventoryPublic, type Item } from "@/lib/data/inventory";
+import { useSearchParams } from "next/navigation";
 import ImageCarousel from "@/components/ImageCarousel";
 
 function money(n?: number) {
@@ -14,6 +15,7 @@ function money(n?: number) {
 }
 
 export default function InventoryPage() {
+  const searchParams = useSearchParams();
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -69,6 +71,13 @@ export default function InventoryPage() {
       cancelled = true;
     };
   }, []);
+
+  useEffect(() => {
+    const category = searchParams?.get("category")?.toLowerCase() ?? "";
+    if (category === "pokemon" || category === "sports") {
+      setCategoryFilter(category);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     function onKey(e: KeyboardEvent) {

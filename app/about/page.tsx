@@ -6,16 +6,16 @@ export const metadata = {
 
 const galleryImages = [
   {
+    src: "/about/charizard-pull.jpg",
+    alt: "One of the boys holding a Charizard pull at a card shop",
+  },
+  {
     src: "/about/kings-of-cards-hit.jpg",
     alt: "A big hit from a 2025 Phoenix Football hobby box at Kings of Cards at the Rex",
   },
   {
     src: "/about/hamilton-couple.jpg",
     alt: "Jason and family co-founder selfie in the car",
-  },
-  {
-    src: "/about/charizard-pull.jpg",
-    alt: "One of the boys holding a Charizard pull at a card shop",
   },
   {
     src: "/about/three-boys-cards.jpg",

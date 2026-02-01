@@ -37,7 +37,7 @@ const schema = a.schema({
       allow.publicApiKey().to(["read"]),
 
       // ✅ Server-side updates via IAM (webhooks, checkout)
-      allow.private().to(["create", "read", "update", "delete"]),
+      allow.iam().to(["create", "read", "update", "delete"]),
 
       // ✅ Admin group can do full CRUD
       allow.groups(["Admin"]).to(["create", "read", "update", "delete"]),
@@ -58,5 +58,4 @@ export const data = defineData({
     },
   },
 });
-
 

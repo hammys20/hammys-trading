@@ -21,6 +21,20 @@ export type Item = {
   updatedAt?: string;
 };
 
+export type Order = {
+  id: string;
+  stripeSessionId?: string;
+  status?: string;
+  buyerEmail?: string;
+  buyerName?: string;
+  shippingAddress?: string;
+  itemsJson?: string;
+  total?: number;
+  currency?: string;
+  createdAt?: string;
+  updatedAt?: string;
+};
+
 export type CreateInput = {
   id?: string;
   name: string;

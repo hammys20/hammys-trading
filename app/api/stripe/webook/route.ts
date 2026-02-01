@@ -81,6 +81,39 @@ async function markItemsSold(itemIds: string[]) {
   );
 }
 
+async function createOrderRecord(input: {
+  stripeSessionId?: string;
+  buyerEmail?: string;
+  buyerName?: string;
+  shippingAddress?: string;
+  itemIds: string[];
+  total?: number;
+  currency?: string;
+}) {
+  const { itemIds, ...rest } = input;
+  const details = await Promise.all(
+    itemIds.map(async (id) => {
+      try {
+        const res = await dataClient.models.InventoryItem.get({ id });
+        const item = res?.data;
+        return {
+          id,
+          name: item?.name ?? id,
+          price: item?.price ?? null,
+        };
+      } catch {
+        return { id, name: id, price: null };
+      }
+    })
+  );
+
+  await dataClient.models.Order.create({
+    ...rest,
+    status: "pending",
+    itemsJson: JSON.stringify(details),
+  });
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.text();
@@ -141,6 +174,24 @@ export async function POST(req: Request) {
 
         if (itemIds.length > 0) {
           await markItemsSold(itemIds);
+        }
+
+        try {
+          const total =
+            typeof session.amount_total === "number"
+              ? session.amount_total / 100
+              : undefined;
+          await createOrderRecord({
+            stripeSessionId: session.id,
+            buyerEmail,
+            buyerName,
+            shippingAddress: shipping,
+            itemIds,
+            total,
+            currency: session.currency ?? "usd",
+          });
+        } catch (e) {
+          console.error("Order create failed:", e);
         }
 
         if (buyerEmail) {

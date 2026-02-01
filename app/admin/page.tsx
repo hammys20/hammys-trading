@@ -17,8 +17,9 @@ export default function AdminHome() {
           Manage Inventory
         </Link>
 
-        {/* future links */}
-        {/* <Link href="/admin/orders">Orders</Link> */}
+        <Link href="/admin/orders" className="btn">
+          Orders & Shipping
+        </Link>
       </div>
     </div>
   );

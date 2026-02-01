@@ -42,6 +42,25 @@ const schema = a.schema({
       // ✅ Admin group can do full CRUD
       allow.groups(["Admin"]).to(["create", "read", "update", "delete"]),
     ]),
+  Order: a
+    .model({
+      id: a.id(),
+      stripeSessionId: a.string(),
+      status: a.string(),
+      buyerEmail: a.string(),
+      buyerName: a.string(),
+      shippingAddress: a.string(),
+      itemsJson: a.string(),
+      total: a.float(),
+      currency: a.string(),
+      createdAt: a.datetime(),
+      updatedAt: a.datetime(),
+    })
+    .authorization((allow) => [
+      // ⚠️ TEMPORARY: allow create via API key for webhook
+      allow.publicApiKey().to(["create"]),
+      allow.groups(["Admin"]).to(["create", "read", "update", "delete"]),
+    ]),
 });
 
 /** ✅ THIS IS THE MISSING PIECE */

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { getUrl } from "aws-amplify/storage";
 import { ensureAmplifyConfigured } from "@/lib/amplify-client";
 import BuyNowButton from "@/components/BuyNowButton";
@@ -14,7 +14,7 @@ function money(n?: number) {
   return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
-export default function InventoryPage() {
+function InventoryContent() {
   const searchParams = useSearchParams();
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
@@ -415,5 +415,13 @@ export default function InventoryPage() {
         </div>
       ) : null}
     </div>
+  );
+}
+
+export default function InventoryPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: 24 }}>Loading inventory…</div>}>
+      <InventoryContent />
+    </Suspense>
   );
 }

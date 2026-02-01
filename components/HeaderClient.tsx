@@ -67,7 +67,6 @@ export default function HeaderClient() {
       {
         label: "Info",
         items: [
-          { label: "About", href: "/about" },
           { label: "Terms", href: "/terms" },
           { label: "Contact Us", href: "/contact" },
         ],
@@ -81,7 +80,6 @@ export default function HeaderClient() {
       { label: "Inventory", href: "/inventory" },
       { label: "PowerPacks", href: "/powerpacks" },
       { label: "Whatnot", href: "/whatnot" },
-      { label: "About", href: "/about" },
       { label: "Terms", href: "/terms" },
       { label: "Contact Us", href: "/contact" },
     ],
@@ -389,6 +387,20 @@ export default function HeaderClient() {
             }}
           >
             PowerPacks
+          </Link>
+          <Link
+            href="/about"
+            onClick={closeMenu}
+            style={{
+              textDecoration: "none",
+              padding: "10px 10px",
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.04)",
+              fontWeight: 700,
+            }}
+          >
+            About
           </Link>
           <Link
             href="/about"

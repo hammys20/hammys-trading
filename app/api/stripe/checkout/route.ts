@@ -8,6 +8,13 @@ import { configureAmplify } from "@/lib/amplify-server";
 configureAmplify();
 
 const client = generateClient({ authMode: "apiKey" as const }) as any;
+const PENDING_WINDOW_MS = 2 * 60 * 1000;
+
+function getPendingUntilMs(value: unknown): number | null {
+  if (!value) return null;
+  const parsed = new Date(String(value)).getTime();
+  return Number.isFinite(parsed) ? parsed : null;
+}
 
 export async function POST(req: Request) {
   try {
@@ -56,7 +63,20 @@ export async function POST(req: Request) {
 
     // Optional: enforce only available items can be purchased
     const status = (item.status ?? "available").toString().toLowerCase();
-    if (status !== "available") {
+    if (status === "pending") {
+      const pendingUntilMs = getPendingUntilMs((item as any).pendingUntil);
+      if (pendingUntilMs && pendingUntilMs > Date.now()) {
+        return NextResponse.json(
+          { error: "Item is pending (reserved)" },
+          { status: 400 }
+        );
+      }
+      await client.models.InventoryItem.update({
+        id: itemId,
+        status: "available",
+        pendingUntil: null,
+      });
+    } else if (status !== "available") {
       return NextResponse.json(
         { error: `Item is not available (status: ${status})` },
         { status: 400 }
@@ -102,6 +122,17 @@ export async function POST(req: Request) {
       success_url: `${site}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${site}/item/${encodeURIComponent(itemId)}`,
     });
+
+    try {
+      const pendingUntil = new Date(Date.now() + PENDING_WINDOW_MS).toISOString();
+      await client.models.InventoryItem.update({
+        id: itemId,
+        status: "pending",
+        pendingUntil,
+      });
+    } catch (err) {
+      console.error("Failed to set pending status:", err);
+    }
 
     return NextResponse.json({ url: session.url });
   } catch (err: any) {

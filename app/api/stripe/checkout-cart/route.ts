@@ -7,6 +7,13 @@ import { configureAmplify } from "@/lib/amplify-server";
 configureAmplify();
 
 const client = generateClient({ authMode: "apiKey" as const }) as any;
+const PENDING_WINDOW_MS = 2 * 60 * 1000;
+
+function getPendingUntilMs(value: unknown): number | null {
+  if (!value) return null;
+  const parsed = new Date(String(value)).getTime();
+  return Number.isFinite(parsed) ? parsed : null;
+}
 
 type CartInput = { id: string; qty: number };
 
@@ -69,7 +76,20 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: `Item not found: ${f.id}` }, { status: 404 });
       }
       const status = (f.item.status ?? "available").toString().toLowerCase();
-      if (status !== "available") {
+      if (status === "pending") {
+        const pendingUntilMs = getPendingUntilMs((f.item as any).pendingUntil);
+        if (pendingUntilMs && pendingUntilMs > Date.now()) {
+          return NextResponse.json(
+            { error: `Item is pending (reserved): ${f.item.name ?? f.id}` },
+            { status: 400 }
+          );
+        }
+        await client.models.InventoryItem.update({
+          id: f.id,
+          status: "available",
+          pendingUntil: null,
+        });
+      } else if (status !== "available") {
         return NextResponse.json(
           { error: `Item not available: ${f.item.name ?? f.id}` },
           { status: 400 }
@@ -114,6 +134,21 @@ export async function POST(req: Request) {
       success_url: `${site}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${site}/cart`,
     });
+
+    try {
+      const pendingUntil = new Date(Date.now() + PENDING_WINDOW_MS).toISOString();
+      await Promise.all(
+        Array.from(merged.keys()).map((id) =>
+          client.models.InventoryItem.update({
+            id,
+            status: "pending",
+            pendingUntil,
+          })
+        )
+      );
+    } catch (err) {
+      console.error("Failed to set pending status for cart:", err);
+    }
 
     return NextResponse.json({ url: session.url });
   } catch (err: any) {

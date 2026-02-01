@@ -75,6 +75,7 @@ async function markItemsSold(itemIds: string[]) {
       dataClient.models.InventoryItem.update({
         id,
         status: "sold",
+        pendingUntil: null,
       })
     )
   );

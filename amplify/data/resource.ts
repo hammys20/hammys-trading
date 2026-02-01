@@ -27,6 +27,7 @@ const schema = a.schema({
 
       // Keep as string for now (prevents Enum serialization errors from old data)
       status: a.string(),
+      pendingUntil: a.datetime(),
 
       createdAt: a.datetime(),
       updatedAt: a.datetime(),
@@ -54,7 +55,6 @@ export const data = defineData({
     },
   },
 });
-
 
 
 

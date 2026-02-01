@@ -138,6 +138,10 @@ export async function POST(req: Request) {
         const text = `Thank you for your purchase, ${buyerName}!\n\nConfirmation Number: ${confirmation}\n\nShipping Address: ${shipping}\n\nTracking and shipment information will be provided soon.`;
         const html = `<p>Thank you for your purchase, <strong>${buyerName}</strong>!</p><p><strong>Confirmation Number:</strong> ${confirmation}</p><p><strong>Shipping Address:</strong> ${shipping}</p><p>Tracking and shipment information will be provided soon.</p>`;
 
+        if (itemIds.length > 0) {
+          await markItemsSold(itemIds);
+        }
+
         if (buyerEmail) {
           await sendEmail({ to: buyerEmail, subject, text, html });
         }
@@ -148,10 +152,6 @@ export async function POST(req: Request) {
           text: `New purchase received.\n\nConfirmation Number: ${confirmation}\n\nBuyer Email: ${buyerEmail || "Not provided"}\nShipping Address: ${shipping}`,
           html: `<p><strong>New purchase received.</strong></p><p><strong>Confirmation Number:</strong> ${confirmation}</p><p><strong>Buyer Email:</strong> ${buyerEmail || "Not provided"}</p><p><strong>Shipping Address:</strong> ${shipping}</p>`,
         });
-
-        if (itemIds.length > 0) {
-          await markItemsSold(itemIds);
-        }
         break;
       }
       default:

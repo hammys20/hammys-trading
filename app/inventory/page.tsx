@@ -109,7 +109,7 @@ export default function InventoryPage() {
       if (cancelled) return;
       const next: Record<string, string[]> = { ...imageUrls };
       for (const [id, urls] of entries) {
-        if (urls.length > 0) next[id] = urls;
+        if (urls.length > 0) next[id] = [...urls];
       }
       setImageUrls(next);
 

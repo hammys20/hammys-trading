@@ -84,11 +84,14 @@ export async function POST(req: Request) {
             { status: 400 }
           );
         }
-        await client.models.InventoryItem.update({
-          id: f.id,
-          status: "available",
-          pendingUntil: null,
-        });
+        await client.models.InventoryItem.update(
+          {
+            id: f.id,
+            status: "available",
+            pendingUntil: null,
+          },
+          { authMode: "iam" as const }
+        );
       } else if (status !== "available") {
         return NextResponse.json(
           { error: `Item not available: ${f.item.name ?? f.id}` },
@@ -139,11 +142,14 @@ export async function POST(req: Request) {
       const pendingUntil = new Date(Date.now() + PENDING_WINDOW_MS).toISOString();
       await Promise.all(
         Array.from(merged.keys()).map((id) =>
-          client.models.InventoryItem.update({
-            id,
-            status: "pending",
-            pendingUntil,
-          })
+          client.models.InventoryItem.update(
+            {
+              id,
+              status: "pending",
+              pendingUntil,
+            },
+            { authMode: "iam" as const }
+          )
         )
       );
     } catch (err) {

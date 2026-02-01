@@ -71,11 +71,14 @@ export async function POST(req: Request) {
           { status: 400 }
         );
       }
-      await client.models.InventoryItem.update({
-        id: itemId,
-        status: "available",
-        pendingUntil: null,
-      });
+      await client.models.InventoryItem.update(
+        {
+          id: itemId,
+          status: "available",
+          pendingUntil: null,
+        },
+        { authMode: "iam" as const }
+      );
     } else if (status !== "available") {
       return NextResponse.json(
         { error: `Item is not available (status: ${status})` },
@@ -125,11 +128,14 @@ export async function POST(req: Request) {
 
     try {
       const pendingUntil = new Date(Date.now() + PENDING_WINDOW_MS).toISOString();
-      await client.models.InventoryItem.update({
-        id: itemId,
-        status: "pending",
-        pendingUntil,
-      });
+      await client.models.InventoryItem.update(
+        {
+          id: itemId,
+          status: "pending",
+          pendingUntil,
+        },
+        { authMode: "iam" as const }
+      );
     } catch (err) {
       console.error("Failed to set pending status:", err);
     }

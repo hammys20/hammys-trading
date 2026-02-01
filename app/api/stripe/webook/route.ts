@@ -170,8 +170,8 @@ export async function POST(req: Request) {
         }
 
         const subject = "Purchase Confirmation";
-        const text = `Thank you for your purchase, ${buyerName}!\n\nConfirmation Number: ${confirmation}\n\nShipping Address: ${shipping}\n\nTracking and shipment information will be provided soon.`;
-        const html = `<p>Thank you for your purchase, <strong>${buyerName}</strong>!</p><p><strong>Confirmation Number:</strong> ${confirmation}</p><p><strong>Shipping Address:</strong> ${shipping}</p><p>Tracking and shipment information will be provided soon.</p>`;
+        const text = `Thank you for your purchase, ${buyerName}!\n\nWe’re getting your package ready now and will share tracking as soon as it ships.\n\nConfirmation Number: ${confirmation}\n\nShipping Address: ${shipping}\n\nIf you have any questions, just reply to this email.`;
+        const html = `<p>Thank you for your purchase, <strong>${buyerName}</strong>!</p><p>We’re getting your package ready now and will share tracking as soon as it ships.</p><p><strong>Confirmation Number:</strong> ${confirmation}</p><p><strong>Shipping Address:</strong> ${shipping}</p><p>If you have any questions, just reply to this email.</p>`;
 
         if (itemIds.length > 0) {
           await markItemsSold(itemIds);
@@ -202,8 +202,8 @@ export async function POST(req: Request) {
         await sendEmail({
           to: "hammys.trading@gmail.com",
           subject: `Purchase Confirmation - ${confirmation}`,
-          text: `New purchase received.\n\nConfirmation Number: ${confirmation}\n\nBuyer Email: ${buyerEmail || "Not provided"}\nShipping Address: ${shipping}`,
-          html: `<p><strong>New purchase received.</strong></p><p><strong>Confirmation Number:</strong> ${confirmation}</p><p><strong>Buyer Email:</strong> ${buyerEmail || "Not provided"}</p><p><strong>Shipping Address:</strong> ${shipping}</p>`,
+          text: `New purchase received.\n\nConfirmation Number: ${confirmation}\n\nBuyer Email: ${buyerEmail || "Not provided"}\nShipping Address: ${shipping}\n\nStatus: Preparing shipment`,
+          html: `<p><strong>New purchase received.</strong></p><p><strong>Confirmation Number:</strong> ${confirmation}</p><p><strong>Buyer Email:</strong> ${buyerEmail || "Not provided"}</p><p><strong>Shipping Address:</strong> ${shipping}</p><p><strong>Status:</strong> Preparing shipment</p>`,
         });
         break;
       }

@@ -156,6 +156,7 @@ export async function POST(req: Request) {
         const buyerEmail = session.customer_details?.email ?? session.customer_email ?? "";
         const shipping = formatAddress(
           (session as any).shipping_details?.address ??
+            (session as any).collected_information?.shipping_details?.address ??
             session.customer_details?.address
         );
         const buyerName = session.customer_details?.name ?? "Customer";

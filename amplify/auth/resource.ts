@@ -9,8 +9,8 @@ export const auth = defineAuth({
   groups: ["Admin"],
 
   multifactor: {
-    mode: "REQUIRED",
-    sms: true,
+    mode: "OFF",
+    sms: false,
   },
 
   userAttributes: {

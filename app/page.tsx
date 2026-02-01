@@ -81,7 +81,7 @@ export default function HomePage() {
           <div
             data-scroll-line
             className="scrollLine"
-            style={{ display: "flex", gap: 14, flexWrap: "wrap" }}
+            style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}
           >
             <Link href="/inventory" className="btn btnPrimary">
               View Inventory
@@ -94,6 +94,16 @@ export default function HomePage() {
             <Link href="/inventory?category=sports" className="btn">
               Browse Sports Cards
             </Link>
+
+            <a
+              href="https://instagram.com/hammys.trading"
+              target="_blank"
+              rel="noreferrer"
+              className="btn"
+              style={{ display: "inline-flex", alignItems: "center", gap: 8 }}
+            >
+              Follow on Instagram
+            </a>
           </div>
           </div>
         </div>

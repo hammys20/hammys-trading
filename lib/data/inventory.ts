@@ -10,6 +10,7 @@ export type Item = {
   gradingCompany?: string;
   grade?: string;
   language?: string;
+  category?: string;
   price?: number;
   image?: string;
   images?: string[];
@@ -29,6 +30,7 @@ export type CreateInput = {
   gradingCompany?: string;
   grade?: string;
   language?: string;
+  category?: string;
   price?: number;
   image?: string;
   images?: string[];

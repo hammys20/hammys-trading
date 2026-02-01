@@ -82,6 +82,7 @@ const EMPTY: Partial<Item> = {
   gradingCompany: "",
   grade: "",
   language: "",
+  category: "",
   price: undefined,
   status: "available",
   image: "",
@@ -120,6 +121,8 @@ export default function AdminInventoryPage() {
     "Indonesian",
     "Thai",
   ];
+
+  const categoryOptions = ["", "pokemon", "sports"];
 
   async function refresh() {
     const res = await listInventoryAdmin();
@@ -216,6 +219,7 @@ export default function AdminInventoryPage() {
         i.gradingCompany,
         i.grade,
         i.language,
+        i.category,
       ]
         .filter(Boolean)
         .join(" ")
@@ -246,6 +250,7 @@ export default function AdminInventoryPage() {
           gradingCompany: draft.gradingCompany || undefined,
           grade: draft.grade || undefined,
           language: draft.language || undefined,
+          category: draft.category || undefined,
           price: draft.price,
           status: draft.status ?? "available",
           image: primaryImage,
@@ -262,6 +267,7 @@ export default function AdminInventoryPage() {
           gradingCompany: draft.gradingCompany || undefined,
           grade: draft.grade || undefined,
           language: draft.language || undefined,
+          category: draft.category || undefined,
           price: draft.price,
           status: draft.status ?? "available",
           image: primaryImage,
@@ -290,12 +296,13 @@ export default function AdminInventoryPage() {
       "set",
       "condition",
       "certificationNumber",
-      "gradingCompany",
-      "grade",
-      "language",
-      "price",
-      "status",
-      "image",
+        "gradingCompany",
+        "grade",
+        "language",
+        "category",
+        "price",
+        "status",
+        "image",
       "tags",
     ];
 
@@ -308,6 +315,7 @@ export default function AdminInventoryPage() {
         i.gradingCompany ?? "",
         i.grade ?? "",
         i.language ?? "",
+        i.category ?? "",
         i.price != null ? String(i.price) : "",
         i.status ?? "",
         i.image ?? "",
@@ -370,6 +378,7 @@ export default function AdminInventoryPage() {
           gradingCompany: get("gradingCompany") || undefined,
           grade: get("grade") || undefined,
           language: get("language") || undefined,
+          category: get("category") || undefined,
           price: Number.isFinite(price as number) ? price : undefined,
           status: get("status") || "available",
           image: get("image") || undefined,
@@ -408,6 +417,7 @@ export default function AdminInventoryPage() {
       gradingCompany: item.gradingCompany ?? "",
       grade: item.grade ?? "",
       language: item.language ?? "",
+      category: item.category ?? "",
       price: item.price,
       status: item.status ?? "available",
       image: imageKeys[0] ?? "",
@@ -551,7 +561,7 @@ export default function AdminInventoryPage() {
           ))}
         </datalist>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 12 }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr 1fr", gap: 12 }}>
           <input
             placeholder="Condition"
             value={draft.condition ?? ""}
@@ -581,6 +591,16 @@ export default function AdminInventoryPage() {
             {gradeOptions.map((g) => (
               <option key={g || "none"} value={g}>
                 {g || "Grade"}
+              </option>
+            ))}
+          </select>
+          <select
+            value={draft.category ?? ""}
+            onChange={(e) => setDraft((d) => ({ ...d, category: e.target.value || undefined }))}
+          >
+            {categoryOptions.map((c) => (
+              <option key={c || "none"} value={c}>
+                {c || "Category"}
               </option>
             ))}
           </select>

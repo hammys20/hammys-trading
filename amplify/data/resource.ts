@@ -21,6 +21,7 @@ const schema = a.schema({
       gradingCompany: a.string(),
       grade: a.string(),
       language: a.string(),
+      category: a.string(),
       price: a.float(),
       image: a.string(),
       images: a.string().array(),

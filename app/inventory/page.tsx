@@ -18,6 +18,7 @@ export default function InventoryPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("available");
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [gradingFilter, setGradingFilter] = useState("");
   const [gradeFilter, setGradeFilter] = useState("");
   const [languageFilter, setLanguageFilter] = useState("");
@@ -30,6 +31,7 @@ export default function InventoryPage() {
 
   const gradingOptions = ["", "PSA", "CGC", "BGS"];
   const gradeOptions = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  const categoryOptions = ["", "pokemon", "sports"];
   const languageOptions = [
     "",
     "English",
@@ -134,6 +136,7 @@ export default function InventoryPage() {
       if (gradingFilter && (i.gradingCompany ?? "") !== gradingFilter) return false;
       if (gradeFilter && (i.grade ?? "") !== gradeFilter) return false;
       if (languageFilter && (i.language ?? "") !== languageFilter) return false;
+      if (categoryFilter && (i.category ?? "") !== categoryFilter) return false;
       if (q) {
         const hay = [
           i.name,
@@ -151,7 +154,7 @@ export default function InventoryPage() {
       }
       return true;
     });
-  }, [items, search, statusFilter, gradingFilter, gradeFilter, languageFilter]);
+  }, [items, search, statusFilter, gradingFilter, gradeFilter, languageFilter, categoryFilter]);
 
   if (loading) return <div style={{ padding: 24 }}>Loading inventory…</div>;
 
@@ -199,6 +202,14 @@ export default function InventoryPage() {
           {languageOptions.map((l) => (
             <option key={l || "all"} value={l}>
               {l || "All languages"}
+            </option>
+          ))}
+        </select>
+
+        <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} style={{ padding: 10 }}>
+          {categoryOptions.map((c) => (
+            <option key={c || "all"} value={c}>
+              {c || "All categories"}
             </option>
           ))}
         </select>

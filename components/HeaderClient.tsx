@@ -200,6 +200,19 @@ export default function HeaderClient() {
           >
             Explore Inventory
           </Link>
+          <Link
+            href="/about"
+            style={{
+              textDecoration: "none",
+              padding: "8px 12px",
+              borderRadius: 10,
+              border: "1px solid rgba(255,255,255,0.14)",
+              background: "rgba(255,255,255,0.04)",
+              fontWeight: 700,
+            }}
+          >
+            About
+          </Link>
         </div>
 
         <div style={{ marginLeft: "auto" }} />
@@ -376,6 +389,20 @@ export default function HeaderClient() {
             }}
           >
             PowerPacks
+          </Link>
+          <Link
+            href="/about"
+            onClick={closeMenu}
+            style={{
+              textDecoration: "none",
+              padding: "10px 10px",
+              borderRadius: 12,
+              border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(255,255,255,0.04)",
+              fontWeight: 700,
+            }}
+          >
+            About
           </Link>
           <Link
             href="/consignment"

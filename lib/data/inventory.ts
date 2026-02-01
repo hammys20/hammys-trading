@@ -12,8 +12,10 @@ export type Item = {
   language?: string;
   price?: number;
   image?: string;
+  images?: string[];
   tags?: string[];
   status?: string;
+  pendingUntil?: string;
   createdAt?: string;
   updatedAt?: string;
 };
@@ -29,8 +31,10 @@ export type CreateInput = {
   language?: string;
   price?: number;
   image?: string;
+  images?: string[];
   tags?: string[];
   status?: string;
+  pendingUntil?: string;
 };
 
 export type UpdateInput = Partial<CreateInput> & { id: string };

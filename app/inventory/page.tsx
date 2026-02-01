@@ -6,6 +6,7 @@ import { ensureAmplifyConfigured } from "@/lib/amplify-client";
 import BuyNowButton from "@/components/BuyNowButton";
 import AddToCartButton from "@/components/AddToCartButton";
 import { listInventoryPublic, type Item } from "@/lib/data/inventory";
+import ImageCarousel from "@/components/ImageCarousel";
 
 function money(n?: number) {
   if (typeof n !== "number") return "—";
@@ -21,9 +22,11 @@ export default function InventoryPage() {
   const [gradeFilter, setGradeFilter] = useState("");
   const [languageFilter, setLanguageFilter] = useState("");
   const [error, setError] = useState("");
-  const [imageModal, setImageModal] = useState<{ url: string; alt: string } | null>(
-    null
-  );
+  const [imageModal, setImageModal] = useState<{
+    urls: string[];
+    alt: string;
+    index: number;
+  } | null>(null);
 
   const gradingOptions = ["", "PSA", "CGC", "BGS"];
   const gradeOptions = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
@@ -41,7 +44,7 @@ export default function InventoryPage() {
     "Indonesian",
     "Thai",
   ];
-  const [imageUrls, setImageUrls] = useState<Record<string, string>>({});
+  const [imageUrls, setImageUrls] = useState<Record<string, string[]>>({});
 
   useEffect(() => {
     ensureAmplifyConfigured();
@@ -80,28 +83,37 @@ export default function InventoryPage() {
     let retryTimer: ReturnType<typeof setTimeout> | null = null;
 
     async function loadImageUrls(attempt = 0) {
-      const missing = items.filter((i) => i.image && !imageUrls[i.id]);
+      const missing = items.filter((i) => {
+        const keys = Array.isArray(i.images) && i.images.length > 0 ? i.images : i.image ? [i.image] : [];
+        return keys.length > 0 && !imageUrls[i.id];
+      });
       if (missing.length === 0) return;
 
       const entries = await Promise.all(
         missing.map(async (i) => {
+          const keys = Array.isArray(i.images) && i.images.length > 0 ? i.images : i.image ? [i.image] : [];
           try {
-            const res = await getUrl({ path: i.image as string, options: { expiresIn: 3600 } });
-            return [i.id, res.url.toString()] as const;
+            const urls = await Promise.all(
+              keys.map(async (k) => {
+                const res = await getUrl({ path: k as string, options: { expiresIn: 3600 } });
+                return res.url.toString();
+              })
+            );
+            return [i.id, urls] as const;
           } catch {
-            return [i.id, ""] as const;
+            return [i.id, []] as const;
           }
         })
       );
 
       if (cancelled) return;
-      const next: Record<string, string> = { ...imageUrls };
-      for (const [id, url] of entries) {
-        if (url) next[id] = url;
+      const next: Record<string, string[]> = { ...imageUrls };
+      for (const [id, urls] of entries) {
+        if (urls.length > 0) next[id] = urls;
       }
       setImageUrls(next);
 
-      const stillMissing = missing.some((i) => !next[i.id]);
+      const stillMissing = missing.some((i) => !next[i.id] || next[i.id].length === 0);
       if (stillMissing && attempt < 2) {
         retryTimer = setTimeout(() => loadImageUrls(attempt + 1), 800);
       }
@@ -216,8 +228,8 @@ export default function InventoryPage() {
               <button
                 type="button"
                 onClick={() => {
-                  const url = imageUrls[i.id];
-                  if (url) setImageModal({ url, alt: i.name ?? "Item image" });
+                  const urls = imageUrls[i.id];
+                  if (urls?.length) setImageModal({ urls, alt: i.name ?? "Item image", index: 0 });
                 }}
                 style={{
                   display: "block",
@@ -225,7 +237,7 @@ export default function InventoryPage() {
                   border: 0,
                   background: "transparent",
                   textAlign: "left",
-                  cursor: imageUrls[i.id] ? "zoom-in" : "default",
+                  cursor: imageUrls[i.id]?.length ? "zoom-in" : "default",
                 }}
                 aria-label={`View ${i.name ?? "item"} image`}
               >
@@ -237,9 +249,9 @@ export default function InventoryPage() {
                     background: "rgba(255,255,255,0.04)",
                   }}
                 >
-                  {imageUrls[i.id] ? (
+                  {imageUrls[i.id]?.length ? (
                     <img
-                      src={imageUrls[i.id]}
+                      src={imageUrls[i.id][0]}
                       alt={i.name}
                       style={{
                         position: "absolute",
@@ -300,8 +312,8 @@ export default function InventoryPage() {
                   <button
                     type="button"
                     onClick={() => {
-                      const url = imageUrls[i.id];
-                      if (url) setImageModal({ url, alt: i.name ?? "Item image" });
+                      const urls = imageUrls[i.id];
+                      if (urls?.length) setImageModal({ urls, alt: i.name ?? "Item image", index: 0 });
                     }}
                     style={{
                       padding: "10px 12px",
@@ -310,10 +322,10 @@ export default function InventoryPage() {
                       background: "rgba(255,255,255,0.04)",
                       fontWeight: 700,
                       color: "inherit",
-                      cursor: imageUrls[i.id] ? "zoom-in" : "not-allowed",
-                      opacity: imageUrls[i.id] ? 1 : 0.6,
+                      cursor: imageUrls[i.id]?.length ? "zoom-in" : "not-allowed",
+                      opacity: imageUrls[i.id]?.length ? 1 : 0.6,
                     }}
-                    disabled={!imageUrls[i.id]}
+                    disabled={!imageUrls[i.id]?.length}
                   >
                     View
                   </button>
@@ -374,16 +386,10 @@ export default function InventoryPage() {
                 ✕
               </button>
             </div>
-            <img
-              src={imageModal.url}
-              alt={imageModal.alt}
-              style={{
-                width: "100%",
-                height: "auto",
-                maxHeight: "70vh",
-                objectFit: "contain",
-                borderRadius: 10,
-              }}
+            <ImageCarousel
+              images={imageModal.urls.map((src) => ({ src, alt: imageModal.alt }))}
+              initialIndex={imageModal.index}
+              allowOpenInNewTab
             />
           </div>
         </div>

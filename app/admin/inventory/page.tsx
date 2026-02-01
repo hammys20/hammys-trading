@@ -11,7 +11,7 @@ import {
   type Item,
 } from "@/lib/data/inventory";
 
-import ImageUpload from "@/components/ImageUpload";
+import MultiImageUpload from "@/components/MultiImageUpload";
 
 
 function money(n?: number) {
@@ -85,6 +85,7 @@ const EMPTY: Partial<Item> = {
   price: undefined,
   status: "available",
   image: "",
+  images: [],
   tags: [],
 };
 
@@ -97,10 +98,11 @@ export default function AdminInventoryPage() {
   const [draft, setDraft] = useState<Partial<Item>>(EMPTY);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [draftId, setDraftId] = useState(() => crypto.randomUUID());
-  const [imagePreview, setImagePreview] = useState("");
+  const [draftImages, setDraftImages] = useState<{ key: string; url: string }[]>([]);
   const [setOptions, setSetOptions] = useState<{ id: string; name: string }[]>([]);
   const [tagsText, setTagsText] = useState("");
   const [itemPreviews, setItemPreviews] = useState<Record<string, string>>({});
+
 
   const gradingOptions = ["", "PSA", "CGC", "BGS"];
   const gradeOptions = ["", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
@@ -163,13 +165,19 @@ export default function AdminInventoryPage() {
     let retryTimer: ReturnType<typeof setTimeout> | null = null;
 
     async function loadPreviews(attempt = 0) {
-      const missing = items.filter((i) => i.image && !itemPreviews[i.id]);
+      const missing = items.filter((i) => {
+        const key =
+          Array.isArray(i.images) && i.images.length > 0 ? i.images[0] : i.image ?? "";
+        return key && !itemPreviews[i.id];
+      });
       if (missing.length === 0) return;
 
       const entries = await Promise.all(
         missing.map(async (i) => {
+          const key =
+            Array.isArray(i.images) && i.images.length > 0 ? i.images[0] : i.image ?? "";
           try {
-            const res = await getUrl({ path: i.image as string, options: { expiresIn: 3600 } });
+            const res = await getUrl({ path: key as string, options: { expiresIn: 3600 } });
             return [i.id, res.url.toString()] as const;
           } catch {
             return [i.id, ""] as const;
@@ -226,6 +234,8 @@ export default function AdminInventoryPage() {
     setError("");
 
     try {
+      const images = Array.isArray(draft.images) ? draft.images.filter(Boolean) : [];
+      const primaryImage = images[0] ?? (draft.image || undefined);
       if (editingId) {
         await updateInventoryItem({
           id: editingId,
@@ -238,7 +248,8 @@ export default function AdminInventoryPage() {
           language: draft.language || undefined,
           price: draft.price,
           status: draft.status ?? "available",
-          image: draft.image || undefined,
+          image: primaryImage,
+          images: images.length > 0 ? images : undefined,
           tags: draft.tags ?? [],
         });
       } else {
@@ -253,7 +264,8 @@ export default function AdminInventoryPage() {
           language: draft.language || undefined,
           price: draft.price,
           status: draft.status ?? "available",
-          image: draft.image || undefined,
+          image: primaryImage,
+          images: images.length > 0 ? images : undefined,
           tags: draft.tags ?? [],
         });
       }
@@ -261,7 +273,7 @@ export default function AdminInventoryPage() {
       setDraft(EMPTY);
       setEditingId(null);
       setDraftId(crypto.randomUUID());
-      setImagePreview("");
+      setDraftImages([]);
       setTagsText("");
       await refresh();
     } catch (e: any) {
@@ -381,6 +393,12 @@ export default function AdminInventoryPage() {
   }
 
   function startEdit(item: Item) {
+    const imageKeys =
+      Array.isArray(item.images) && item.images.length > 0
+        ? item.images
+        : item.image
+          ? [item.image]
+          : [];
     setEditingId(item.id);
     setDraft({
       name: item.name ?? "",
@@ -392,18 +410,29 @@ export default function AdminInventoryPage() {
       language: item.language ?? "",
       price: item.price,
       status: item.status ?? "available",
-      image: item.image ?? "",
+      image: imageKeys[0] ?? "",
+      images: imageKeys,
       tags: item.tags ?? [],
     });
     setTagsText(Array.isArray(item.tags) ? item.tags.join(", ") : "");
-    setImagePreview(itemPreviews[item.id] ?? "");
+    setDraftImages([]);
+    if (imageKeys.length > 0) {
+      Promise.all(
+        imageKeys.map(async (key) => {
+          const res = await getUrl({ path: key, options: { expiresIn: 3600 } });
+          return { key, url: res.url.toString() };
+        })
+      )
+        .then((imgs) => setDraftImages(imgs))
+        .catch((err) => console.error("Failed to load draft images:", err));
+    }
   }
 
   function cancelEdit() {
     setEditingId(null);
     setDraft(EMPTY);
     setDraftId(crypto.randomUUID());
-    setImagePreview("");
+    setDraftImages([]);
     setTagsText("");
   }
 
@@ -573,25 +602,68 @@ export default function AdminInventoryPage() {
 
         <div style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: 12, alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-            <ImageUpload
-              itemId={draftId}
-              currentKey={draft.image}
-              onUploaded={(key, previewUrl) => {
-                setDraft((d) => ({
-                  ...d,
-                  image: key,
-                }));
-                setImagePreview(previewUrl);
+            <MultiImageUpload
+              itemId={editingId ?? draftId}
+              onUploaded={(keys, previewUrls) => {
+                setDraft((d) => {
+                  const nextImages = [...(d.images ?? []), ...keys];
+                  return {
+                    ...d,
+                    images: nextImages,
+                    image: nextImages[0] ?? d.image,
+                  };
+                });
+                setDraftImages((prev) => [
+                  ...prev,
+                  ...keys.map((key, idx) => ({ key, url: previewUrls[idx] })),
+                ]);
               }}
             />
-            {imagePreview ? (
-              <img
-                src={imagePreview}
-                alt="Preview"
-                style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 8 }}
-              />
+            {draftImages.length > 0 ? (
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {draftImages.map((img) => (
+                  <div key={img.key} style={{ position: "relative" }}>
+                    <img
+                      src={img.url}
+                      alt="Preview"
+                      style={{ width: 64, height: 64, objectFit: "cover", borderRadius: 8 }}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setDraftImages((prev) => prev.filter((p) => p.key !== img.key));
+                        setDraft((d) => {
+                          const nextImages = (d.images ?? []).filter((k) => k !== img.key);
+                          return {
+                            ...d,
+                            images: nextImages,
+                            image: nextImages[0] ?? "",
+                          };
+                        });
+                      }}
+                      style={{
+                        position: "absolute",
+                        top: -6,
+                        right: -6,
+                        width: 20,
+                        height: 20,
+                        borderRadius: 999,
+                        border: "1px solid rgba(255,255,255,0.35)",
+                        background: "rgba(0,0,0,0.7)",
+                        color: "white",
+                        cursor: "pointer",
+                        fontSize: 12,
+                        lineHeight: "18px",
+                      }}
+                      aria-label="Remove image"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
             ) : (
-              <div style={{ opacity: 0.6, fontSize: 12 }}>No preview yet</div>
+              <div style={{ opacity: 0.6, fontSize: 12 }}>No images yet</div>
             )}
           </div>
 

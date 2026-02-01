@@ -57,13 +57,27 @@ export default function CartPage() {
     let retryTimer: ReturnType<typeof setTimeout> | null = null;
 
     async function loadImageUrls(attempt = 0) {
-      const missing = cartItems.filter((c) => c.item.image && !imageUrls[c.item.id]);
+      const missing = cartItems.filter((c) => {
+        const keys =
+          Array.isArray(c.item.images) && c.item.images.length > 0
+            ? c.item.images
+            : c.item.image
+              ? [c.item.image]
+              : [];
+        return keys.length > 0 && !imageUrls[c.item.id];
+      });
       if (missing.length === 0) return;
 
       const entries = await Promise.all(
         missing.map(async ({ item }) => {
+          const keys =
+            Array.isArray(item.images) && item.images.length > 0
+              ? item.images
+              : item.image
+                ? [item.image]
+                : [];
           try {
-            const res = await getUrl({ path: item.image as string, options: { expiresIn: 3600 } });
+            const res = await getUrl({ path: keys[0] as string, options: { expiresIn: 3600 } });
             return [item.id, res.url.toString()] as const;
           } catch {
             return [item.id, ""] as const;

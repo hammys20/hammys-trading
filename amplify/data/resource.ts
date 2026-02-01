@@ -23,6 +23,7 @@ const schema = a.schema({
       language: a.string(),
       price: a.float(),
       image: a.string(),
+      images: a.string().array(),
       tags: a.string().array(),
 
       // Keep as string for now (prevents Enum serialization errors from old data)
@@ -34,10 +35,8 @@ const schema = a.schema({
     })
     .authorization((allow) => [
       // ✅ Public storefront read via API key
-      allow.publicApiKey().to(["read"]),
-
-      // ✅ Server-side updates via IAM (webhooks, checkout)
-      allow.iam().to(["create", "read", "update", "delete"]),
+      // ⚠️ TEMPORARY: allow updates via API key for webhook/checkout writes
+      allow.publicApiKey().to(["read", "update"]),
 
       // ✅ Admin group can do full CRUD
       allow.groups(["Admin"]).to(["create", "read", "update", "delete"]),
@@ -58,4 +57,3 @@ export const data = defineData({
     },
   },
 });
-

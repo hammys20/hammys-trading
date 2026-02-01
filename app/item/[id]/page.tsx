@@ -7,6 +7,7 @@ import { useParams } from "next/navigation";
 import BuyNowButton from "@/components/BuyNowButton";
 import AddToCartButton from "@/components/AddToCartButton";
 import { listInventoryPublic, type Item } from "@/lib/data/inventory";
+import ImageCarousel from "@/components/ImageCarousel";
 
 function money(n?: number) {
   if (typeof n !== "number") return "—";
@@ -20,7 +21,7 @@ export default function ItemPage() {
   const [item, setItem] = useState<Item | null>(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   useEffect(() => {
     ensureAmplifyConfigured();
@@ -55,13 +56,24 @@ export default function ItemPage() {
     let retryTimer: ReturnType<typeof setTimeout> | null = null;
 
     async function loadImage(attempt = 0) {
-      if (!item?.image) {
-        setImageUrl("");
+      const keys =
+        Array.isArray(item?.images) && item.images.length > 0
+          ? item.images
+          : item?.image
+            ? [item.image]
+            : [];
+      if (keys.length === 0) {
+        setImageUrls([]);
         return;
       }
       try {
-        const res = await getUrl({ path: item.image, options: { expiresIn: 3600 } });
-        if (!cancelled) setImageUrl(res.url.toString());
+        const urls = await Promise.all(
+          keys.map(async (k) => {
+            const res = await getUrl({ path: k, options: { expiresIn: 3600 } });
+            return res.url.toString();
+          })
+        );
+        if (!cancelled) setImageUrls(urls);
       } catch {
         if (!cancelled && attempt < 2) {
           retryTimer = setTimeout(() => loadImage(attempt + 1), 800);
@@ -74,13 +86,11 @@ export default function ItemPage() {
       cancelled = true;
       if (retryTimer) clearTimeout(retryTimer);
     };
-  }, [item?.image]);
+  }, [item?.image, item?.images]);
 
   if (loading) return <div style={{ padding: 24 }}>Loading item…</div>;
   if (err) return <div style={{ padding: 24 }}>Error: {err}</div>;
   if (!item) return <div style={{ padding: 24 }}>Item not found.</div>;
-
-  const img = imageUrl;
 
   return (
     <div style={{ maxWidth: 1100, margin: "0 auto", padding: 24 }}>
@@ -94,26 +104,10 @@ export default function ItemPage() {
             background: "rgba(255,255,255,0.03)",
           }}
         >
-          {img ? (
-            // Click to open full-size in new tab
-            <a href={img} target="_blank" rel="noreferrer" style={{ display: "block" }}>
-              <div style={{ position: "relative", width: "100%", aspectRatio: "1 / 1" }}>
-                <img
-                  src={img}
-                  alt={item.name}
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
-                  }}
-                />
-              </div>
-            </a>
-          ) : (
-            <div style={{ padding: 24, opacity: 0.7 }}>No image</div>
-          )}
+          <ImageCarousel
+            images={imageUrls.map((src) => ({ src, alt: item.name }))}
+            allowOpenInNewTab
+          />
         </div>
 
         {/* DETAILS + BUY */}

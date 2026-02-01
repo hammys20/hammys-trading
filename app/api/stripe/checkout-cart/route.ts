@@ -84,14 +84,11 @@ export async function POST(req: Request) {
             { status: 400 }
           );
         }
-        await client.models.InventoryItem.update(
-          {
-            id: f.id,
-            status: "available",
-            pendingUntil: null,
-          },
-          { authMode: "iam" as const }
-        );
+        await client.models.InventoryItem.update({
+          id: f.id,
+          status: "available",
+          pendingUntil: null,
+        });
       } else if (status !== "available") {
         return NextResponse.json(
           { error: `Item not available: ${f.item.name ?? f.id}` },
@@ -109,6 +106,12 @@ export async function POST(req: Request) {
 
     const line_items = fetched.map((f) => {
       const price = typeof f.item.price === "number" ? f.item.price : Number(f.item.price);
+      const primaryImage =
+        (Array.isArray((f.item as any).images) && (f.item as any).images.length > 0
+          ? (f.item as any).images[0]
+          : null) ??
+        (f.item as any).image ??
+        undefined;
       return {
         price_data: {
           currency: "usd",
@@ -118,6 +121,7 @@ export async function POST(req: Request) {
             metadata: {
               itemId: f.id,
             },
+            images: primaryImage ? [primaryImage] : undefined,
           },
         },
         quantity: f.qty,
@@ -142,14 +146,11 @@ export async function POST(req: Request) {
       const pendingUntil = new Date(Date.now() + PENDING_WINDOW_MS).toISOString();
       await Promise.all(
         Array.from(merged.keys()).map((id) =>
-          client.models.InventoryItem.update(
-            {
-              id,
-              status: "pending",
-              pendingUntil,
-            },
-            { authMode: "iam" as const }
-          )
+          client.models.InventoryItem.update({
+            id,
+            status: "pending",
+            pendingUntil,
+          })
         )
       );
     } catch (err) {

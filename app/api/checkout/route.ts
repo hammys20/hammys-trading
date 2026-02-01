@@ -42,6 +42,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid item price" }, { status: 400 });
     }
 
+    const primaryImage =
+      (Array.isArray((item as any)?.images) && (item as any).images.length > 0
+        ? (item as any).images[0]
+        : null) ??
+      (item as any)?.image ??
+      undefined;
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: [
@@ -51,7 +58,7 @@ export async function POST(req: Request) {
             unit_amount: Math.round(price * 100),
               product_data: {
                 name: String(item.name ?? "Item"),
-                images: item.image ? [String(item.image)] : undefined,
+                images: primaryImage ? [String(primaryImage)] : undefined,
               },
           },
           quantity: 1,

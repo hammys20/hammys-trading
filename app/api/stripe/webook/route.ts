@@ -72,14 +72,11 @@ async function markItemsSold(itemIds: string[]) {
   const unique = Array.from(new Set(itemIds.filter(Boolean)));
   await Promise.all(
     unique.map((id) =>
-      dataClient.models.InventoryItem.update(
-        {
-          id,
-          status: "sold",
-          pendingUntil: null,
-        },
-        { authMode: "iam" as const }
-      )
+      dataClient.models.InventoryItem.update({
+        id,
+        status: "sold",
+        pendingUntil: null,
+      })
     )
   );
 }

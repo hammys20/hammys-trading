@@ -180,12 +180,14 @@ export default function HeaderClient() {
               textDecoration: "none",
               padding: "8px 12px",
               borderRadius: 10,
-              border: "1px solid rgba(255,255,255,0.14)",
-              background: "rgba(255,255,255,0.04)",
-              fontWeight: 700,
+              border: "1px solid rgba(255,255,255,0.5)",
+              background: "rgba(255,255,255,0.18)",
+              boxShadow: "0 6px 18px rgba(0,0,0,0.18)",
+              fontWeight: 800,
+              letterSpacing: 0.3,
             }}
           >
-            Explore Inventory
+            Inventory
           </Link>
           <Link
             href="/about"
@@ -418,20 +420,6 @@ export default function HeaderClient() {
             }}
           >
             Contact Us
-          </Link>
-          <Link
-            href="/about"
-            onClick={closeMenu}
-            style={{
-              textDecoration: "none",
-              padding: "10px 10px",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.12)",
-              background: "rgba(255,255,255,0.04)",
-              fontWeight: 700,
-            }}
-          >
-            About
           </Link>
           <Link
             href="/consignment"

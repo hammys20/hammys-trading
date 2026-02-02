@@ -81,6 +81,31 @@ async function markItemsSold(itemIds: string[]) {
   );
 }
 
+async function markItemsAvailable(itemIds: string[]) {
+  const unique = Array.from(new Set(itemIds.filter(Boolean)));
+  await Promise.all(
+    unique.map((id) =>
+      dataClient.models.InventoryItem.update({
+        id,
+        status: "available",
+        pendingUntil: null,
+      })
+    )
+  );
+}
+
+function extractItemIds(session: Stripe.Checkout.Session): string[] {
+  const itemIds: string[] = [];
+  if (session.metadata?.itemId) itemIds.push(String(session.metadata.itemId));
+  if (session.metadata?.itemIds) {
+    try {
+      const parsed = JSON.parse(session.metadata.itemIds);
+      if (Array.isArray(parsed)) itemIds.push(...parsed.map(String));
+    } catch {}
+  }
+  return itemIds;
+}
+
 async function createOrderRecord(input: {
   stripeSessionId?: string;
   buyerEmail?: string;
@@ -160,14 +185,7 @@ export async function POST(req: Request) {
             session.customer_details?.address
         );
         const buyerName = session.customer_details?.name ?? "Customer";
-        const itemIds: string[] = [];
-        if (session.metadata?.itemId) itemIds.push(session.metadata.itemId);
-        if (session.metadata?.itemIds) {
-          try {
-            const parsed = JSON.parse(session.metadata.itemIds);
-            if (Array.isArray(parsed)) itemIds.push(...parsed.map(String));
-          } catch {}
-        }
+        const itemIds = extractItemIds(session);
 
         const subject = "Purchase Confirmation";
         const text = `Thank you for your purchase, ${buyerName}!\n\nWe’re getting your package ready now and will share tracking as soon as it ships.\n\nConfirmation Number: ${confirmation}\n\nShipping Address: ${shipping}\n\nIf you have any questions, just reply to this email.`;
@@ -205,6 +223,15 @@ export async function POST(req: Request) {
           text: `New purchase received.\n\nConfirmation Number: ${confirmation}\n\nBuyer Email: ${buyerEmail || "Not provided"}\nShipping Address: ${shipping}\n\nStatus: Preparing shipment`,
           html: `<p><strong>New purchase received.</strong></p><p><strong>Confirmation Number:</strong> ${confirmation}</p><p><strong>Buyer Email:</strong> ${buyerEmail || "Not provided"}</p><p><strong>Shipping Address:</strong> ${shipping}</p><p><strong>Status:</strong> Preparing shipment</p>`,
         });
+        break;
+      }
+      case "checkout.session.expired":
+      case "checkout.session.async_payment_failed": {
+        const session = event.data.object as Stripe.Checkout.Session;
+        const itemIds = extractItemIds(session);
+        if (itemIds.length > 0) {
+          await markItemsAvailable(itemIds);
+        }
         break;
       }
       default:

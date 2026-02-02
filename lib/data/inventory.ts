@@ -69,6 +69,15 @@ function unwrapGet(res: any): Item | null {
 
 // ✅ Public storefront (API key)
 export async function listInventoryPublic(): Promise<Item[]> {
+  if (typeof window !== "undefined") {
+    const res = await fetch("/api/inventory", { cache: "no-store" });
+    if (!res.ok) {
+      throw new Error(`Inventory fetch failed (${res.status})`);
+    }
+    const json = await res.json();
+    return Array.isArray(json) ? (json as Item[]) : [];
+  }
+
   const res = await (client as any).models.InventoryItem.list({ authMode: "apiKey" });
   return unwrapList(res);
 }

@@ -1,13 +1,15 @@
 // app/api/stripe/checkout-cart/route.ts
-import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { generateClient } from "aws-amplify/data";
 import { configureAmplify } from "@/lib/amplify-server";
+import { createStripe } from "@/lib/stripe";
 
 configureAmplify();
 
 const client = generateClient({ authMode: "apiKey" as const }) as any;
 const PENDING_WINDOW_MS = 2 * 60 * 1000;
+
+export const runtime = "nodejs";
 
 function getPendingUntilMs(value: unknown): number | null {
   if (!value) return null;
@@ -62,7 +64,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid cart items" }, { status: 400 });
     }
 
-    const stripe = new Stripe(stripeSecretKey);
+    const stripe = createStripe(stripeSecretKey);
 
     const fetched = await Promise.all(
       Array.from(merged.entries()).map(async ([id, qty]) => {

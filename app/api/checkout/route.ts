@@ -1,21 +1,19 @@
-import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { generateClient } from "aws-amplify/data";
 import { configureAmplify } from "@/lib/amplify-server";
-
-const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-
-// Let Stripe SDK choose its default API version.
-// (Setting a bogus version = 500)
-const stripe = new Stripe(stripeSecretKey ?? "", {});
+import { createStripe } from "@/lib/stripe";
 
 configureAmplify();
 
 const client = generateClient({ authMode: "apiKey" }) as any;
 
+export const runtime = "nodejs";
+
 export async function POST(req: Request) {
   try {
+    const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
     if (!stripeSecretKey) {
       return NextResponse.json(
         { error: "Missing STRIPE_SECRET_KEY env var" },
@@ -29,6 +27,7 @@ export async function POST(req: Request) {
       );
     }
 
+    const stripe = createStripe(stripeSecretKey);
     const { itemId } = await req.json();
 
     const { data: item, errors } = await client.models.InventoryItem.get({ id: itemId });

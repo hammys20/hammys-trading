@@ -1,11 +1,15 @@
 import type { NextConfig } from "next";
 
-// Debug: log env var presence during build (no values).
-if (process.env.STRIPE_SECRET_KEY) {
-  console.log("Build env: STRIPE_SECRET_KEY present");
-} else {
-  console.log("Build env: STRIPE_SECRET_KEY missing");
-}
+const securityHeaders = [
+  { key: "X-Content-Type-Options", value: "nosniff" },
+  { key: "X-Frame-Options", value: "DENY" },
+  { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+  { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+  {
+    key: "Strict-Transport-Security",
+    value: "max-age=63072000; includeSubDomains; preload",
+  },
+];
 
 const nextConfig: NextConfig = {
   images: {
@@ -23,6 +27,15 @@ const nextConfig: NextConfig = {
         pathname: "/**",
       },
     ],
+  },
+  poweredByHeader: false,
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: securityHeaders,
+      },
+    ];
   },
 };
 

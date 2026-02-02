@@ -1,10 +1,10 @@
 import { headers } from "next/headers";
-import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import crypto from "crypto";
 import { generateClient } from "aws-amplify/data";
 import { configureAmplify } from "@/lib/amplify-server";
+import { createStripe } from "@/lib/stripe";
 
 function getStripeSecretKey() {
   return (
@@ -67,6 +67,8 @@ async function sendEmail({
 
 configureAmplify();
 const dataClient = generateClient({ authMode: "apiKey" as const }) as any;
+
+export const runtime = "nodejs";
 
 async function markItemsSold(itemIds: string[]) {
   const unique = Array.from(new Set(itemIds.filter(Boolean)));
@@ -140,9 +142,7 @@ export async function POST(req: Request) {
     }
 
     // ✅ Must match your installed Stripe types
-    const stripe = new Stripe(stripeSecretKey, {
-      apiVersion: "2026-01-28.clover",
-    });
+    const stripe = createStripe(stripeSecretKey);
 
     const event = stripe.webhooks.constructEvent(body, sig, secret);
 

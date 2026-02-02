@@ -1,14 +1,16 @@
 // app/api/stripe/checkout/route.ts
-import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { generateClient } from "aws-amplify/data";
 import { configureAmplify } from "@/lib/amplify-server";
+import { createStripe } from "@/lib/stripe";
 
 // Configure Amplify for server usage BEFORE generateClient()
 configureAmplify();
 
 const client = generateClient({ authMode: "apiKey" as const }) as any;
 const PENDING_WINDOW_MS = 2 * 60 * 1000;
+
+export const runtime = "nodejs";
 
 function getPendingUntilMs(value: unknown): number | null {
   if (!value) return null;
@@ -51,7 +53,7 @@ export async function POST(req: Request) {
     }
 
     // Create Stripe client only after we've validated env vars.
-    const stripe = new Stripe(stripeSecretKey);
+    const stripe = createStripe(stripeSecretKey);
 
     // Fetch item server-side (prevents client spoofing price)
     const res = await client.models.InventoryItem.get({ id: itemId });

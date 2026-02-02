@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
+  if (process.env.NODE_ENV === "production") {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
   return NextResponse.json({
     stripeSecretKeyPresent: Boolean(process.env.STRIPE_SECRET_KEY),
     nextPublicSiteUrlPresent: Boolean(process.env.NEXT_PUBLIC_SITE_URL),

@@ -366,20 +366,6 @@ export default function HeaderClient() {
             Inventory
           </Link>
           <Link
-            href="/powerpacks"
-            onClick={closeMenu}
-            style={{
-              textDecoration: "none",
-              padding: "10px 10px",
-              borderRadius: 12,
-              border: "1px solid rgba(255,255,255,0.12)",
-              background: "rgba(255,255,255,0.04)",
-              fontWeight: 700,
-            }}
-          >
-            PowerPacks
-          </Link>
-          <Link
             href="/about"
             onClick={closeMenu}
             style={{

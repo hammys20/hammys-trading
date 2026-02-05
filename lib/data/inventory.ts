@@ -5,6 +5,7 @@ export type Item = {
   id: string;
   name: string;
   set?: string;
+  number?: string;
   condition?: string;
   certificationNumber?: string;
   gradingCompany?: string;

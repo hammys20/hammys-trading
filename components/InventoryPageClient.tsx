@@ -306,8 +306,11 @@ function InventoryContent() {
                   <div style={{ marginTop: 6, fontWeight: 800 }}>{price}</div>
 
                   <div style={{ display: "flex", gap: 8, marginTop: 12 }}>
-                    <AddToCartButton item={item} />
-                    <BuyNowButton item={item} />
+                    <AddToCartButton
+                      itemId={item.id}
+                      disabled={(item.status ?? "available") !== "available"}
+                    />
+                    <BuyNowButton itemId={item.id} price={item.price} status={item.status} />
                   </div>
                 </div>
               );

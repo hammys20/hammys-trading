@@ -150,10 +150,11 @@ function InventoryContent() {
       if (gradeFilter && String(i.grade ?? "") !== gradeFilter) return false;
       if (languageFilter && i.language !== languageFilter) return false;
       if (!term) return true;
+      const cardNumber = (i as { number?: string }).number;
       return (
         i.name?.toLowerCase().includes(term) ||
         i.set?.toLowerCase().includes(term) ||
-        i.number?.toLowerCase().includes(term)
+        cardNumber?.toLowerCase().includes(term)
       );
     });
   }, [

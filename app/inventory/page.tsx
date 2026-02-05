@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Suspense } from "react";
 import InventoryPageClient from "@/components/InventoryPageClient";
 import { listInventoryPublic, type Item } from "@/lib/data/inventory";
 
@@ -156,7 +157,9 @@ export default async function InventoryPage() {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListJsonLd) }}
         />
       ) : null}
-      <InventoryPageClient />
+      <Suspense fallback={<div style={{ padding: 24 }}>Loading inventory…</div>}>
+        <InventoryPageClient />
+      </Suspense>
     </>
   );
 }

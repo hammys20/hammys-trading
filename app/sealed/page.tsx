@@ -1,4 +1,19 @@
-// app/sealed/page.tsx
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sealed Products",
+  description:
+    "Find sealed trading card products at Hammy’s Trading, including boxes, packs, and specialty items.",
+  keywords: [
+    "sealed products",
+    "sealed boxes",
+    "sealed packs",
+    "trading cards",
+    "collectibles",
+    "Hammy’s Trading",
+  ],
+};
+
 export default function SealedPage() {
   return (
     <main style={{ maxWidth: 1100, margin: "0 auto", padding: "24px 16px" }}>

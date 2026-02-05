@@ -1,154 +1,156 @@
-"use client";
+import type { Metadata } from "next";
+import Script from "next/script";
+import { getInventoryItemPublic } from "@/lib/data/inventory";
+import ItemPageClient from "@/components/ItemPageClient";
 
-import { useEffect, useState } from "react";
-import { getUrl } from "aws-amplify/storage";
-import { ensureAmplifyConfigured } from "@/lib/amplify-client";
-import { useParams } from "next/navigation";
-import BuyNowButton from "@/components/BuyNowButton";
-import AddToCartButton from "@/components/AddToCartButton";
-import { listInventoryPublic, type Item } from "@/lib/data/inventory";
-import ImageCarousel from "@/components/ImageCarousel";
+type PageProps = {
+  params: { id: string };
+};
 
-function money(n?: number) {
-  if (typeof n !== "number") return "—";
-  return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
+function formatTitle(itemName: string) {
+  return `${itemName} | Hammy’s Trading`;
 }
 
-export default function ItemPage() {
-  const params = useParams<{ id: string }>();
-  const id = params?.id;
+function formatDescription(item: {
+  name?: string;
+  set?: string;
+  grade?: string;
+  gradingCompany?: string;
+  condition?: string;
+  language?: string;
+}) {
+  const bits = [
+    item.set,
+    item.gradingCompany ? `${item.gradingCompany}${item.grade ? ` ${item.grade}` : ""}` : item.grade,
+    item.condition,
+    item.language,
+  ].filter(Boolean);
+  const detail = bits.length > 0 ? ` (${bits.join(" · ")})` : "";
+  return `Shop ${item.name ?? "trading card"}${detail} at Hammy’s Trading. Trusted, curated, and fairly priced for collectors.`;
+}
 
-  const [item, setItem] = useState<Item | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [err, setErr] = useState("");
-  const [imageUrls, setImageUrls] = useState<string[]>([]);
+function resolveOgImage(item: {
+  image?: string;
+  images?: string[];
+}) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const imageBase = process.env.NEXT_PUBLIC_IMAGE_BASE_URL;
 
-  useEffect(() => {
-    ensureAmplifyConfigured();
-    let cancelled = false;
+  const raw =
+    (Array.isArray(item.images) && item.images.length > 0
+      ? item.images[0]
+      : item.image) ?? "";
 
-    (async () => {
-      try {
-        setErr("");
-        setLoading(true);
+  if (raw && /^https?:\/\//i.test(raw)) return raw;
+  if (raw && imageBase) {
+    const base = imageBase.replace(/\/+$/, "");
+    const path = raw.replace(/^\/+/, "");
+    return `${base}/${path}`;
+  }
+  if (siteUrl) return `${siteUrl}/hero-cards.png`;
+  return "/hero-cards.png";
+}
 
-        // Simple approach: list and find (fine for small inventories).
-        const data = await listInventoryPublic();
-        const arr = Array.isArray(data) ? (data as Item[]) : [];
-        const found = arr.find((x) => x.id === id) ?? null;
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const item = params?.id ? await getInventoryItemPublic(params.id) : null;
 
-        if (!cancelled) setItem(found);
-      } catch (e: any) {
-        console.error(e);
-        if (!cancelled) setErr(e?.message ?? "Failed to load item.");
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-
-    return () => {
-      cancelled = true;
+  if (!item) {
+    return {
+      title: "Card Not Found",
+      description: "This trading card listing could not be found.",
+      alternates: siteUrl
+        ? { canonical: `${siteUrl}/item/${params?.id ?? ""}` }
+        : undefined,
     };
-  }, [id]);
+  }
 
-  useEffect(() => {
-    let cancelled = false;
-    let retryTimer: ReturnType<typeof setTimeout> | null = null;
+  const ogImage = resolveOgImage({
+    image: item.image,
+    images: item.images,
+  });
+  const ogRoute = siteUrl ? `${siteUrl}/item/${item.id}/opengraph-image` : undefined;
 
-    async function loadImage(attempt = 0) {
-      const keys =
-        Array.isArray(item?.images) && item.images.length > 0
-          ? item.images
-          : item?.image
-            ? [item.image]
-            : [];
-      if (keys.length === 0) {
-        setImageUrls([]);
-        return;
+  return {
+    title: formatTitle(item.name ?? "Trading Card"),
+    description: formatDescription(item),
+    alternates: siteUrl
+      ? { canonical: `${siteUrl}/item/${item.id}` }
+      : undefined,
+    openGraph: {
+      title: item.name ?? "Trading Card",
+      description: formatDescription(item),
+      url: siteUrl ? `${siteUrl}/item/${item.id}` : undefined,
+      images: (ogRoute || ogImage)
+        ? [
+            {
+              url: ogRoute ?? ogImage,
+              alt: item.name ?? "Trading card",
+            },
+            ...(ogImage && ogRoute
+              ? [
+                  {
+                    url: ogImage,
+                    alt: item.name ?? "Trading card",
+                  },
+                ]
+              : []),
+          ]
+        : undefined,
+    },
+    twitter: {
+      title: item.name ?? "Trading Card",
+      description: formatDescription(item),
+      images: ogRoute ? [ogRoute] : ogImage ? [ogImage] : undefined,
+    },
+  };
+}
+
+function availabilityUrl(status?: string) {
+  return status === "available"
+    ? "https://schema.org/InStock"
+    : "https://schema.org/OutOfStock";
+}
+
+export default async function ItemPage({ params }: PageProps) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const item = params?.id ? await getInventoryItemPublic(params.id) : null;
+  const ogImage = item
+    ? resolveOgImage({ image: item.image, images: item.images })
+    : undefined;
+
+  const productJsonLd = item
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: item.name,
+        image: ogImage ? [ogImage] : undefined,
+        description: formatDescription(item),
+        sku: item.id,
+        brand: { "@type": "Brand", name: "Hammy’s Trading" },
+        offers:
+          typeof item.price === "number"
+            ? {
+                "@type": "Offer",
+                price: item.price,
+                priceCurrency: "USD",
+                availability: availabilityUrl(item.status),
+                url: siteUrl ? `${siteUrl}/item/${item.id}` : undefined,
+              }
+            : undefined,
       }
-      try {
-        const urls = await Promise.all(
-          keys.map(async (k) => {
-            const res = await getUrl({ path: k, options: { expiresIn: 3600 } });
-            return res.url.toString();
-          })
-        );
-        if (!cancelled) setImageUrls(urls);
-      } catch {
-        if (!cancelled && attempt < 2) {
-          retryTimer = setTimeout(() => loadImage(attempt + 1), 800);
-        }
-      }
-    }
-
-    loadImage();
-    return () => {
-      cancelled = true;
-      if (retryTimer) clearTimeout(retryTimer);
-    };
-  }, [item?.image, item?.images]);
-
-  if (loading) return <div style={{ padding: 24 }}>Loading item…</div>;
-  if (err) return <div style={{ padding: 24 }}>Error: {err}</div>;
-  if (!item) return <div style={{ padding: 24 }}>Item not found.</div>;
+    : null;
 
   return (
-    <div style={{ maxWidth: 1100, margin: "0 auto", padding: 24 }}>
-      <div style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 18 }}>
-        {/* IMAGE */}
-        <div
-          style={{
-            border: "1px solid rgba(255,255,255,0.10)",
-            borderRadius: 16,
-            overflow: "hidden",
-            background: "rgba(255,255,255,0.03)",
-          }}
-        >
-          <ImageCarousel
-            images={imageUrls.map((src) => ({ src, alt: item.name }))}
-            allowOpenInNewTab
-          />
-        </div>
-
-        {/* DETAILS + BUY */}
-        <div
-          style={{
-            border: "1px solid rgba(255,255,255,0.10)",
-            borderRadius: 16,
-            padding: 16,
-            background: "rgba(255,255,255,0.02)",
-            display: "grid",
-            gap: 10,
-            alignContent: "start",
-          }}
-        >
-          <div style={{ fontSize: 24, fontWeight: 900, lineHeight: 1.15 }}>{item.name}</div>
-          <div style={{ fontSize: 18, opacity: 0.9 }}>
-            {money(item.price)} · {item.status ?? "available"}
-          </div>
-
-          {item.set ? <div style={{ opacity: 0.85 }}>{item.set}</div> : null}
-          <div style={{ opacity: 0.8 }}>
-            {[item.condition, item.gradingCompany, item.grade, item.language]
-              .filter(Boolean)
-              .join(" · ") || "—"}
-          </div>
-          {item.tags && item.tags.length > 0 ? (
-            <div style={{ opacity: 0.75 }}>Tags: {item.tags.join(", ")}</div>
-          ) : null}
-
-          {/* IMPORTANT: button is NOT inside a Link and is in normal layout */}
-          <div style={{ display: "flex", gap: 10, marginTop: 10 }}>
-            <AddToCartButton
-              itemId={item.id}
-              disabled={(item.status ?? "available") !== "available"}
-            />
-            <BuyNowButton itemId={item.id} price={item.price} status={item.status} />
-          </div>
-
-          <div style={{ opacity: 0.6, fontSize: 12, marginTop: 10 }}>{item.id}</div>
-        </div>
-      </div>
-    </div>
+    <>
+      {productJsonLd ? (
+        <Script
+          id="item-structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+        />
+      ) : null}
+      <ItemPageClient />
+    </>
   );
 }

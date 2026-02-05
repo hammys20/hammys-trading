@@ -15,6 +15,14 @@ const chivoMono = Chivo_Mono({
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
   ? new URL(process.env.NEXT_PUBLIC_SITE_URL)
   : undefined;
+const socialProfiles = [
+  process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM,
+  process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK,
+  process.env.NEXT_PUBLIC_SOCIAL_TIKTOK,
+  process.env.NEXT_PUBLIC_SOCIAL_X,
+  process.env.NEXT_PUBLIC_SOCIAL_YOUTUBE,
+  "https://www.whatnot.com/user/hammys_trading",
+].filter(Boolean) as string[];
 
 export const metadata: Metadata = {
   metadataBase: siteUrl,
@@ -46,10 +54,10 @@ export const metadata: Metadata = {
     url: siteUrl,
     images: [
       {
-        url: "/hero-cards.png",
+        url: "/opengraph-image",
         width: 1200,
-        height: 700,
-        alt: "Premium trading cards from Hammy’s Trading",
+        height: 630,
+        alt: "Hammy’s Trading",
       },
     ],
   },
@@ -58,7 +66,7 @@ export const metadata: Metadata = {
     title: "Hammy’s Trading",
     description:
       "Premium trading card singles, slabs, and live breaks. Trusted, curated, and fairly priced for collectors.",
-    images: ["/hero-cards.png"],
+    images: ["/opengraph-image"],
   },
   robots: {
     index: true,
@@ -87,12 +95,14 @@ export const viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Store",
+    "@type": ["Store", "Organization"],
     name: "Hammy’s Trading",
     url: siteUrl?.toString(),
     image: siteUrl ? new URL("/hero-cards.png", siteUrl).toString() : undefined,
+    logo: siteUrl ? new URL("/hammys-logo.png", siteUrl).toString() : undefined,
     description:
       "Premium trading card singles, slabs, and live breaks. Trusted, curated, and fairly priced for collectors.",
+    sameAs: socialProfiles.length > 0 ? socialProfiles : undefined,
   };
 
   return (

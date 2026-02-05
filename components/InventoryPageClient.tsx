@@ -90,7 +90,7 @@ function InventoryContent() {
       });
       if (missing.length === 0) return;
 
-      const entries = await Promise.all(
+      const entries: Array<[string, string[]]> = await Promise.all(
         missing.map(async (i) => {
           const keys =
             Array.isArray(i.images) && i.images.length > 0
@@ -108,9 +108,9 @@ function InventoryContent() {
                 return res.url.toString();
               })
             );
-            return [i.id, urls] as const;
+            return [i.id, [...urls]];
           } catch {
-            return [i.id, []] as const;
+            return [i.id, [] as string[]];
           }
         })
       );

@@ -12,8 +12,15 @@ export default function ImageCarousel(props: {
   initialIndex?: number;
   onIndexChange?: (index: number) => void;
   allowOpenInNewTab?: boolean;
+  imageFit?: "contain" | "cover";
 }) {
-  const { images, initialIndex = 0, onIndexChange, allowOpenInNewTab = true } = props;
+  const {
+    images,
+    initialIndex = 0,
+    onIndexChange,
+    allowOpenInNewTab = true,
+    imageFit = "contain",
+  } = props;
   const [index, setIndex] = useState(() => Math.min(Math.max(initialIndex, 0), images.length - 1));
   const touchStartX = useRef<number | null>(null);
 
@@ -76,7 +83,8 @@ export default function ImageCarousel(props: {
                 inset: 0,
                 width: "100%",
                 height: "100%",
-                objectFit: "contain",
+                objectFit: imageFit,
+                objectPosition: "center",
               }}
             />
           </a>
@@ -89,7 +97,8 @@ export default function ImageCarousel(props: {
               inset: 0,
               width: "100%",
               height: "100%",
-              objectFit: "contain",
+              objectFit: imageFit,
+              objectPosition: "center",
             }}
           />
         )}

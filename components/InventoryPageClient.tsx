@@ -295,6 +295,7 @@ function InventoryContent() {
                         src,
                         alt: item.name || "Trading card",
                       }))}
+                      imageFit="contain"
                     />
                   </div>
                   <div style={{ fontWeight: 900 }}>{item.name}</div>

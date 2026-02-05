@@ -26,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/certification-search",
   ];
 
-  const staticEntries = routes.map((path) => ({
+  const staticEntries: MetadataRoute.Sitemap = routes.map((path) => ({
     url: `${siteUrl}${path}`,
     lastModified: now,
     changeFrequency: path === "" ? "weekly" : "monthly",
@@ -41,12 +41,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     items = [];
   }
 
-  const itemEntries = items.map((item) => ({
+  const itemEntries: MetadataRoute.Sitemap = items.map((item) => ({
     url: `${siteUrl}/item/${item.id}`,
     lastModified: parseDate(item.updatedAt) ?? parseDate(item.createdAt) ?? now,
-    changeFrequency: "weekly" as const,
+    changeFrequency: "weekly",
     priority: 0.6,
   }));
 
-  return [...staticEntries, ...itemEntries];
+  return [...staticEntries, ...itemEntries] as MetadataRoute.Sitemap;
 }

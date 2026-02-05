@@ -47,8 +47,8 @@ function resolveOgImage(item: {
     const path = raw.replace(/^\/+/, "");
     return `${base}/${path}`;
   }
-  if (siteUrl) return `${siteUrl}/hero-cards.png`;
-  return "/hero-cards.png";
+  if (siteUrl) return `${siteUrl}/hero-cards.jpg`;
+  return "/hero-cards.jpg";
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {

@@ -31,7 +31,7 @@ function resolvePublicImage(item: {
     const path = raw.replace(/^\/+/, "");
     return `${base}/${path}`;
   }
-  return `${siteUrl}/hero-cards.png`;
+  return `${siteUrl}/hero-cards.jpg`;
 }
 
 async function loadImage(url?: string) {

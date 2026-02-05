@@ -39,7 +39,7 @@ export default function HomePageClient() {
         }}
       >
         <Image
-          src="/hero-cards.png"
+          src="/hero-cards.jpg"
           alt="Premium Trading Cards"
           width={1200}
           height={700}
@@ -118,17 +118,17 @@ export default function HomePageClient() {
           {[
             {
               title: "Singles",
-              img: "/category-singles.png",
+              img: "/category-singles.jpg",
               desc: "Raw cards across eras, conditions, and price points.",
             },
             {
               title: "Slabs",
-              img: "/category-slabs.png",
+              img: "/category-slabs.jpg",
               desc: "Graded cards from PSA, BGS, and CGC.",
             },
             {
               title: "Live Breaks",
-              img: "/category-breaks.png",
+              img: "/category-breaks.jpg",
               desc: "Community-driven live openings with full transparency.",
             },
           ].map((c, idx) => (
@@ -250,7 +250,7 @@ export default function HomePageClient() {
 
         <div className="whatnotPreview">
           <img
-            src="/whatnot-preview.png"
+            src="/whatnot-preview.jpg"
             alt="Hammy’s Trading on Whatnot"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />

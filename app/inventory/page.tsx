@@ -70,7 +70,7 @@ function resolvePublicImage(item: Item) {
     const path = raw.replace(/^\/+/, "");
     return `${base}/${path}`;
   }
-  if (siteUrl) return `${siteUrl}/hero-cards.png`;
+  if (siteUrl) return `${siteUrl}/hero-cards.jpg`;
   return undefined;
 }
 

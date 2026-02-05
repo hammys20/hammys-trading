@@ -9,7 +9,7 @@ export default function ConsignmentPage() {
             borderRadius: 18,
             border: "1px solid rgba(255,255,255,0.12)",
             backgroundImage:
-              "linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 35%, rgba(0,0,0,0.25) 65%, rgba(0,0,0,0.85) 100%), url('/consignment.png')",
+              "linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.25) 35%, rgba(0,0,0,0.25) 65%, rgba(0,0,0,0.85) 100%), url('/consignment.jpg')",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}

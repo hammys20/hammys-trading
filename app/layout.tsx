@@ -98,7 +98,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     "@type": ["Store", "Organization"],
     name: "Hammy’s Trading",
     url: siteUrl?.toString(),
-    image: siteUrl ? new URL("/hero-cards.png", siteUrl).toString() : undefined,
+    image: siteUrl ? new URL("/hero-cards.jpg", siteUrl).toString() : undefined,
     logo: siteUrl ? new URL("/hammys-logo.png", siteUrl).toString() : undefined,
     description:
       "Premium trading card singles, slabs, and live breaks. Trusted, curated, and fairly priced for collectors.",

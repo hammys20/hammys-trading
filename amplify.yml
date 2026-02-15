@@ -20,6 +20,10 @@ frontend:
         - env | grep -e STRIPE_SECRET_KEY >> .env.production || true
         - env | grep -e NEXT_PUBLIC_ >> .env.production || true
         - env | grep -e STRIPE_WEBHOOK_SECRET >> .env.production || true
+        - env | grep -e SES_REGION >> .env.production || true
+        - env | grep -e SES_FROM_EMAIL >> .env.production || true
+        - env | grep -e ORDER_NOTIFICATION_EMAIL >> .env.production || true
+        - env | grep -e SES_TO_EMAIL >> .env.production || true
         - npm run build
   artifacts:
     baseDirectory: .next

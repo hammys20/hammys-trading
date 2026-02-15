@@ -6,6 +6,8 @@ import crypto from "crypto";
 import { generateClient } from "aws-amplify/data";
 import { configureAmplify } from "@/lib/amplify-server";
 
+export const runtime = "nodejs";
+
 function getStripeSecretKey() {
   return (
     process.env.STRIPE_SECRET_KEY ??
@@ -13,6 +15,10 @@ function getStripeSecretKey() {
     process.env.AWS_STRIPE_SECRET_KEY ??
     process.env.STRIPE_SECRET
   );
+}
+
+function getAdminNotificationEmail() {
+  return process.env.ORDER_NOTIFICATION_EMAIL ?? process.env.SES_TO_EMAIL ?? "hammys.trading@gmail.com";
 }
 
 function getSesRegion() {
@@ -63,6 +69,34 @@ async function sendEmail({
       },
     })
   );
+}
+
+async function sendEmailSafely(input: {
+  to: string;
+  subject: string;
+  text: string;
+  html: string;
+}) {
+  const { to, subject } = input;
+  if (!to?.trim()) {
+    console.warn("Email skipped: missing recipient", { subject });
+    return false;
+  }
+
+  try {
+    await sendEmail(input);
+    return true;
+  } catch (err: any) {
+    console.error("Email send failed", {
+      to,
+      subject,
+      from: process.env.SES_FROM_EMAIL ?? "hammys.trading@gmail.com",
+      region: getSesRegion(),
+      message: err?.message ?? String(err),
+      code: err?.name ?? err?.Code,
+    });
+    return false;
+  }
 }
 
 configureAmplify();
@@ -116,6 +150,20 @@ async function createOrderRecord(input: {
   currency?: string;
 }) {
   const { itemIds, ...rest } = input;
+  if (rest.stripeSessionId) {
+    try {
+      const existing = await dataClient.models.Order.list({
+        filter: { stripeSessionId: { eq: rest.stripeSessionId } },
+        limit: 1,
+      });
+      if ((existing?.data?.length ?? 0) > 0) {
+        return;
+      }
+    } catch (err) {
+      console.error("Order duplicate check failed:", err);
+    }
+  }
+
   const details = await Promise.all(
     itemIds.map(async (id) => {
       try {
@@ -214,11 +262,11 @@ export async function POST(req: Request) {
         }
 
         if (buyerEmail) {
-          await sendEmail({ to: buyerEmail, subject, text, html });
+          await sendEmailSafely({ to: buyerEmail, subject, text, html });
         }
 
-        await sendEmail({
-          to: "hammys.trading@gmail.com",
+        await sendEmailSafely({
+          to: getAdminNotificationEmail(),
           subject: `Purchase Confirmation - ${confirmation}`,
           text: `New purchase received.\n\nConfirmation Number: ${confirmation}\n\nBuyer Email: ${buyerEmail || "Not provided"}\nShipping Address: ${shipping}\n\nStatus: Preparing shipment`,
           html: `<p><strong>New purchase received.</strong></p><p><strong>Confirmation Number:</strong> ${confirmation}</p><p><strong>Buyer Email:</strong> ${buyerEmail || "Not provided"}</p><p><strong>Shipping Address:</strong> ${shipping}</p><p><strong>Status:</strong> Preparing shipment</p>`,

@@ -6,9 +6,37 @@ import { useEffect, useState } from "react";
 import WhatnotStatus from "@/app/components/WhatnotStatus";
 import ScrollLineObserver from "@/components/ScrollLineObserver";
 
+const REVIEWS = [
+  {
+    quote:
+      "Everything arrived perfectly and was packaged great. Would definitely recommend and I will be revisiting for more goodies. Absolutely great streamer with a great personality. Whole thing was just a great time. Did I mention custom drawings and custom psa tagging? Great guy and you can’t go wrong choosing to buy from him.",
+    name: "Jordan T.",
+    source: "Whatnot Buyer",
+  },
+  {
+    quote:
+      "Fair prices, easy communication, and no surprises. One of the smoothest card deals I have made.",
+    name: "Melissa R.",
+    source: "Repeat Customer",
+  },
+  {
+    quote:
+      "My slab game super quick withing like 4 or 5 days so im very impressed. I would purchase from him again, thank you for the sylveon gem mint 10 and huge shout out to lil hammy.",
+    name: "Chris A.",
+    source: "Live Break Participant",
+  },
+  {
+    quote:
+      "Bought a slab that was even better in person. Quick turnaround and professional service.",
+    name: "Devon K.",
+    source: "Whatnot Customer",
+  },
+];
+
 export default function HomePageClient() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [isCoarsePointer, setIsCoarsePointer] = useState(false);
+  const [activeReview, setActiveReview] = useState(0);
 
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
@@ -22,6 +50,21 @@ export default function HomePageClient() {
     media.addListener(update);
     return () => media.removeListener(update);
   }, []);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveReview((prev) => (prev + 1) % REVIEWS.length);
+    }, 4500);
+    return () => clearInterval(timer);
+  }, []);
+
+  const previousReview = () => {
+    setActiveReview((prev) => (prev === 0 ? REVIEWS.length - 1 : prev - 1));
+  };
+
+  const nextReview = () => {
+    setActiveReview((prev) => (prev + 1) % REVIEWS.length);
+  };
 
   return (
     <div>
@@ -204,6 +247,69 @@ export default function HomePageClient() {
             <div style={{ color: "var(--muted)", fontSize: 14 }}>{f.text}</div>
           </div>
         ))}
+      </section>
+
+      {/* REVIEWS */}
+      <section
+        data-scroll-line
+        className="card scrollLine reviewsSection"
+        style={{ padding: 28, marginBottom: 70 }}
+      >
+        <div className="reviewsHeader">
+          <div>
+            <div className="reviewsEyebrow">CUSTOMER REVIEWS</div>
+            <h2 style={{ margin: "6px 0 0" }}>What collectors are saying</h2>
+          </div>
+
+          <div className="reviewsButtons">
+            <button
+              type="button"
+              className="reviewsNavButton"
+              onClick={previousReview}
+              aria-label="Previous review"
+            >
+              ←
+            </button>
+            <button
+              type="button"
+              className="reviewsNavButton"
+              onClick={nextReview}
+              aria-label="Next review"
+            >
+              →
+            </button>
+          </div>
+        </div>
+
+        <div className="reviewsStage">
+          {REVIEWS.map((review, idx) => (
+            <article
+              key={`${review.name}-${idx}`}
+              className={`reviewSlide ${idx === activeReview ? "reviewSlideActive" : ""}`}
+              aria-hidden={idx !== activeReview}
+            >
+              <p className="reviewQuote">"{review.quote}"</p>
+              <div className="reviewMeta">
+                <span className="reviewName">{review.name}</span>
+                <span className="reviewSource">{review.source}</span>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="reviewDots" role="tablist" aria-label="Review slideshow">
+          {REVIEWS.map((review, idx) => (
+            <button
+              key={`${review.name}-dot`}
+              type="button"
+              className={`reviewDot ${idx === activeReview ? "reviewDotActive" : ""}`}
+              onClick={() => setActiveReview(idx)}
+              aria-label={`Go to review ${idx + 1}`}
+              aria-selected={idx === activeReview}
+              role="tab"
+            />
+          ))}
+        </div>
       </section>
 
       {/* WHATNOT (LIVE NOW + COUNTDOWN) */}

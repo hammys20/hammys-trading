@@ -33,44 +33,10 @@ const REVIEWS = [
   },
 ];
 
-type HomeInventoryItem = {
-  id: string;
-  name?: string | null;
-  price?: number | null;
-  status?: string | null;
-  image?: string | null;
-  images?: string[] | null;
-  category?: string | null;
-};
-
-function formatMoney(value?: number | null) {
-  const amount = typeof value === "number" ? value : Number(value);
-  if (!Number.isFinite(amount)) return "Price on request";
-  return amount.toLocaleString("en-US", { style: "currency", currency: "USD" });
-}
-
-function resolveInventoryImage(item: HomeInventoryItem) {
-  const raw =
-    (Array.isArray(item.images) && item.images.length > 0 ? item.images[0] : null) ??
-    item.image ??
-    "";
-  if (!raw) return "/hero-cards.jpg";
-  if (/^https?:\/\//i.test(raw)) return raw;
-
-  const base = process.env.NEXT_PUBLIC_IMAGE_BASE_URL;
-  if (base) {
-    return `${base.replace(/\/+$/, "")}/${raw.replace(/^\/+/, "")}`;
-  }
-  return "/hero-cards.jpg";
-}
-
 export default function HomePageClient() {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [isCoarsePointer, setIsCoarsePointer] = useState(false);
   const [activeReview, setActiveReview] = useState(0);
-  const [inventorySlides, setInventorySlides] = useState<HomeInventoryItem[]>([]);
-  const [activeInventory, setActiveInventory] = useState(0);
-  const [isInventoryPaused, setIsInventoryPaused] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia) return;
@@ -98,51 +64,6 @@ export default function HomePageClient() {
 
   const nextReview = () => {
     setActiveReview((prev) => (prev + 1) % REVIEWS.length);
-  };
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadInventory() {
-      try {
-        const res = await fetch("/api/inventory", { cache: "no-store" });
-        if (!res.ok) return;
-        const data = (await res.json()) as HomeInventoryItem[];
-        if (!Array.isArray(data) || cancelled) return;
-
-        const available = data.filter((item) => {
-          const status = (item?.status ?? "available").toString().toLowerCase();
-          return status === "available";
-        });
-        setInventorySlides(available.slice(0, 12));
-        setActiveInventory(0);
-      } catch {
-        // Keep homepage stable if inventory fetch fails.
-      }
-    }
-
-    loadInventory();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (inventorySlides.length <= 1 || isInventoryPaused) return;
-    const timer = setInterval(() => {
-      setActiveInventory((prev) => (prev + 1) % inventorySlides.length);
-    }, 3000);
-    return () => clearInterval(timer);
-  }, [inventorySlides.length, isInventoryPaused]);
-
-  const previousInventory = () => {
-    setActiveInventory((prev) =>
-      prev === 0 ? inventorySlides.length - 1 : prev - 1
-    );
-  };
-
-  const nextInventory = () => {
-    setActiveInventory((prev) => (prev + 1) % inventorySlides.length);
   };
 
   return (
@@ -290,87 +211,6 @@ export default function HomePageClient() {
           ))}
         </div>
       </section>
-
-      {/* FEATURED INVENTORY ROTATOR */}
-      {inventorySlides.length > 0 ? (
-        <section
-          data-scroll-line
-          className="card scrollLine inventoryRotator"
-          style={{ marginBottom: 70 }}
-          onMouseEnter={() => setIsInventoryPaused(true)}
-          onMouseLeave={() => setIsInventoryPaused(false)}
-          onFocusCapture={() => setIsInventoryPaused(true)}
-          onBlurCapture={() => setIsInventoryPaused(false)}
-        >
-          <div className="inventoryRotatorHeader">
-            <div>
-              <div className="inventoryRotatorEyebrow">INVENTORY SPOTLIGHT</div>
-              <h2 style={{ margin: "6px 0 0" }}>Fresh cards rotating every 3 seconds</h2>
-            </div>
-            <div className="inventoryRotatorControls">
-              <button
-                type="button"
-                className="inventoryRotatorNavButton"
-                onClick={previousInventory}
-                aria-label="Previous inventory item"
-              >
-                ←
-              </button>
-              <button
-                type="button"
-                className="inventoryRotatorNavButton"
-                onClick={nextInventory}
-                aria-label="Next inventory item"
-              >
-                →
-              </button>
-              <Link href="/inventory" className="btn">
-                See All Inventory
-              </Link>
-            </div>
-          </div>
-
-          <div className="inventoryRotatorStage">
-            {inventorySlides.map((item, idx) => (
-              <Link
-                key={item.id}
-                href={`/item/${encodeURIComponent(item.id)}`}
-                className={`inventorySlide ${idx === activeInventory ? "inventorySlideActive" : ""}`}
-                aria-hidden={idx !== activeInventory}
-              >
-                <div className="inventorySlideImageWrap">
-                  <img
-                    src={resolveInventoryImage(item)}
-                    alt={item.name ?? "Inventory item"}
-                    className="inventorySlideImage"
-                  />
-                </div>
-                <div className="inventorySlideBody">
-                  <div className="inventorySlideName">{item.name ?? "Untitled Item"}</div>
-                  <div className="inventorySlideMeta">
-                    <span>{formatMoney(item.price)}</span>
-                    {item.category ? (
-                      <span className="inventorySlideCategory">{item.category}</span>
-                    ) : null}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          <div className="inventorySlideDots" aria-label="Inventory slideshow">
-            {inventorySlides.map((item, idx) => (
-              <button
-                key={`${item.id}-dot`}
-                type="button"
-                className={`inventorySlideDot ${idx === activeInventory ? "inventorySlideDotActive" : ""}`}
-                onClick={() => setActiveInventory(idx)}
-                aria-label={`Go to inventory item ${idx + 1}`}
-              />
-            ))}
-          </div>
-        </section>
-      ) : null}
 
       {/* TRUST */}
       <section

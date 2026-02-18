@@ -500,6 +500,138 @@ body {
   transition: opacity 180ms ease;
 }
 
+/* Homepage inventory rotator */
+.inventoryRotator {
+  padding: 24px;
+  overflow: hidden;
+}
+
+.inventoryRotatorHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.inventoryRotatorControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.inventoryRotatorEyebrow {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.inventoryRotatorNavButton {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface-elevated);
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.inventoryRotatorNavButton:hover {
+  border-color: rgba(201,162,77,0.5);
+  color: var(--accent);
+}
+
+.inventoryRotatorStage {
+  position: relative;
+  min-height: 330px;
+}
+
+.inventorySlide {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 0.95fr 1.05fr;
+  gap: 16px;
+  opacity: 0;
+  transform: translateX(24px);
+  transition: opacity 320ms ease, transform 320ms ease;
+  pointer-events: none;
+}
+
+.inventorySlideActive {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.inventorySlideImageWrap {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.22);
+}
+
+.inventorySlideImage {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.inventorySlideBody {
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.inventorySlideName {
+  font-size: 24px;
+  font-weight: 900;
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.inventorySlideMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.inventorySlideCategory {
+  border-left: 1px solid var(--border);
+  padding-left: 10px;
+  text-transform: capitalize;
+}
+
+.inventorySlideDots {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+}
+
+.inventorySlideDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: 0;
+  background: rgba(255,255,255,0.25);
+  cursor: pointer;
+}
+
+.inventorySlideDotActive {
+  width: 24px;
+  background: var(--accent);
+}
+
 /* Reviews slideshow */
 .reviewsSection {
   overflow: hidden;
@@ -705,6 +837,26 @@ body {
   .reviewsHeader {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .inventoryRotatorHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .inventoryRotatorControls {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .inventoryRotatorStage {
+    min-height: 420px;
+  }
+  .inventorySlide {
+    grid-template-columns: 1fr;
+  }
+  .inventorySlideImageWrap {
+    aspect-ratio: 16 / 9;
+  }
+  .inventorySlideName {
+    font-size: 20px;
   }
   .reviewQuote {
     font-size: 17px;
